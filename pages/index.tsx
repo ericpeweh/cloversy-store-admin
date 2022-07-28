@@ -4,8 +4,9 @@ import Head from "next/head";
 
 // Components
 import MainWrapper from "../components/MainWrapper/MainWrapper";
+import Dashboard from "../parts/Dashboard/Dashboard";
 
-const Home: NextPage = () => {
+const DashboardPage: NextPage = () => {
 	return (
 		<>
 			<Head>
@@ -15,10 +16,10 @@ const Home: NextPage = () => {
 			</Head>
 
 			<MainWrapper>
-				<h1>TEST</h1>
+				<Dashboard />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default Home;
+export default DashboardPage;

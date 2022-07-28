@@ -18,10 +18,11 @@ a {
 }
 
 :root {
+	--sidebar-width: 30rem;
 	--color-primary: #55904e;
 	--font-secondary: Jost, sans-serif;
-	--shadow-xs: 0.5rem 0.5rem 1rem 0rem rgba(0 0 0 / 5%);
-	--shadow-light: 0 -0.2rem 4.5rem -2rem rgba(0 0 0 / 30%);
+	--shadow-xs: 0.5rem 0 1rem 0 rgba(0 0 0 / 7%);
+	--shadow-light: 0.1rem 0.2rem 0.25rem rgb(0 0 0 / 8%);
 }
 
 /* Custom scrollbar */
