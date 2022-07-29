@@ -10,7 +10,3 @@ export const AreaChartContainer = styled("div")({
 	padding: "2rem",
 	boxShadow: "var(--shadow-light)"
 });
-
-export const ChartTitle = styled("h2")({
-	fontSize: "1.8rem"
-});

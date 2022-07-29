@@ -6,7 +6,6 @@ import { Menu } from "@mui/material";
 
 export const MenuContainer = styled(Menu)(({ theme }) => ({
 	"& > .MuiMenu-paper": {
-		boxShadow: "var(--shadow-xs)",
 		borderRadius: "0.5rem",
 		border: `1px solid ${theme.palette.grey[300]}`
 	},
