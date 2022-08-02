@@ -26,7 +26,7 @@ const Dashboard = () => {
 	return (
 		<DashboardContainer>
 			<PageTitle>Dashboard</PageTitle>
-			<Grid container spacing={3}>
+			<Grid container spacing={3} sx={{ mt: 1 }}>
 				<Grid item xs={4}>
 					<InfoBox>
 						<InfoIcon bgColor={blue[100]}>
