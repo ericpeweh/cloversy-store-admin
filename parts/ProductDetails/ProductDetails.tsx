@@ -24,7 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import useModal from "../../hooks/useModal";
 
 // Components
-import { Chip, Grid, Stack } from "@mui/material";
+import { Chip, Divider, Grid, Stack } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import CarouselWithThumb from "../../components/CarouselWithThumb/CarouselWithThumb";
@@ -147,9 +147,20 @@ const ProductDetails = () => {
 				</Stack>
 			</Stack>
 			<ContentContainer>
-				<Grid container spacing={3}>
+				<Grid container spacing={3} alignItems="flex-start">
 					<Grid item xs={4}>
 						<CarouselWithThumb size="small" />
+						<DetailsContainer>
+							<Divider flexItem sx={{ mt: 2, mb: 1 }} />
+							<DetailItem>
+								<DetailTitle>Created</DetailTitle>
+								<DetailDescription>Senin, 2 Juli 2022 | 14:18 WIB</DetailDescription>
+							</DetailItem>
+							<DetailItem>
+								<DetailTitle>Modified</DetailTitle>
+								<DetailDescription>Senin, 2 Juli 2022 | 15:12 WIB</DetailDescription>
+							</DetailItem>
+						</DetailsContainer>
 					</Grid>
 					<Grid item xs={8}>
 						<DetailsContainer>
