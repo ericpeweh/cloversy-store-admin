@@ -22,6 +22,71 @@ import { Grid } from "@mui/material";
 import RecentOrders from "../../components/RecentOrders/RecentOrders";
 import AreaChart from "../../components/AreaChart/AreaChart";
 
+// Chart data
+
+const data = [
+	{
+		name: "Jan",
+		sales: 15,
+		visitors: 200
+	},
+	{
+		name: "Feb",
+		sales: 30,
+		visitors: 180
+	},
+	{
+		name: "Mar",
+		sales: 4,
+		visitors: 100
+	},
+	{
+		name: "Apr",
+		sales: 4,
+		visitors: 50
+	},
+	{
+		name: "May",
+		sales: 40,
+		visitors: 198
+	},
+	{
+		name: "Jun",
+		sales: 8,
+		visitors: 309
+	},
+	{
+		name: "Jul",
+		sales: 15,
+		visitors: 254
+	},
+	{
+		name: "Aug",
+		sales: 15,
+		visitors: 85
+	},
+	{
+		name: "Sep",
+		sales: 15,
+		visitors: 93
+	},
+	{
+		name: "Okt",
+		sales: 4,
+		visitors: 152
+	},
+	{
+		name: "Nov",
+		sales: 15,
+		visitors: 303
+	},
+	{
+		name: "Dec",
+		sales: 32,
+		visitors: 142
+	}
+];
+
 const Dashboard = () => {
 	return (
 		<DashboardContainer>
@@ -84,10 +149,22 @@ const Dashboard = () => {
 			</Grid>
 			<Grid container spacing={3}>
 				<Grid item xs={6}>
-					<AreaChart title="Statistik Penjualan" type="sales" />
+					<AreaChart
+						title="Statistik Penjualan"
+						data={data}
+						dataKey="sales"
+						fillColor={green[100]}
+						strokeColor={green[200]}
+					/>
 				</Grid>
 				<Grid item xs={6}>
-					<AreaChart title="Statistik Pengunjung" type="visitors" />
+					<AreaChart
+						title="Statistik Pengunjung"
+						data={data}
+						dataKey="visitors"
+						fillColor={orange[100]}
+						strokeColor={orange[200]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
 					<RecentOrders />

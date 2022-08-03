@@ -1,7 +1,6 @@
 // Dependencies
 import React from "react";
-import dynamic from "next/dynamic";
-import { green, orange } from "@mui/material/colors";
+import { orange } from "@mui/material/colors";
 
 // Styles
 import { AreaChartContainer } from "./AreaChart.styles";
@@ -18,77 +17,21 @@ import {
 } from "recharts";
 import SectionTitle from "../SectionTitle/SectionTitle";
 
-const data = [
-	{
-		name: "Jan",
-		sales: 15,
-		visitors: 200
-	},
-	{
-		name: "Feb",
-		sales: 30,
-		visitors: 180
-	},
-	{
-		name: "Mar",
-		sales: 4,
-		visitors: 100
-	},
-	{
-		name: "Apr",
-		sales: 4,
-		visitors: 50
-	},
-	{
-		name: "May",
-		sales: 40,
-		visitors: 198
-	},
-	{
-		name: "Jun",
-		sales: 8,
-		visitors: 309
-	},
-	{
-		name: "Jul",
-		sales: 15,
-		visitors: 254
-	},
-	{
-		name: "Aug",
-		sales: 15,
-		visitors: 85
-	},
-	{
-		name: "Sep",
-		sales: 15,
-		visitors: 93
-	},
-	{
-		name: "Okt",
-		sales: 4,
-		visitors: 152
-	},
-	{
-		name: "Nov",
-		sales: 15,
-		visitors: 303
-	},
-	{
-		name: "Dec",
-		sales: 32,
-		visitors: 142
-	}
-];
-
 interface AreaChartProps {
 	title: string;
-	type: "sales" | "visitors";
+	dataKey: string;
+	data: any[];
+	strokeColor?: string;
+	fillColor?: string;
 }
 
-const AreaChart = ({ title, type = "sales" }: AreaChartProps) => {
-	const isSale = type === "sales";
-
+const AreaChart = ({
+	title,
+	data,
+	dataKey,
+	strokeColor = orange[200],
+	fillColor = orange[100]
+}: AreaChartProps) => {
 	return (
 		<AreaChartContainer>
 			<SectionTitle>{title}</SectionTitle>
@@ -100,7 +43,7 @@ const AreaChart = ({ title, type = "sales" }: AreaChartProps) => {
 					margin={{
 						top: 20,
 						right: 0,
-						left: -30,
+						left: -15,
 						bottom: 20
 					}}
 				>
@@ -117,10 +60,10 @@ const AreaChart = ({ title, type = "sales" }: AreaChartProps) => {
 					/>
 					<Area
 						type="monotone"
-						dataKey={type}
+						dataKey={dataKey}
 						stackId="1"
-						stroke={isSale ? green[200] : orange[200]}
-						fill={isSale ? green[100] : orange[100]}
+						stroke={strokeColor}
+						fill={fillColor}
 					/>
 				</AreaChartBase>
 			</ResponsiveContainer>
