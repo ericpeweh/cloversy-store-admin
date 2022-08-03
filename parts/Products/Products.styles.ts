@@ -25,4 +25,4 @@ export const ProductsCardList = styled("div")({
 	backgroundColor: "#fff",
 	borderRadius: "0.5rem",
 	mr: "-2.4rem"
-}) as typeof Grid;
+});

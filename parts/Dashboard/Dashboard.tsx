@@ -3,7 +3,7 @@ import React from "react";
 import { blue, green, orange, purple, cyan, pink } from "@mui/material/colors";
 
 // Styles
-import { DashboardContainer } from "./Dashboard.styles";
+import { ChartContainer, DashboardContainer } from "./Dashboard.styles";
 
 // Icons
 import PaidIcon from "@mui/icons-material/Paid";
@@ -23,7 +23,6 @@ import RecentOrders from "../../components/RecentOrders/RecentOrders";
 import AreaChart from "../../components/AreaChart/AreaChart";
 
 // Chart data
-
 const data = [
 	{
 		name: "Jan",
@@ -149,22 +148,26 @@ const Dashboard = () => {
 			</Grid>
 			<Grid container spacing={3}>
 				<Grid item xs={6}>
-					<AreaChart
-						title="Statistik Penjualan"
-						data={data}
-						dataKey="sales"
-						fillColor={green[100]}
-						strokeColor={green[200]}
-					/>
+					<ChartContainer>
+						<AreaChart
+							title="Statistik Penjualan"
+							data={data}
+							dataKey="sales"
+							fillColor={green[100]}
+							strokeColor={green[200]}
+						/>
+					</ChartContainer>
 				</Grid>
 				<Grid item xs={6}>
-					<AreaChart
-						title="Statistik Pengunjung"
-						data={data}
-						dataKey="visitors"
-						fillColor={orange[100]}
-						strokeColor={orange[200]}
-					/>
+					<ChartContainer>
+						<AreaChart
+							title="Statistik Pengunjung"
+							data={data}
+							dataKey="visitors"
+							fillColor={orange[100]}
+							strokeColor={orange[200]}
+						/>
+					</ChartContainer>
 				</Grid>
 				<Grid item xs={12}>
 					<RecentOrders />
