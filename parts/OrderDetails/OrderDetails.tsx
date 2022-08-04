@@ -107,7 +107,7 @@ const OrderDetails = () => {
 				<Stack direction="row" gap={1} height="4rem">
 					<SelectInput
 						options={[
-							"Change status",
+							"Change order status",
 							"Awaiting payment",
 							"Confirmed",
 							"On Progress",
@@ -116,9 +116,9 @@ const OrderDetails = () => {
 							"Canceled",
 							"Pending"
 						]}
-						value={"Change status"}
+						value={"Change order status"}
 						size="small"
-						sx={{ width: "20rem" }}
+						sx={{ width: "25rem" }}
 					/>
 					<BoxButton sx={{ mr: 1 }}>Save</BoxButton>
 					<BoxButton sx={{ backgroundColor: "#555", color: "#fff" }}>
