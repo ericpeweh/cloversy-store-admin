@@ -12,6 +12,7 @@ interface TextInputProps {
 	multiline?: boolean;
 	rows?: number;
 	type?: string;
+	size?: "small" | "medium" | undefined;
 }
 
 const TextInput = ({
@@ -21,7 +22,8 @@ const TextInput = ({
 	placeholder,
 	multiline,
 	rows,
-	type = "text"
+	type = "text",
+	size = "medium"
 }: TextInputProps) => {
 	return (
 		<TextInputContainer
@@ -34,6 +36,7 @@ const TextInput = ({
 			multiline={multiline}
 			rows={rows}
 			type={type}
+			size={size}
 		/>
 	);
 };

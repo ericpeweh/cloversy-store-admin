@@ -28,6 +28,7 @@ import ProductListItem from "../../components/ProductListItem/ProductListItem";
 import Pagination from "../../components/Pagination/Pagination";
 import Menu from "../../components/Menu/Menu";
 import ProductListCard from "../../components/ProductListCard/ProductListCard";
+import TextInput from "../../components/TextInput/TextInput";
 
 type DisplayModeType = "list" | "card";
 
@@ -56,27 +57,24 @@ const Products = () => {
 				</Button>
 			</Stack>
 			<ProductsHeader container>
-				<SelectInput
-					options={[
-						"All Brands",
-						"Nike",
-						"Adidas",
-						"Ventela",
-						"Patrobas",
-						"NAH Project",
-						"Lainnya"
-					]}
-					value={"All Brands"}
-					size="small"
-					sx={{ width: "30rem" }}
-				/>
+				<Stack direction="row" gap={2} sx={{ width: "30rem" }}>
+					<TextInput label="" placeholder="Search product..." id="search-product" size="small" />
+				</Stack>
 				<Stack direction="row" justifyContent="flex-end" gap={2}>
 					<SelectInput
-						options={["Status", "Active", "Disabled"]}
-						value={"Status"}
+						options={[
+							"All Brands",
+							"Nike",
+							"Adidas",
+							"Ventela",
+							"Patrobas",
+							"NAH Project",
+							"Lainnya"
+						]}
+						value={"All Brands"}
 						size="small"
-						sx={{ width: "20rem" }}
 					/>
+					<SelectInput options={["Status", "Active", "Disabled"]} value={"Status"} size="small" />
 					<SelectInput
 						startAdornment={<SortIcon sx={{ mr: 1 }} />}
 						options={[
@@ -89,6 +87,7 @@ const Products = () => {
 						]}
 						value="Default sorting"
 						size="small"
+						sx={{ width: "20rem", mr: "20rem" }}
 					/>
 					<ToggleButtonGroup
 						value={displayMode}
