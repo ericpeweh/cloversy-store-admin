@@ -21,6 +21,7 @@ import StarsIcon from "@mui/icons-material/Stars";
 import ChatIcon from "@mui/icons-material/Chat";
 import DiscountIcon from "@mui/icons-material/Discount";
 import TuneIcon from "@mui/icons-material/Tune";
+import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const Sidebar = () => {
@@ -111,6 +112,12 @@ const Sidebar = () => {
 						<ChatIcon />
 					</ListItemIcon>
 					<ListItemText primary="Chatting" />
+				</ListItemButton>
+				<ListItemButton>
+					<ListItemIcon>
+						<CircleNotificationsIcon />
+					</ListItemIcon>
+					<ListItemText primary="Notifications Center" />
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
