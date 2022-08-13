@@ -19,6 +19,7 @@ a {
 
 :root {
 	--sidebar-width: 30rem;
+	--header-height: 9rem;
 	--color-primary: #55904e;
 	--font-secondary: Jost, sans-serif;
 	--shadow-xs: 0.5rem 0 1rem 0 rgba(0 0 0 / 7%);
