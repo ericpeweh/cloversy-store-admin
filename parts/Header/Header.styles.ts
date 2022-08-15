@@ -4,7 +4,7 @@ import { styled } from "@mui/system";
 export const HeaderContainer = styled("nav")(({ theme }) => ({
 	width: `calc(100% - var(--sidebar-width))`,
 	marginLeft: "var(--sidebar-width)",
-	height: "9rem",
+	height: "var(--header-height)",
 	backgroundColor: "#fff",
 	boxShadow: "0rem 1rem 1rem 0 rgba(0 0 0 / 10%)",
 	borderBottom: `1px solid ${theme.palette.grey[300]}`,

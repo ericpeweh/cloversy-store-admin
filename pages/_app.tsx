@@ -8,6 +8,11 @@ import Head from "next/head";
 
 // Styles
 import "../styles/globals.css";
+import "swiper/css/bundle";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
 // Theme
 import mainTheme from "../styles/mainTheme";

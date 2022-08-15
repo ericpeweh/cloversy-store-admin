@@ -9,6 +9,12 @@ export const RecentOrdersContainer = styled("ul")({
 	gap: "1rem"
 });
 
+export const ChartContainer = styled("div")({
+	boxShadow: "var(--shadow-light)",
+	backgroundColor: "#fff",
+	borderRadius: "0.5rem"
+});
+
 export const OrderItem = styled("li")({
 	borderRadius: "0.5rem",
 	padding: "1rem",
