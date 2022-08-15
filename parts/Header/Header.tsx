@@ -15,6 +15,8 @@ import useMenu from "../../hooks/useMenu";
 // Components
 import { Avatar, ButtonBase, IconButton, MenuItem, Stack } from "@mui/material";
 import Menu from "../../components/Menu/Menu";
+import NotificationDrawer from "../../components/NotificationDrawer/NotificationDrawer";
+import useModal from "../../hooks/useModal";
 
 const Header = () => {
 	const {
@@ -24,10 +26,17 @@ const Header = () => {
 		anchorEl: accountMenuAnchorEl
 	} = useMenu();
 
+	const {
+		isOpen: isNotificationModalOpen,
+		openHandler: notificationModalOpenHandler,
+		closeHandler: notificationModalCloseHandler
+	} = useModal();
+
 	return (
 		<HeaderContainer>
+			<NotificationDrawer open={isNotificationModalOpen} onClose={notificationModalCloseHandler} />
 			<Stack direction="row" alignItems="center" gap={2}>
-				<IconButton>
+				<IconButton onClick={notificationModalOpenHandler}>
 					<NotificationsActiveIcon sx={{ color: grey[400] }} />
 				</IconButton>
 				<Username>Mikici Cimol</Username>
