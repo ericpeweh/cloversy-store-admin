@@ -38,7 +38,11 @@ const Menu = ({ items, isOpen, anchorEl, onClose, id }: MenuProps) => {
 			}}
 		>
 			{items.map(item => (
-				<MenuItem key={item.id} onClick={() => menuItemClickHandler(item.action)}>
+				<MenuItem
+					key={item.id}
+					onClick={() => menuItemClickHandler(item.action)}
+					sx={{ color: item.id === "hapus" ? "error.main" : "secondary.main" }}
+				>
 					{item.label}
 				</MenuItem>
 			))}

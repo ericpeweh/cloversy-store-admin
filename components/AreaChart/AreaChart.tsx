@@ -5,6 +5,9 @@ import { orange } from "@mui/material/colors";
 // Styles
 import { AreaChartContainer } from "./AreaChart.styles";
 
+// Hooks
+import useWindowSize from "../../hooks/useWindowSize";
+
 // Components
 import {
 	AreaChart as AreaChartBase,
@@ -32,10 +35,12 @@ const AreaChart = ({
 	strokeColor = orange[200],
 	fillColor = orange[100]
 }: AreaChartProps) => {
+	const { wWidth } = useWindowSize();
+
 	return (
 		<AreaChartContainer>
 			<SectionTitle>{title}</SectionTitle>
-			<ResponsiveContainer width="100%" height="100%">
+			<ResponsiveContainer width={wWidth < 600 ? 800 : "100%"} height="100%">
 				<AreaChartBase
 					height={1600}
 					width={900}
@@ -43,7 +48,7 @@ const AreaChart = ({
 					margin={{
 						top: 20,
 						right: 0,
-						left: -15,
+						left: wWidth > 600 ? -15 : -25,
 						bottom: 20
 					}}
 				>
@@ -51,9 +56,12 @@ const AreaChart = ({
 					<XAxis dataKey="name" />
 					<YAxis />
 					<Tooltip
-						labelStyle={{ fontSize: "1.8rem", fontWeight: 600 }}
+						labelStyle={{
+							fontSize: wWidth < 600 ? "1.4rem" : "1.8rem",
+							fontWeight: 600
+						}}
 						itemStyle={{
-							fontSize: "1.4rem",
+							fontSize: wWidth < 600 ? "1.2rem" : "1.4rem",
 							color: "#333",
 							textTransform: "uppercase"
 						}}

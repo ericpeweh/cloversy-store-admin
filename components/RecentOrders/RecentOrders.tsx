@@ -111,7 +111,7 @@ const RecentOrders = () => {
 				items={[
 					{ label: "Lihat detail", action: () => {}, id: "detail" },
 					{ label: "Edit item", action: () => {}, id: "edit" },
-					{ label: <Typography color="error">Hapus</Typography>, action: () => {}, id: "hapus" }
+					{ label: "Hapus", action: () => {}, id: "hapus" }
 				]}
 				anchorEl={orderMenuAnchorEl}
 				onClose={closeOrderMenuHandler}

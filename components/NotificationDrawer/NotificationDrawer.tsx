@@ -53,7 +53,7 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 				{[...NotificationItems, ...NotificationItems].map(item => (
 					<React.Fragment key={item.name}>
 						<NotificationItem key={item.name}>
-							<ListItemAvatar sx={{ marginRight: "2rem" }}>
+							<ListItemAvatar sx={{ marginRight: { xs: "1rem", sm: "1.5rem", lg: "2rem" } }}>
 								<Link href="#">
 									<NotificationItemImage
 										alt={item.name}
@@ -67,7 +67,15 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 								secondary={
 									<>
 										<Typography
-											sx={{ display: "inline" }}
+											sx={{
+												display: "inline",
+												fontSize: {
+													xs: "1.2rem",
+													sm: "1.3rem",
+													md: "1.4rem",
+													lg: "1.5rem"
+												}
+											}}
 											component="span"
 											variant="body2"
 											color="text.primary"

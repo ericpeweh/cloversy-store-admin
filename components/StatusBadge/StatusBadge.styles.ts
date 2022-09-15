@@ -16,5 +16,11 @@ export const StatusBadgeContainer = styled("p", {
 	backgroundColor: theme.palette[color].light,
 	color: "#fff",
 	alignSelf: "flex-start",
-	textTransform: "uppercase"
+	textTransform: "uppercase",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.3rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.2rem"
+	}
 }));
