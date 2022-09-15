@@ -2,6 +2,14 @@
 import { ThemeOptions, createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
+/* Breakpoints
+  xs: 0
+  sm: 600
+  md: 900
+  lg: 1200
+  xl: 1536
+*/
+
 const themeOptions: ThemeOptions = {
 	palette: {
 		primary: {

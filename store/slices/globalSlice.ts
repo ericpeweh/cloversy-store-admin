@@ -2,16 +2,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface GlobalState {}
+interface GlobalState {
+	showSidebar: boolean;
+}
 
-const initialState: GlobalState = {};
+const initialState: GlobalState = {
+	showSidebar: false
+};
 
 const globalSlice = createSlice({
 	name: "global",
 	initialState,
-	reducers: {}
+	reducers: {
+		toggleShowSidebar: (state: GlobalState) => {
+			state.showSidebar = !state.showSidebar;
+		}
+	}
 });
 
-// export const {} = globalSlice.actions;
+export const { toggleShowSidebar } = globalSlice.actions;
 
 export default globalSlice.reducer;

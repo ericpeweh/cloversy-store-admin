@@ -23,12 +23,32 @@ a {
 	--color-primary: #55904e;
 	--font-secondary: Jost, sans-serif;
 	--shadow-xs: 0.5rem 0 1rem 0 rgba(0 0 0 / 7%);
+	--shadow-md: 0.2rem 0.4rem 1rem rgb(0 0 0 / 15%);
 	--shadow-light: 0.1rem 0.2rem 0.25rem rgb(0 0 0 / 8%);
+}
+
+@media screen and (max-width: 900px) {
+	:root {
+		--header-height: 8rem;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	:root {
+		--header-height: 7rem;
+	}
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
 	width: 10px;
+	height: 10px;
+}
+
+@media screen and (max-width: 600px) {
+	::-webkit-scrollbar {
+		height: 5px;
+	}
 }
 
 ::-webkit-scrollbar-track {
