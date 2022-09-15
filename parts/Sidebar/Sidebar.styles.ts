@@ -1,11 +1,16 @@
 // Dependencies
-import { List, ListItemButton } from "@mui/material";
+import { List, ListItemButton, ListItemText } from "@mui/material";
 import { styled } from "@mui/system";
 
-export const SidebarContainer = styled("nav")({
+interface SidebarContainerProps {
+	showSidebar: boolean;
+}
+
+export const SidebarContainer = styled("nav", {
+	shouldForwardProp: props => props !== "showSidebar"
+})<SidebarContainerProps>(({ theme, showSidebar }) => ({
 	width: "30rem",
 	height: "100%",
-	maxHeight: "100vh",
 	overflow: "auto",
 	position: "fixed",
 	top: 0,
@@ -15,8 +20,16 @@ export const SidebarContainer = styled("nav")({
 	display: "flex",
 	flexDirection: "column",
 	gap: "1rem",
-	padding: "1.5rem"
-});
+	padding: "1.5rem",
+	zIndex: "10",
+	transition: "0.3s ease-in",
+	[theme.breakpoints.down("lg")]: {
+		transform: showSidebar ? "translateX(0)" : "translateX(-100%)"
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "26rem"
+	}
+}));
 
 export const SidebarHeader = styled("div")({
 	display: "flex",
@@ -24,9 +37,18 @@ export const SidebarHeader = styled("div")({
 	justifyContent: "space-between"
 });
 
-export const LogoContainer = styled("div")({
-	width: "60%"
-});
+export const LogoContainer = styled("div")(({ theme }) => ({
+	width: "60%",
+	[theme.breakpoints.down("lg")]: {
+		width: "55%"
+	},
+	[theme.breakpoints.down("md")]: {
+		width: "50%"
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "45%"
+	}
+}));
 
 export const NavList = styled(List)({
 	gap: "1rem",
@@ -41,3 +63,44 @@ export const SidebarItemChild = styled(ListItemButton)({
 	padding: "0.5rem",
 	paddingLeft: "7rem"
 });
+
+// Backdrop
+interface SidebarBackdropProps {
+	showSidebar: boolean;
+}
+
+export const SidebarBackdrop = styled("div", {
+	shouldForwardProp: props => props !== "showSidebar"
+})<SidebarBackdropProps>(({ theme, showSidebar }) => ({
+	position: "fixed",
+	top: 0,
+	left: 0,
+	zIndex: 5,
+	width: "100%",
+	height: "100%",
+	backgroundColor: "rgba(0 0 0 / 40%)",
+	transition: "0.3s ease-in",
+	opacity: showSidebar ? 1 : 0,
+	visibility: showSidebar ? "visible" : "hidden",
+	[theme.breakpoints.up("lg")]: {
+		display: "none"
+	}
+}));
+
+export const ItemText = styled(ListItemText)(({ theme }) => ({
+	"& .MuiListItemText-primary": {
+		fontSize: "1.8rem",
+		[theme.breakpoints.down("xl")]: {
+			fontSize: "1.7rem"
+		},
+		[theme.breakpoints.down("lg")]: {
+			fontSize: "1.6rem"
+		},
+		[theme.breakpoints.down("md")]: {
+			fontSize: "1.5rem"
+		},
+		[theme.breakpoints.down("sm")]: {
+			fontSize: "1.4rem"
+		}
+	}
+})) as typeof ListItemText;

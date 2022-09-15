@@ -14,7 +14,7 @@ import StarsIcon from "@mui/icons-material/Stars";
 import DiscountIcon from "@mui/icons-material/Discount";
 
 // Styles
-import { InfoBox, InfoDescription, InfoIcon, InfoTitle } from "../Header/Header.styles";
+import { InfoBox, InfoDescription, InfoIcon, InfoTitle } from "./Dashboard.styles";
 
 // Components
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -90,8 +90,8 @@ const Dashboard = () => {
 	return (
 		<DashboardContainer>
 			<PageTitle>Dashboard</PageTitle>
-			<Grid container spacing={3} sx={{ mt: 1 }}>
-				<Grid item xs={4}>
+			<Grid container spacing={{ xs: 1, md: 2, xl: 3 }} sx={{ mt: 1 }}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={blue[100]}>
 							<PaidIcon color="info" />
@@ -100,7 +100,7 @@ const Dashboard = () => {
 						<InfoDescription>Rp 25.439.000</InfoDescription>
 					</InfoBox>
 				</Grid>
-				<Grid item xs={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={green[100]}>
 							<LocalShippingIcon color="success" />
@@ -109,7 +109,7 @@ const Dashboard = () => {
 						<InfoDescription>243</InfoDescription>
 					</InfoBox>
 				</Grid>
-				<Grid item xs={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={orange[100]}>
 							<InventoryIcon color="warning" />
@@ -118,7 +118,7 @@ const Dashboard = () => {
 						<InfoDescription>95</InfoDescription>
 					</InfoBox>
 				</Grid>
-				<Grid item xs={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={purple[100]}>
 							<GroupIcon sx={{ color: purple[400] }} />
@@ -127,7 +127,7 @@ const Dashboard = () => {
 						<InfoDescription>3403</InfoDescription>
 					</InfoBox>
 				</Grid>
-				<Grid item xs={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={cyan[100]}>
 							<StarsIcon sx={{ color: cyan[700] }} />
@@ -136,7 +136,7 @@ const Dashboard = () => {
 						<InfoDescription>406</InfoDescription>
 					</InfoBox>
 				</Grid>
-				<Grid item xs={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<InfoBox>
 						<InfoIcon bgColor={pink[100]}>
 							<DiscountIcon sx={{ color: pink[700] }} />
@@ -147,7 +147,7 @@ const Dashboard = () => {
 				</Grid>
 			</Grid>
 			<Grid container spacing={3}>
-				<Grid item xs={6}>
+				<Grid item xs={12} xl={6}>
 					<ChartContainer>
 						<AreaChart
 							title="Statistik Penjualan"
@@ -158,7 +158,7 @@ const Dashboard = () => {
 						/>
 					</ChartContainer>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12} xl={6}>
 					<ChartContainer>
 						<AreaChart
 							title="Statistik Pengunjung"
