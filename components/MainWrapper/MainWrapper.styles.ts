@@ -14,7 +14,7 @@ export const OuterContainer = styled("main")(({ theme }) => ({
 		marginTop: "var(--header-height)"
 	},
 	[theme.breakpoints.down("md")]: {
-		padding: "2.5rem 2.5rem 3rem"
+		padding: "2.5rem 2rem 3rem"
 	},
 	[theme.breakpoints.down("sm")]: {
 		padding: "2rem 2rem 3rem"

@@ -32,13 +32,10 @@ export const Username = styled("p")(({ theme }) => ({
 	[theme.breakpoints.down("lg")]: {
 		fontSize: "1.6rem"
 	},
-	[theme.breakpoints.down("lg")]: {
+	[theme.breakpoints.down("md")]: {
 		fontSize: "1.5rem"
 	},
-	[theme.breakpoints.down("md")]: {
-		fontSize: "1.4rem"
-	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.3rem"
+		fontSize: "1.4rem"
 	}
 }));

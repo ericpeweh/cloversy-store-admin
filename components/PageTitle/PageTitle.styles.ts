@@ -15,6 +15,6 @@ export const PageTitleContainer = styled("h1")(({ theme }) => ({
 		fontSize: "1.8rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.6rem"
+		fontSize: "1.7rem"
 	}
 }));

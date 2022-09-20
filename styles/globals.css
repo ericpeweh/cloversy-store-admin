@@ -6,6 +6,34 @@ body {
 	font-size: 62.5%;
 }
 
+@media screen and (max-width: 1600px) {
+	html,
+	body {
+		font-size: 60%;
+	}
+}
+
+@media screen and (max-width: 1300px) {
+	html,
+	body {
+		font-size: 57.5%;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	html,
+	body {
+		font-size: 55%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	html,
+	body {
+		font-size: 52.5%;
+	}
+}
+
 a {
 	color: inherit;
 	text-decoration: none;

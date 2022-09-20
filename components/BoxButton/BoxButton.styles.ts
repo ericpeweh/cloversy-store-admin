@@ -10,6 +10,7 @@ export const BoxButtonContainer = styled(ButtonBase)(({ theme }) => ({
 	padding: "1rem 2rem",
 	fontSize: "1.6rem",
 	transition: "0.3s ease-in",
+	backgroundColor: "#fff",
 	"&:hover": {
 		border: `1px solid ${theme.palette.grey[600]}`
 	},

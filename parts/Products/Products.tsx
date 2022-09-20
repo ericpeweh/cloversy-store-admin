@@ -51,16 +51,34 @@ const Products = () => {
 	return (
 		<ProductsContainer>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Products List</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Products List</PageTitle>
 				<Button startIcon={<AddIcon />} size="small" color="primary">
 					New Product
 				</Button>
 			</Stack>
 			<ProductsHeader container>
-				<Stack direction="row" gap={2} sx={{ width: "30rem" }}>
+				<Stack
+					direction="row"
+					gap={2}
+					sx={{
+						width: "30rem",
+						"@media screen and (max-width: 1480px)": {
+							width: "100%"
+						}
+					}}
+				>
 					<TextInput label="" placeholder="Search product..." id="search-product" size="small" />
 				</Stack>
-				<Stack direction="row" justifyContent="flex-end" gap={2}>
+				<Stack
+					direction="row"
+					justifyContent="flex-end"
+					gap={{ xs: 1, sm: 2 }}
+					sx={{
+						"@media screen and (max-width: 800px)": {
+							flexDirection: "column"
+						}
+					}}
+				>
 					<SelectInput
 						options={[
 							"All Brands",
@@ -87,14 +105,25 @@ const Products = () => {
 						]}
 						value="Default sorting"
 						size="small"
-						sx={{ width: "20rem", mr: "20rem" }}
+						sx={{
+							width: { xs: "100%", xl: "20rem" },
+							mr: {
+								xs: "0",
+								md: "20rem"
+							}
+						}}
 					/>
 					<ToggleButtonGroup
 						value={displayMode}
 						exclusive
 						onChange={displayModeChangeHandler}
 						aria-label="products display mode"
-						sx={{ border: "none" }}
+						sx={{
+							border: "none",
+							"@media screen and (max-width: 800px)": {
+								justifyContent: "center"
+							}
+						}}
 					>
 						<ToggleButton value="card" size="small" sx={{ border: "none" }}>
 							<GridViewIcon />
@@ -113,7 +142,7 @@ const Products = () => {
 				items={[
 					{ label: "Lihat detail", action: () => {}, id: "detail" },
 					{ label: "Edit item", action: () => {}, id: "edit" },
-					{ label: <Typography color="error">Hapus</Typography>, action: () => {}, id: "hapus" }
+					{ label: "Hapus", action: () => {}, id: "hapus" }
 				]}
 			/>
 			{displayMode === "list" ? (
@@ -127,9 +156,9 @@ const Products = () => {
 				</ProductsList>
 			) : (
 				<ProductsCardList>
-					<Grid container spacing={3}>
+					<Grid container spacing={{ xs: 1, sm: 2, lg: 3 }}>
 						{[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-							<Grid item xs={3} key={item}>
+							<Grid item xs={6} md={4} xl={3} key={item}>
 								<ProductListCard onMoreButtonClick={productItemMenuOpenHandler} />
 							</Grid>
 						))}
@@ -137,7 +166,16 @@ const Products = () => {
 				</ProductsCardList>
 			)}
 
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={4}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}

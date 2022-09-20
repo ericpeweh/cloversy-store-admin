@@ -74,31 +74,31 @@ export const InfoIcon = styled("div", {
 }));
 
 export const InfoTitle = styled("h2")(({ theme }) => ({
-	fontSize: "1.7rem",
+	fontSize: "1.8rem",
 	fontWeight: 500,
 	gridRow: "1 / 2",
 	[theme.breakpoints.down("lg")]: {
-		fontSize: "1.6rem"
+		fontSize: "1.7rem"
 	},
 	[theme.breakpoints.down("md")]: {
-		fontSize: "1.5rem"
+		fontSize: "1.6rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.4rem"
+		fontSize: "1.5rem"
 	}
 }));
 
 export const InfoDescription = styled("h2")(({ theme }) => ({
-	fontSize: "1.5rem",
+	fontSize: "1.6rem",
 	fontWeight: 400,
 	gridRow: "2 / 3",
 	[theme.breakpoints.down("lg")]: {
-		fontSize: "1.4rem"
+		fontSize: "1.5rem"
 	},
 	[theme.breakpoints.down("md")]: {
-		fontSize: "1.3rem"
+		fontSize: "1.4rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.2rem"
+		fontSize: "1.3rem"
 	}
 }));
