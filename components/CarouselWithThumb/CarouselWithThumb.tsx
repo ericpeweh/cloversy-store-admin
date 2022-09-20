@@ -13,8 +13,9 @@ import {
 } from "./CarouselWithThumb.styles";
 
 // Components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 import { CarouselNextButton, CarouselPrevButton } from "../CarouselButton/CarouselButton";
+import { SxProps } from "@mui/material";
 
 const carouselOptions: SwiperOptions = {
 	modules: [Navigation, FreeMode, Thumbs],
@@ -38,13 +39,14 @@ const images = ["/images/product.jpg", "/images/1.jpg", "/images/2.jpg", "/image
 
 interface CarouselWithThumbProps {
 	size?: "small" | "medium" | "large";
+	sx?: SxProps;
 }
 
-const CarouselWithThumb = ({ size = "small" }: CarouselWithThumbProps) => {
+const CarouselWithThumb = ({ size = "small", sx }: CarouselWithThumbProps) => {
 	const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType>();
 
 	return (
-		<CarouselContainer>
+		<CarouselContainer sx={sx}>
 			<MainCarousel
 				{...carouselOptions}
 				thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}

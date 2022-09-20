@@ -13,18 +13,18 @@ import {
 
 const ReviewItem = () => {
 	return (
-		<ReviewItemContainer item xs={6}>
+		<ReviewItemContainer item xs={12} md={6}>
 			<ReviewContainer>
 				<ListItem
 					alignItems="flex-start"
 					sx={{ padding: 0 }}
 					secondaryAction={<Rating value={4.5} readOnly precision={0.5} />}
 				>
-					<ListItemAvatar>
+					<ListItemAvatar sx={{ mt: { xs: 0, sm: 0.5 } }}>
 						<Avatar alt="review name" src="/images/1.jpg" sx={{ width: "5rem", height: "5rem" }} />
 					</ListItemAvatar>
 					<ListItemText
-						sx={{ ml: 2 }}
+						sx={{ ml: { xs: 0, sm: 2 } }}
 						primary={<ReviewerName>Mikici Mud</ReviewerName>}
 						secondary={<ReviewDate>10 July 2022</ReviewDate>}
 					/>

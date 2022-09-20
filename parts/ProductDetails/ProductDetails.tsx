@@ -125,7 +125,7 @@ const ProductDetails = () => {
 				cancelColor="secondary"
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Product Details</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Product Details</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button
 						startIcon={<EditIcon />}
@@ -147,9 +147,23 @@ const ProductDetails = () => {
 				</Stack>
 			</Stack>
 			<ContentContainer>
-				<Grid container spacing={3} alignItems="flex-start">
-					<Grid item xs={4}>
-						<CarouselWithThumb size="small" />
+				<Grid container spacing={{ xs: 1, sm: 2, md: 3 }} alignItems="flex-start">
+					<Grid item xs={12} lg={5} xl={4}>
+						<CarouselWithThumb
+							size="small"
+							sx={{
+								"@media screen and (max-width: 1200px)": {
+									width: "50%",
+									margin: "0rem auto 1rem"
+								},
+								"@media screen and (max-width: 900px)": {
+									width: "70%"
+								},
+								"@media screen and (max-width: 600px)": {
+									width: "100%"
+								}
+							}}
+						/>
 						<DetailsContainer>
 							<Divider flexItem sx={{ mt: 2, mb: 1 }} />
 							<DetailItem>
@@ -162,7 +176,7 @@ const ProductDetails = () => {
 							</DetailItem>
 						</DetailsContainer>
 					</Grid>
-					<Grid item xs={8}>
+					<Grid item xs={12} lg={7} xl={8}>
 						<DetailsContainer>
 							<DetailItem>
 								<DetailTitle>Product Title</DetailTitle>
@@ -197,7 +211,7 @@ const ProductDetails = () => {
 								<DetailDescription>
 									<Grid container spacing={1}>
 										{sizes.map(size => (
-											<Grid item key={size} xs={1.2}>
+											<Grid item key={size} xs={3} sm={2} md={1.5} lg={3} xl={1.5}>
 												<StatusBadge key={size} color="secondary" centerText>
 													{size.toString()}
 												</StatusBadge>
@@ -212,7 +226,11 @@ const ProductDetails = () => {
 									<Stack flexWrap="wrap" direction="row" gap={1}>
 										{["cartoon", "aesthethic", "anime", "life"].map(tag => (
 											<Chip
-												sx={{ borderRadius: "0.5rem", fontSize: "1.4rem" }}
+												sx={{
+													borderRadius: "0.5rem",
+													fontSize: { xs: "1.4rem", sm: "1.5rem", md: "1.6rem" },
+													height: { xs: "2.5rem", sm: "3.5rem" }
+												}}
 												label={tag}
 												key={tag}
 											/>
@@ -241,9 +259,9 @@ const ProductDetails = () => {
 			</ContentContainer>
 			<ContentContainer>
 				<ReviewsTitle>Product Reviews</ReviewsTitle>
-				<Grid container>
+				<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
 					<Grid item xs={12}>
-						<ReviewsContainer container spacing={2} sx={{ mt: 0 }}>
+						<ReviewsContainer container spacing={{ xs: 1, md: 2 }}>
 							<ReviewItem />
 							<ReviewItem />
 							<ReviewItem />
@@ -253,9 +271,9 @@ const ProductDetails = () => {
 				</Grid>
 			</ContentContainer>
 			<ContentContainer>
-				<ReviewsTitle>Product Statistic</ReviewsTitle>
+				<ReviewsTitle>Statistik Produk</ReviewsTitle>
 				<Grid container>
-					<Grid item xs={6}>
+					<Grid item xs={12} xl={6}>
 						<AreaChart
 							title="Produk Terjual"
 							data={data}
@@ -264,7 +282,7 @@ const ProductDetails = () => {
 							strokeColor={green[200]}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} xl={6}>
 						<AreaChart
 							title="Pengunjung (Halaman Produk)"
 							data={data}
