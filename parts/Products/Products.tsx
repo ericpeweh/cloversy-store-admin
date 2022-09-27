@@ -56,7 +56,7 @@ const Products = () => {
 					New Product
 				</Button>
 			</Stack>
-			<ProductsHeader container>
+			<ProductsHeader>
 				<Stack
 					direction="row"
 					gap={2}

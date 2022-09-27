@@ -54,5 +54,11 @@ export const DeleteButton = styled(ButtonBase)(({ theme }) => ({
 	height: "4rem",
 	width: "4rem",
 	top: "-2rem",
-	right: "-2rem"
+	right: "-2rem",
+	[theme.breakpoints.down("sm")]: {
+		height: "3rem",
+		width: "3rem",
+		top: "-1rem",
+		right: "-1rem"
+	}
 })) as typeof ButtonBase;

@@ -36,18 +36,30 @@ export const VoucherContent = styled("div")({
 	padding: "1rem 2rem"
 });
 
-export const VoucherTitle = styled("h2")({
+export const VoucherTitle = styled("h2")(({ theme }) => ({
 	fontSize: "1.8rem",
 	fontFamily: "var(--font-secondary)",
 	fontWeight: 600,
 	display: "flex",
 	gap: "1rem",
-	marginBottom: "0.5rem"
-});
+	marginBottom: "0.5rem",
+	[theme.breakpoints.down("lg")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
+}));
 
 export const VoucherExpiry = styled("p")(({ theme }) => ({
 	fontSize: "1.5rem",
-	color: theme.palette.grey[500]
+	color: theme.palette.grey[500],
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.4rem"
+	}
 }));
 
 export const VoucherCode = styled("p")(({ theme }) => ({
@@ -58,7 +70,13 @@ export const VoucherCode = styled("p")(({ theme }) => ({
 	justifyContent: "center",
 	alignItems: "center",
 	letterSpacing: "3px",
-	borderTop: `2px dashed ${theme.palette.primary.light}`
+	borderTop: `2px dashed ${theme.palette.primary.light}`,
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.5rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.4rem"
+	}
 }));
 
 export const VoucherImage = styled("div")(({ theme }) => ({
@@ -70,5 +88,11 @@ export const VoucherImage = styled("div")(({ theme }) => ({
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
-	position: "relative"
+	position: "relative",
+	[theme.breakpoints.down("md")]: {
+		width: "9.5rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "8rem"
+	}
 }));

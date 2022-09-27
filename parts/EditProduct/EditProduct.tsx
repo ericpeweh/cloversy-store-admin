@@ -60,7 +60,7 @@ const EditProduct = () => {
 	return (
 		<EditProductContainer>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Edit Product</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Edit Product</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button size="small" color="secondary" variant="outlined">
 						Discard
@@ -71,108 +71,112 @@ const EditProduct = () => {
 				</Stack>
 			</Stack>
 			<FormContainer>
-				<Grid container spacing={3} alignItems="flex-start">
-					<Grid container item xs={6} spacing={3}>
-						<Grid item xs={12}>
-							<TextInput id="title" label="Product title" />
-						</Grid>
-						<Grid item xs={6}>
-							<TextInput id="sku" label="SKU Code" />
-						</Grid>
-						<Grid item xs={6}>
-							<TextInput id="price" label="Price" />
-						</Grid>
-						<Grid item xs={12}>
-							<SelectInput options={["Status", "Active", "Disabled"]} value={"Status"} />
-						</Grid>
-						<Grid item xs={12}>
-							<Stack direction="row" gap={3}>
-								<SelectInput
-									options={[
-										"Categories",
-										"Sneaker",
-										"Slip-On",
-										"Sandal",
-										"Bags",
-										"Wallet",
-										"Jacket"
-									]}
-									value={"Categories"}
-								/>
-								<BoxButton>
-									<RefreshIcon />
-								</BoxButton>
-							</Stack>
-						</Grid>
-						<Grid item xs={12}>
-							<Divider flexItem />
-						</Grid>
-						<Grid item xs={12}>
-							<Stack direction="row" gap={3}>
-								<SelectInput
-									options={[
-										"All Brands",
-										"Nike",
-										"Adidas",
-										"Ventela",
-										"Patrobas",
-										"NAH Project",
-										"Lainnya"
-									]}
-									value={"All Brands"}
-								/>
-								<BoxButton>
-									<RefreshIcon />
-								</BoxButton>
-							</Stack>
-						</Grid>
-						<Grid item xs={12} sx={{ mt: 2 }}>
-							<InputTitle>Product Sizes</InputTitle>
-							<Grid container item xs={12} spacing={2}>
-								{sizes.map(size => (
-									<Grid item xs={1.5} key={size}>
-										<Button
-											color="primary"
-											size="small"
-											fullWidth
-											onClick={() => toggleSizeHandler(size)}
-											variant={
-												selectedSize.find((item: number) => item === size)
-													? "contained"
-													: "outlined"
-											}
-										>
-											{size}
-										</Button>
-									</Grid>
-								))}
+				<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
+					<Grid item xs={12} md={6}>
+						<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
+							<Grid item xs={12}>
+								<TextInput id="title" label="Product title" />
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextInput id="sku" label="SKU Code" />
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextInput id="price" label="Price" />
+							</Grid>
+							<Grid item xs={12}>
+								<SelectInput options={["Status", "Active", "Disabled"]} value={"Status"} />
+							</Grid>
+							<Grid item xs={12}>
+								<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
+									<SelectInput
+										options={[
+											"Categories",
+											"Sneaker",
+											"Slip-On",
+											"Sandal",
+											"Bags",
+											"Wallet",
+											"Jacket"
+										]}
+										value={"Categories"}
+									/>
+									<BoxButton>
+										<RefreshIcon />
+									</BoxButton>
+								</Stack>
+							</Grid>
+							<Grid item xs={12}>
+								<Divider flexItem />
+							</Grid>
+							<Grid item xs={12}>
+								<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
+									<SelectInput
+										options={[
+											"All Brands",
+											"Nike",
+											"Adidas",
+											"Ventela",
+											"Patrobas",
+											"NAH Project",
+											"Lainnya"
+										]}
+										value={"All Brands"}
+									/>
+									<BoxButton>
+										<RefreshIcon />
+									</BoxButton>
+								</Stack>
+							</Grid>
+							<Grid item xs={12} sx={{ mt: 2 }}>
+								<InputTitle>Product Sizes</InputTitle>
+								<Grid container item spacing={{ xs: 1, md: 2 }}>
+									{sizes.map(size => (
+										<Grid item xs={3} sm={3} md={2} lg={2.4} xl={2} key={size}>
+											<Button
+												color="primary"
+												size="small"
+												fullWidth
+												onClick={() => toggleSizeHandler(size)}
+												variant={
+													selectedSize.find((item: number) => item === size)
+														? "contained"
+														: "outlined"
+												}
+											>
+												{size}
+											</Button>
+										</Grid>
+									))}
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid container item xs={6} spacing={3}>
-						<Grid item xs={12}>
-							<TextInput id="tags" label="Tags" placeholder="Enter tag" />
-							<TagsContainer>
-								{tagsData.map(data => {
-									return (
-										<ListItem key={data.key}>
-											<Chip label={data.label} onDelete={() => removeTagHandler(data)} />
-										</ListItem>
-									);
-								})}
-							</TagsContainer>
-						</Grid>
-						<Grid item xs={12}>
-							<TextInput id="description" label="Description" multiline rows={10} />
-						</Grid>
-						<Grid item xs={12} sx={{ mt: 2 }}>
-							<InputTitle>Product Images</InputTitle>
-							<ImageInput
-								images={images}
-								imagesUrl={imagesUrl}
-								setImages={setImages}
-								setImagesUrl={setImagesUrl}
-							/>
+					<Grid item xs={12} md={6} sx={{ mt: { xs: 2, sm: 0 } }}>
+						<Grid container item spacing={{ xs: 2, md: 3 }}>
+							<Grid item xs={12}>
+								<TextInput id="tags" label="Tags" placeholder="Enter tag" />
+								<TagsContainer>
+									{tagsData.map(data => {
+										return (
+											<ListItem key={data.key}>
+												<Chip label={data.label} onDelete={() => removeTagHandler(data)} />
+											</ListItem>
+										);
+									})}
+								</TagsContainer>
+							</Grid>
+							<Grid item xs={12}>
+								<TextInput id="description" label="Description" multiline rows={10} />
+							</Grid>
+							<Grid item xs={12} sx={{ mt: 2 }}>
+								<InputTitle>Product Images</InputTitle>
+								<ImageInput
+									images={images}
+									imagesUrl={imagesUrl}
+									setImages={setImages}
+									setImagesUrl={setImagesUrl}
+								/>
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>

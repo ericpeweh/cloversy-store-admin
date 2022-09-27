@@ -76,6 +76,7 @@ a {
 @media screen and (max-width: 600px) {
 	::-webkit-scrollbar {
 		height: 5px;
+		width: 5px;
 	}
 }
 

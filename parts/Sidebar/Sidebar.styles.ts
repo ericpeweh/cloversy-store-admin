@@ -22,12 +22,9 @@ export const SidebarContainer = styled("nav", {
 	gap: "1rem",
 	padding: "1.5rem",
 	zIndex: "10",
-	transition: "0.3s ease-in",
+	transition: "0.2s ease-out",
 	[theme.breakpoints.down("lg")]: {
 		transform: showSidebar ? "translateX(0)" : "translateX(-100%)"
-	},
-	[theme.breakpoints.down("sm")]: {
-		width: "26rem"
 	}
 }));
 
@@ -59,10 +56,13 @@ export const NavList = styled(List)({
 	}
 });
 
-export const SidebarItemChild = styled(ListItemButton)({
+export const SidebarItemChild = styled(ListItemButton)(({ theme }) => ({
 	padding: "0.5rem",
-	paddingLeft: "7rem"
-});
+	paddingLeft: "7rem",
+	[theme.breakpoints.down("md")]: {
+		paddingLeft: "8.5rem"
+	}
+}));
 
 // Backdrop
 interface SidebarBackdropProps {
@@ -79,7 +79,7 @@ export const SidebarBackdrop = styled("div", {
 	width: "100%",
 	height: "100%",
 	backgroundColor: "rgba(0 0 0 / 40%)",
-	transition: "0.3s ease-in",
+	transition: "0.2s ease-out",
 	opacity: showSidebar ? 1 : 0,
 	visibility: showSidebar ? "visible" : "hidden",
 	[theme.breakpoints.up("lg")]: {

@@ -57,12 +57,16 @@ const Vouchers = () => {
 				</Button>
 			</Stack>
 			<VouchersHeader container>
-				<Stack direction="row" justifyContent="flex-end" gap={2}>
+				<Stack
+					direction={{ xs: "column", sm: "row" }}
+					sx={{ width: { xs: "100%", sm: "auto" } }}
+					gap={{ xs: 1, sm: 2 }}
+				>
 					<SelectInput
 						options={["Status", "Active", "Disabled"]}
 						value={"Status"}
 						size="small"
-						sx={{ width: "20rem" }}
+						sx={{ width: { xs: "100%", sm: "20rem" } }}
 					/>
 					<SelectInput
 						startAdornment={<SortIcon sx={{ mr: 1 }} />}
@@ -81,16 +85,16 @@ const Vouchers = () => {
 					{ label: "Lihat detail", action: () => {}, id: "detail" },
 					{ label: "Edit item", action: () => {}, id: "edit" },
 					{
-						label: <Typography color="error">Hapus</Typography>,
+						label: "Hapus",
 						action: openDeleteVoucherModalHandler,
 						id: "hapus"
 					}
 				]}
 			/>
 			<VouchersList>
-				<Grid container spacing={3}>
+				<Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
 					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-						<Grid item xs={6} key={item}>
+						<Grid item xs={12} md={6} key={item}>
 							<Voucher
 								title={"Diskon Rp 25.000"}
 								expiryDate={"23 Jul 2022"}
@@ -102,7 +106,16 @@ const Vouchers = () => {
 					))}
 				</Grid>
 			</VouchersList>
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={4}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}

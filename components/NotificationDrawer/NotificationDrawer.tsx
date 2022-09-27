@@ -70,10 +70,8 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 											sx={{
 												display: "inline",
 												fontSize: {
-													xs: "1.2rem",
-													sm: "1.3rem",
-													md: "1.4rem",
-													lg: "1.5rem"
+													xs: "1.4rem",
+													sm: "1.5rem"
 												}
 											}}
 											component="span"
@@ -94,9 +92,7 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 				))}
 			</NotificationLists>
 			<NotificationActionButtons>
-				<Button color="primary" size="small">
-					Load More
-				</Button>
+				<Button color="primary">Load More</Button>
 			</NotificationActionButtons>
 		</NotificationDrawerContainer>
 	);

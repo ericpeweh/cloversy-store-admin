@@ -9,12 +9,13 @@ export const AreaChartContainer = styled("div")(({ theme }) => ({
 	marginTop: "2rem",
 	padding: "2rem",
 	fontSize: "1.4rem",
-	overflowX: "auto",
+	overflowX: "hidden",
 	overflowY: "hidden",
 	[theme.breakpoints.down("md")]: {
 		fontSize: "1.3rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.2rem"
+		fontSize: "1.2rem",
+		overflowX: "auto"
 	}
 }));

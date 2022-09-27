@@ -60,8 +60,8 @@ const ImageInput = ({ imagesUrl, setImages, setImagesUrl }: ImageInputProps) => 
 	};
 
 	return (
-		<ImageInputContainer container spacing={3}>
-			<Grid item xs={3}>
+		<ImageInputContainer container spacing={{ xs: 1, md: 2, lg: 3 }} rowSpacing={{ xs: 2, lg: 3 }}>
+			<Grid item xs={4} sm={3} md={4} xl={3}>
 				<InputContainer>
 					<InputLabel htmlFor="imageInput">
 						<AddBoxIcon />
@@ -77,7 +77,7 @@ const ImageInput = ({ imagesUrl, setImages, setImagesUrl }: ImageInputProps) => 
 				</InputContainer>
 			</Grid>
 			{imagesUrl.map(img => (
-				<Grid item xs={3} key={img.id}>
+				<Grid item xs={4} sm={3} md={4} xl={3} key={img.id}>
 					<ImageContainer imgSrc={img.url}>
 						<DeleteButton
 							onClick={() => {

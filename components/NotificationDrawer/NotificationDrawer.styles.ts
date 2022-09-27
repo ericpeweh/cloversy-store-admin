@@ -18,14 +18,14 @@ export const NotificationDrawerContainer = styled(Drawer)(({ theme }) => ({
 
 export const HideNotificationButton = styled(Button)(({ theme }) => ({
 	color: theme.palette.grey[500],
-	fontSize: "1.4rem",
+	fontSize: "1.6rem",
 	alignSelf: "flex-start",
 	paddingLeft: "0",
 	[theme.breakpoints.down("md")]: {
-		fontSize: "1.3rem"
+		fontSize: "1.5rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.2rem"
+		fontSize: "1.4rem"
 	}
 }));
 
@@ -48,8 +48,8 @@ export const NotificationItemImage = styled(Avatar)(({ theme }) => ({
 	height: "6rem",
 	borderRadius: "50%",
 	[theme.breakpoints.down("sm")]: {
-		width: "5rem",
-		height: "5rem"
+		width: "5.5rem",
+		height: "5.5rem"
 	}
 })) as typeof Avatar;
 
@@ -60,26 +60,17 @@ export const NotificationItemContent = styled(ListItemText)(({ theme }) => ({
 		textTransform: "uppercase",
 		fontSize: "1.6rem",
 		cursor: "pointer",
-		[theme.breakpoints.down("lg")]: {
-			fontSize: "1.5rem"
-		},
-		[theme.breakpoints.down("md")]: {
-			fontSize: "1.4rem"
-		},
 		[theme.breakpoints.down("sm")]: {
-			fontSize: "1.3rem"
+			fontSize: "1.5rem"
 		}
 	},
 	"& .MuiListItemText-secondary": {
-		fontSize: "1.5rem",
-		[theme.breakpoints.down("lg")]: {
-			fontSize: "1.4rem"
-		},
+		fontSize: "1.6rem",
 		[theme.breakpoints.down("md")]: {
-			fontSize: "1.3rem"
+			fontSize: "1.5rem"
 		},
 		[theme.breakpoints.down("sm")]: {
-			fontSize: "1.2rem"
+			fontSize: "1.4rem"
 		}
 	}
 })) as typeof ListItemText;

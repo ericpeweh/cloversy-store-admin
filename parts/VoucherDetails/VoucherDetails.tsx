@@ -10,10 +10,7 @@ import {
 	DetailItem,
 	DetailsContainer,
 	DetailTitle,
-	VoucherDetailsContainer,
-	ReviewsContainer,
-	ReviewsPagination,
-	ReviewsTitle
+	VoucherDetailsContainer
 } from "./VoucherDetails.styles";
 
 // Icons
@@ -106,7 +103,7 @@ const VoucherDetails = () => {
 				cancelColor="secondary"
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Voucher Details</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Voucher Details</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button
 						startIcon={<EditIcon />}
@@ -128,8 +125,8 @@ const VoucherDetails = () => {
 				</Stack>
 			</Stack>
 			<ContentContainer>
-				<Grid container spacing={3}>
-					<Grid item xs={6}>
+				<Grid container spacing={{ xs: 1, md: 2, lg: 3 }}>
+					<Grid item xs={12} xl={6}>
 						<DetailsContainer>
 							<DetailItem>
 								<DetailTitle>Voucher Title</DetailTitle>
@@ -180,7 +177,7 @@ const VoucherDetails = () => {
 							</DetailItem>
 						</DetailsContainer>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} xl={6}>
 						<AreaChart
 							title="Statistik Penggunaan"
 							data={data}
