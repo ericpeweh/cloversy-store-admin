@@ -1,6 +1,5 @@
 // Dependencies
 import React from "react";
-import QuantityInput from "../QuantityInput/QuantityInput";
 
 // Styles
 import {
@@ -9,7 +8,6 @@ import {
 	CardImage,
 	CardPrice,
 	CardTitle,
-	InputContainer,
 	OrderCardContainer
 } from "./OrderCard.styles";
 

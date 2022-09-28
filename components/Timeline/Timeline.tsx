@@ -27,7 +27,12 @@ const Timeline = ({ items }: TimelineProps) => {
 
 				return (
 					<TimelineItem sx={{ justifyContent: "center" }} key={item.date}>
-						<TimelineOppositeContent color="text.secondary">{item.desc}</TimelineOppositeContent>
+						<TimelineOppositeContent
+							color="text.secondary"
+							sx={{ fontSize: { xs: "1.4rem", sm: "1.5rem" } }}
+						>
+							{item.desc}
+						</TimelineOppositeContent>
 						<TimelineSeparator>
 							<TimelineDot
 								color={isFirstItem ? "primary" : "grey"}
@@ -39,7 +44,15 @@ const Timeline = ({ items }: TimelineProps) => {
 							/>
 							{!isLastItem && <TimelineConnector />}
 						</TimelineSeparator>
-						<TimelineContent sx={{ flex: "0 0 18rem", pl: 0, pr: 3 }} align="justify">
+						<TimelineContent
+							sx={{
+								flex: "0 0 18rem",
+								pl: 0,
+								pr: 3,
+								fontSize: { xs: "1.4rem", sm: "1.5rem" },
+								textAlign: "left"
+							}}
+						>
 							{item.date}
 						</TimelineContent>
 					</TimelineItem>

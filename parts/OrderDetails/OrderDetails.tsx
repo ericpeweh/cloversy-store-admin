@@ -70,7 +70,7 @@ const OrderDetails = () => {
 				cancelColor="secondary"
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Order Detail</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Order Detail</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button
 						startIcon={<EditIcon />}
@@ -104,7 +104,20 @@ const OrderDetails = () => {
 						21 Juli 2022, 14:40 WIB
 					</OrderDate>
 				</Stack>
-				<Stack direction="row" gap={1} height="4rem">
+				<Stack
+					direction={{ xs: "column", sm: "row" }}
+					gap={1}
+					sx={{
+						height: {
+							xs: "auto",
+							sm: "4rem"
+						},
+						width: {
+							xs: "100%",
+							sm: "auto"
+						}
+					}}
+				>
 					<SelectInput
 						options={[
 							"Change order status",
@@ -118,9 +131,9 @@ const OrderDetails = () => {
 						]}
 						value={"Change order status"}
 						size="small"
-						sx={{ width: "25rem" }}
+						sx={{ width: { xs: "100%", sm: "25rem" } }}
 					/>
-					<BoxButton sx={{ mr: 1 }}>Save</BoxButton>
+					<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
 					<BoxButton sx={{ backgroundColor: "#555", color: "#fff" }}>
 						<PrintIcon />
 					</BoxButton>
@@ -129,14 +142,14 @@ const OrderDetails = () => {
 			<Divider />
 			<ContentContainer>
 				<Grid container spacing={3}>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<DetailsContainer>
 							<DetailItem>
 								<DetailTitle>Customer</DetailTitle>
 								<DetailDescription>Mikici Cimol</DetailDescription>
 							</DetailItem>
 							<DetailItem>
-								<DetailTitle>Email</DetailTitle>
+								<DetailTitle sx={{ mt: 0.5 }}>Email</DetailTitle>
 								<Stack direction="row" alignItems="center" gap={1}>
 									<DetailDescription>mikicicimol@gmail.com</DetailDescription>
 									<IconButton size="small">
@@ -145,7 +158,7 @@ const OrderDetails = () => {
 								</Stack>
 							</DetailItem>
 							<DetailItem>
-								<DetailTitle>Contact</DetailTitle>
+								<DetailTitle sx={{ mt: 0.5 }}>Contact</DetailTitle>
 								<Stack direction="row" alignItems="center" gap={1}>
 									<DetailDescription>+62 853 1234 2134</DetailDescription>
 									<IconButton size="small">
@@ -156,15 +169,24 @@ const OrderDetails = () => {
 							<DetailItem>
 								<DetailTitle>Order status</DetailTitle>
 								<DetailDescription>
-									<Stack justifyContent="flex-start" direction="row" gap={1}>
-										<StatusBadge>Awaiting Payment</StatusBadge> | Modified: 21 Juli 2022, 14:40 WIB
+									<Stack
+										justifyContent="flex-start"
+										direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
+										gap={1}
+									>
+										<StatusBadge centerText>Awaiting Payment</StatusBadge>
+										<p>| Modified: 21 Juli 2022, 14:40 WIB</p>
 									</Stack>
 								</DetailDescription>
 							</DetailItem>
 							<DetailItem>
 								<DetailTitle>Payment status</DetailTitle>
 								<DetailDescription>
-									<Stack justifyContent="flex-start" direction="row" gap={1}>
+									<Stack
+										justifyContent="flex-start"
+										direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
+										gap={1}
+									>
 										<StatusBadge color="secondary">Pending</StatusBadge> | Tanggal Pembayaran Disini
 									</Stack>
 								</DetailDescription>
@@ -196,7 +218,7 @@ const OrderDetails = () => {
 							</DetailItem>
 						</DetailsContainer>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Section>
 							<SectionTitle>Detail Pesanan</SectionTitle>
 							<OrderCardContainer>
@@ -253,7 +275,7 @@ const OrderDetails = () => {
 			</ContentContainer>
 			<ContentContainer>
 				<Grid container spacing={3}>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Section>
 							<SectionTitle>Pengiriman</SectionTitle>
 							<InfoContainer>
@@ -283,7 +305,7 @@ const OrderDetails = () => {
 							</AddressContainer>
 						</Section>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Section>
 							<SectionTitle>Timeline Pesanan</SectionTitle>
 							<Timeline

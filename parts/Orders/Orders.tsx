@@ -14,9 +14,8 @@ import usePagination from "../../hooks/usePagination";
 import useMenu from "../../hooks/useMenu";
 
 // Components
-import { Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
 import Pagination from "../../components/Pagination/Pagination";
 import Menu from "../../components/Menu/Menu";
@@ -114,15 +113,39 @@ const Orders = () => {
 		<OrdersContainer>
 			<PageTitle>Orders List</PageTitle>
 			<OrdersHeader container>
-				<Stack direction="row" sx={{ width: "30rem" }}>
+				<Stack
+					direction="row"
+					sx={{
+						width: "30rem",
+						"@media screen and (max-width: 800px)": {
+							width: "100%"
+						}
+					}}
+				>
 					<TextInput label="" placeholder="Search order..." id="search-order" size="small" />
 				</Stack>
-				<Stack direction="row" justifyContent="flex-end" gap={2}>
+				<Stack
+					direction="row"
+					justifyContent="flex-end"
+					gap={{ xs: 1, md: 2 }}
+					sx={{
+						"@media screen and (max-width: 800px)": {
+							flexDirection: "column",
+							width: "100%",
+							mt: 1
+						}
+					}}
+				>
 					<SelectInput
 						options={["Status", "Active", "Disabled", "Show all"]}
 						value={"Status"}
 						size="small"
-						sx={{ width: "20rem" }}
+						sx={{
+							width: "20rem",
+							"@media screen and (max-width: 800px)": {
+								width: "100%"
+							}
+						}}
 					/>
 					<SelectInput
 						startAdornment={<SortIcon sx={{ mr: 1 }} />}
@@ -147,7 +170,7 @@ const Orders = () => {
 				items={[
 					{ label: "Lihat detail", action: () => {}, id: "detail" },
 					{ label: "Edit item", action: () => {}, id: "edit" },
-					{ label: <Typography color="error">Hapus</Typography>, action: () => {}, id: "hapus" }
+					{ label: "Hapus", action: () => {}, id: "hapus" }
 				]}
 			/>
 
@@ -184,7 +207,16 @@ const Orders = () => {
 					))}
 				</Table>
 			</OrdersList>
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={4}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}
