@@ -108,7 +108,7 @@ const Categories = () => {
 				cancelColor="secondary"
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Category List</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Category List</PageTitle>
 				<Button
 					startIcon={<AddIcon />}
 					size="small"
@@ -118,8 +118,8 @@ const Categories = () => {
 					New Category
 				</Button>
 			</Stack>
-			<CategoriesHeader container>
-				<Stack direction="row" sx={{ width: "30rem" }}>
+			<CategoriesHeader>
+				<Stack direction="row" sx={{ width: { xs: "100%", sm: "30rem" } }}>
 					<TextInput label="" placeholder="Search category..." id="search-order" size="small" />
 				</Stack>
 				<Stack direction="row" justifyContent="flex-end" gap={2}>
@@ -157,7 +157,16 @@ const Categories = () => {
 					))}
 				</Table>
 			</CategoriesList>
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={{ xs: 3, md: 4 }}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}

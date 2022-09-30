@@ -27,12 +27,17 @@ const InputCategoryModal = ({ open, onClose, modalTitle }: InputCategoryModalPro
 		<InputCategoryModalContainer open={open} onClose={onClose}>
 			<CloseButton
 				onClick={onClose}
-				sx={{ top: "2rem", right: "2rem", width: "3rem", height: "3rem" }}
+				sx={{
+					top: { xs: "1.5rem", sm: "2.5rem" },
+					right: { xs: "2rem", sm: "3rem" },
+					width: "3rem",
+					height: "3rem"
+				}}
 			/>
 			<ModalTitle>{modalTitle}</ModalTitle>
 			<Divider />
 			<FormContainer>
-				<Grid container spacing={3}>
+				<Grid container spacing={{ xs: 2, md: 3 }}>
 					<InputContainer item xs={12}>
 						<TextInput label="Nama kategori" id="kategori" />
 					</InputContainer>
