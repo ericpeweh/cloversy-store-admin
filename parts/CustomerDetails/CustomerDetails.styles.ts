@@ -3,13 +3,16 @@ import { styled } from "@mui/system";
 
 export const OrderDetailsContainer = styled("div")({});
 
-export const ContentContainer = styled("div")({
+export const ContentContainer = styled("div")(({ theme }) => ({
 	backgroundColor: "#fff",
 	padding: "2rem",
 	marginTop: "2rem",
 	borderRadius: "0.5rem",
-	boxShadow: "var(--shadow-xs)"
-});
+	boxShadow: "var(--shadow-xs)",
+	[theme.breakpoints.down("md")]: {
+		padding: "1.5rem 1.2rem"
+	}
+}));
 
 // Order product details
 interface CustomerImageProps {
@@ -41,40 +44,58 @@ export const DetailItem = styled("div")(({ theme }) => ({
 	borderRadius: "0.5rem",
 	backgroundColor: theme.palette.grey[100],
 	border: `1px solid ${theme.palette.grey[100]}`,
-	padding: "1.2rem 2rem"
+	padding: "1.2rem 2rem",
+	[theme.breakpoints.down("sm")]: {
+		padding: "1rem 1.5rem"
+	}
 }));
 
-export const DetailTitle = styled("h2")({
+export const DetailTitle = styled("h2")(({ theme }) => ({
 	fontSize: "1.6rem",
 	fontWeight: 500,
 	flex: "0 0 30%",
 	position: "relative",
 	marginRight: "1rem",
 	alignSelf: "flex-start",
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	},
 	"&::after": {
 		content: "':'",
 		position: "absolute",
 		height: "100%",
 		right: 0
 	}
-});
+}));
 
-export const DetailDescription = styled("p")({
+export const DetailDescription = styled("p")(({ theme }) => ({
 	fontSize: "1.6rem",
 	fontWeight: 400,
-	flex: 1
-});
+	flex: 1,
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
+}));
 
 // Section
 export const Section = styled("div")({
 	marginBottom: "3rem"
 });
 
-export const SectionTitle = styled("h2")({
+export const SectionTitle = styled("h2")(({ theme }) => ({
 	fontSize: "1.8rem",
 	fontWeight: 500,
-	marginBottom: "0.5rem"
-});
+	marginBottom: "0.8rem",
+	[theme.breakpoints.down("lg")]: {
+		fontSize: "1.8rem"
+	},
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.6rem"
+	}
+}));
 
 // Address
 export const AddressContainer = styled("div")(({ theme }) => ({
@@ -83,7 +104,10 @@ export const AddressContainer = styled("div")(({ theme }) => ({
 	display: "flex",
 	justifyContent: "space-between",
 	alignItems: "center",
-	background: theme.palette.grey[100]
+	background: theme.palette.grey[100],
+	[theme.breakpoints.down("md")]: {
+		padding: "1.5rem"
+	}
 }));
 
 export const AddressContent = styled("div")({
@@ -93,22 +117,41 @@ export const AddressContent = styled("div")({
 
 export const AddressInfo = styled("div")({});
 
-export const AddressLabel = styled("h2")({
+export const AddressLabel = styled("h2")(({ theme }) => ({
 	fontSize: "1.8rem",
 	fontFamily: "var(--font-secondary)",
 	fontWeight: 500,
 	display: "flex",
 	gap: "1rem",
-	marginBottom: "1rem"
-});
+	marginBottom: "1rem",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.6rem",
+		marginBottom: "0.7rem"
+	}
+}));
 
-export const RecipientName = styled("h3")({
-	fontSize: "1.7rem"
-});
+export const RecipientName = styled("h3")(({ theme }) => ({
+	fontSize: "1.7rem",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
+}));
 
-export const AddressText = styled("p")({
-	fontSize: "1.6rem"
-});
+export const AddressText = styled("p")(({ theme }) => ({
+	fontSize: "1.6rem",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
+}));
 
 // Last seen
 export const CardItemContainer = styled("div")(({ theme }) => ({
@@ -142,16 +185,31 @@ export const CardItemImage = styled("div", {
 	alignItems: "center",
 	backgroundPosition: "center",
 	backgroundSize: "cover",
-	cursor: "pointer"
+	cursor: "pointer",
+	[theme.breakpoints.down("sm")]: {
+		width: "7rem"
+	}
 }));
 
-export const CardTitle = styled("h3")({
+export const CardTitle = styled("h3")(({ theme }) => ({
 	fontSize: "1.6rem",
-	fontWeight: 500
-});
+	fontWeight: 500,
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.5rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.4rem"
+	}
+}));
 
 export const CardSubtitle = styled("p")(({ theme }) => ({
 	fontSize: "1.5rem",
 	fontWeight: 400,
-	color: theme.palette.grey[500]
+	color: theme.palette.grey[500],
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.4rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.3rem"
+	}
 }));

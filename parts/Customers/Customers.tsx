@@ -15,15 +15,12 @@ import TableRowsIcon from "@mui/icons-material/TableRows";
 
 // Hooks
 import usePagination from "../../hooks/usePagination";
-import useMenu from "../../hooks/useMenu";
 
 // Components
-import { Divider, Grid, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Divider, Grid, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
 import Pagination from "../../components/Pagination/Pagination";
-import Menu from "../../components/Menu/Menu";
 import TextInput from "../../components/TextInput/TextInput";
 import CustomerListItem from "../../components/CustomerListItem/CustomerListItem";
 import CustomerListCard from "../../components/CustomerListCard/CustomerListCard";
@@ -33,12 +30,6 @@ type DisplayModeType = "list" | "card";
 const Customers = () => {
 	const [displayMode, setDisplayMode] = useState<DisplayModeType>("card");
 	const { page, onChange: paginationChangeHandler } = usePagination();
-	const {
-		anchorEl: productItemMenuAnchorEl,
-		closeHandler: productItemMenuCloseHandler,
-		isMenuOpen: isProductItemMenuOpen,
-		openHandler: productItemMenuOpenHandler
-	} = useMenu();
 
 	const displayModeChangeHandler = (_: React.SyntheticEvent, newDisplayMode: DisplayModeType) => {
 		if (newDisplayMode !== null) {
@@ -49,11 +40,11 @@ const Customers = () => {
 	return (
 		<CustomersContainer>
 			<PageTitle>Customers List</PageTitle>
-			<CustomersHeader container>
-				<Stack direction="row" gap={2} sx={{ width: "30rem" }}>
+			<CustomersHeader>
+				<Stack direction="row" gap={2} sx={{ width: { xs: "100%", sm: "30rem" } }}>
 					<TextInput label="" placeholder="Search customer..." id="search-customer" size="small" />
 				</Stack>
-				<Stack direction="row" justifyContent="flex-end" gap={2}>
+				<Stack direction="row" justifyContent="flex-end" gap={{ xs: 1, sm: 2 }}>
 					<SelectInput
 						options={["User status", "Active", "Banned"]}
 						value={"User status"}
@@ -75,30 +66,21 @@ const Customers = () => {
 					</ToggleButtonGroup>
 				</Stack>
 			</CustomersHeader>
-			<Menu
-				anchorEl={productItemMenuAnchorEl}
-				id="product-item-menu"
-				isOpen={isProductItemMenuOpen}
-				onClose={productItemMenuCloseHandler}
-				items={[
-					{ label: "Lihat detail", action: () => {}, id: "detail" },
-					{ label: "Edit item", action: () => {}, id: "edit" }
-				]}
-			/>
+
 			{displayMode === "list" ? (
 				<CustomersList>
 					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
 						<React.Fragment key={item}>
-							<CustomerListItem onMoreButtonClick={productItemMenuOpenHandler} />
+							<CustomerListItem />
 							<Divider />
 						</React.Fragment>
 					))}
 				</CustomersList>
 			) : (
 				<CustomersCardList>
-					<Grid container spacing={3}>
+					<Grid container spacing={{ xs: 1, md: 2, lg: 3 }}>
 						{[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-							<Grid item xs={3} key={item}>
+							<Grid item xs={6} sm={4} xl={3} key={item}>
 								<CustomerListCard />
 							</Grid>
 						))}
@@ -106,7 +88,16 @@ const Customers = () => {
 				</CustomersCardList>
 			)}
 
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={4}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}

@@ -109,22 +109,29 @@ const OrderDetails = () => {
 				cancelText="Cancel"
 				cancelColor="secondary"
 			/>
-			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Customer Detail</PageTitle>
-				<Stack direction="row" gap={1} height="4rem">
+			<Stack
+				direction={{ xs: "column", sm: "row" }}
+				alignItems={{ xs: "flex-start", sm: "center" }}
+				justifyContent="space-between"
+				gap={{ xs: 1, sm: 0 }}
+			>
+				<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
+				<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
 					<SelectInput
 						options={["Change user status", "Active", "Banned"]}
 						value={"Change user status"}
 						size="small"
-						sx={{ width: "25rem" }}
+						sx={{
+							width: { xs: "100%", sm: "25rem" }
+						}}
 					/>
-					<BoxButton sx={{ mr: 1 }}>Save</BoxButton>
+					<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
 				</Stack>
 			</Stack>
 
 			<ContentContainer>
 				<Grid container spacing={3}>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Section>
 							<DetailsContainer>
 								<SectionTitle>Account Information</SectionTitle>
@@ -158,14 +165,18 @@ const OrderDetails = () => {
 								<DetailItem>
 									<DetailTitle>Order status</DetailTitle>
 									<DetailDescription>
-										<Stack justifyContent="flex-start" direction="row" gap={1}>
-											<StatusBadge color="error">Banned</StatusBadge> | Banned: 21 Juli 2022, 14:40
-											WIB
+										<Stack
+											justifyContent="flex-start"
+											direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
+											gap={1}
+										>
+											<StatusBadge color="error">Banned</StatusBadge>
+											<p>| Banned: 21 Juli 2022, 14:40 WIB</p>
 										</Stack>
 									</DetailDescription>
 								</DetailItem>
 								<DetailItem>
-									<DetailTitle>Cloversy Credits</DetailTitle>
+									<DetailTitle>Clover Credits</DetailTitle>
 									<Stack direction="row" alignItems="center" gap={1}>
 										<DetailDescription>0</DetailDescription>
 									</Stack>
@@ -204,7 +215,7 @@ const OrderDetails = () => {
 							</AddressContainer>
 						</Section>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<Section>
 							<SectionTitle>Last Seen Product</SectionTitle>
 							<Grid container spacing={1}>
@@ -249,10 +260,15 @@ const OrderDetails = () => {
 												<CardTitle>Diskon Spesial Natal 25K</CardTitle>
 												<CardSubtitle>Berlaku hingga 23 Jul 2022</CardSubtitle>
 											</Stack>
-											<StatusBadge color="secondary" sx={{ alignSelf: "center", ml: 1 }}>
-												ACBD98DC88
-											</StatusBadge>
-											<BoxButton>Detail</BoxButton>
+											<Stack direction={{ xs: "column", sm: "row" }} sx={{ ml: "auto" }} gap={1}>
+												<StatusBadge
+													color="secondary"
+													sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
+												>
+													ACBD98DC88
+												</StatusBadge>
+												<BoxButton>Detail</BoxButton>
+											</Stack>
 										</CardItemContainer>
 									</Grid>
 								))}
@@ -264,7 +280,7 @@ const OrderDetails = () => {
 			<ContentContainer>
 				<Section>
 					<Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-						<SectionTitle>Purchase History</SectionTitle>
+						<SectionTitle sx={{ mb: 0 }}>Purchase History</SectionTitle>
 						<Stack direction="row" gap={2}>
 							<SelectInput
 								options={["Status pesanan", "Dikirim", "Pending", "Dibatalkan", "Proses"]}
@@ -300,7 +316,16 @@ const OrderDetails = () => {
 							</TableRow>
 						))}
 					</Table>
-					<Stack justifyContent="flex-end" direction="row" mt={4}>
+					<Stack
+						justifyContent="flex-end"
+						direction="row"
+						mt={4}
+						sx={{
+							"@media screen and (max-width: 800px)": {
+								justifyContent: "center"
+							}
+						}}
+					>
 						<Pagination
 							page={purchaseHistoryPage}
 							onChange={purchaseHistoryPageChangeHandler}
