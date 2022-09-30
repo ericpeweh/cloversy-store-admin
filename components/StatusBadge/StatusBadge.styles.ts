@@ -6,9 +6,11 @@ interface StatusBadgeContainerProps {
 	centerText: boolean;
 }
 
-export const StatusBadgeContainer = styled("p", {
+export const StatusBadgeContainer = styled("span", {
 	shouldForwardProp: props => props !== "color" && props !== "centerText"
 })<StatusBadgeContainerProps>(({ theme, color, centerText }) => ({
+	display: "flex",
+	width: "max-content",
 	padding: "0.2rem 1rem",
 	borderRadius: "0.5rem",
 	fontSize: "1.4rem",
