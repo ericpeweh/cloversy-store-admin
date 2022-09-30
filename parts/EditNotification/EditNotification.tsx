@@ -33,8 +33,12 @@ const EditNotification = () => {
 	return (
 		<EditNotificationContainer>
 			<UserPickerModal open={isSelectCustomerModalOpen} onClose={selectCustomerModalCloseHandler} />
-			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Edit Notification</PageTitle>
+			<Stack
+				direction={{ xs: "column", sm: "row" }}
+				alignItems={{ xs: "flex-start", sm: "center" }}
+				justifyContent="space-between"
+			>
+				<PageTitle sx={{ mb: { xs: 1, sm: 0 } }}>Edit Notification</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button size="small" color="secondary" variant="outlined">
 						Discard
@@ -45,75 +49,84 @@ const EditNotification = () => {
 				</Stack>
 			</Stack>
 			<FormContainer>
-				<Grid container spacing={3} alignItems="flex-start">
-					<Grid container item xs={6} spacing={3}>
-						<Grid item xs={12}>
-							<InputTitle>Notification Detail</InputTitle>
-							<TextInput id="title" label="Notification title" />
-						</Grid>
-						<Grid item xs={12}>
-							<SelectInput options={["Web", "Push"]} value="Web" label="Notification Type" />
-						</Grid>
-						<Grid item xs={12}>
-							<TextInput label="Deskripsi notifikasi" id="deskripsiNotifikasi" multiline rows={4} />
-						</Grid>
-						<Grid item xs={12}>
-							<InputTitle>Notification Target</InputTitle>
-							<Grid item container xs={12} spacing={3}>
-								<Grid item xs={9}>
-									<SelectInput
-										options={[
-											"All customers",
-											"Selected customers",
-											"Random 50",
-											"Random 100",
-											"Random 200",
-											"Random 300"
-										]}
-										value="All customers"
-										label="Select target"
-									/>
-								</Grid>
-								<Grid item xs={3}>
-									<Button
-										variant="outlined"
-										sx={{ height: "100%", width: "100%" }}
-										size="small"
-										onClick={selectCustomerModalOpenHandler}
-									>
-										Select User
-									</Button>
-								</Grid>
-								<Grid item xs={12}>
-									<Button size="small" startIcon={<GroupOutlinedIcon />}>
-										25 Users Selected
-									</Button>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid item xs={12}>
-							<Checkbox
-								label="Jadwalkan notifikasi"
-								checked={scheduledNotification}
-								onChange={setScheduledNotification}
-							/>
-						</Grid>
-						{scheduledNotification && (
+				<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
+					<Grid item xs={12} md={6}>
+						<Grid container spacing={{ xs: 2, md: 3 }}>
 							<Grid item xs={12}>
-								<DateTimePicker label="Trigger Time" />
+								<InputTitle>Notification Detail</InputTitle>
+								<TextInput id="title" label="Notification title" />
 							</Grid>
-						)}
+							<Grid item xs={12}>
+								<SelectInput options={["Web", "Push"]} value="Web" label="Notification Type" />
+							</Grid>
+							<Grid item xs={12}>
+								<TextInput
+									label="Deskripsi notifikasi"
+									id="deskripsiNotifikasi"
+									multiline
+									rows={4}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<InputTitle>Notification Target</InputTitle>
+								<Grid item container xs={12} spacing={{ xs: 1, sm: 2, md: 3 }} rowSpacing={2}>
+									<Grid item xs={7} lg={8} xl={9}>
+										<SelectInput
+											options={[
+												"All customers",
+												"Selected customers",
+												"Random 50",
+												"Random 100",
+												"Random 200",
+												"Random 300"
+											]}
+											value="All customers"
+											label="Select target"
+										/>
+									</Grid>
+									<Grid item xs={5} lg={4} xl={3}>
+										<Button
+											variant="outlined"
+											sx={{ height: "100%", width: "100%" }}
+											size="small"
+											onClick={selectCustomerModalOpenHandler}
+										>
+											Select User
+										</Button>
+									</Grid>
+									<Grid item xs={12}>
+										<Button size="small" startIcon={<GroupOutlinedIcon />}>
+											25 Users Selected
+										</Button>
+									</Grid>
+								</Grid>
+							</Grid>
+							<Grid item xs={12}>
+								<Checkbox
+									label="Jadwalkan notifikasi"
+									checked={scheduledNotification}
+									onChange={setScheduledNotification}
+								/>
+							</Grid>
+							{scheduledNotification && (
+								<Grid item xs={12}>
+									<DateTimePicker label="Trigger Time" />
+								</Grid>
+							)}
+						</Grid>
 					</Grid>
-					<Grid container item xs={6} spacing={3}>
-						<Grid item xs={12}>
-							<InputTitle>Message Info</InputTitle>
-							<TextInput id="messageTitle" label="Message Title" />
-						</Grid>
-						<Grid item xs={12}>
-							<TextInput id="actionLink" label="Action Link" />
-						</Grid>
-						<Grid item xs={12}>
-							<TextInput label="Message Body" id="messageBody" multiline rows={4} />
+					<Grid item xs={12} md={6} spacing={3}>
+						<Grid container spacing={{ xs: 2, md: 3 }}>
+							<Grid item xs={12}>
+								<InputTitle>Message Info</InputTitle>
+								<TextInput id="messageTitle" label="Message Title" />
+							</Grid>
+							<Grid item xs={12}>
+								<TextInput id="actionLink" label="Action Link" />
+							</Grid>
+							<Grid item xs={12}>
+								<TextInput label="Message Body" id="messageBody" multiline rows={4} />
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>

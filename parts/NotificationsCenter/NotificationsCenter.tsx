@@ -21,7 +21,7 @@ import usePagination from "../../hooks/usePagination";
 import useMenu from "../../hooks/useMenu";
 
 // Components
-import { Grid, Stack, Typography } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import Pagination from "../../components/Pagination/Pagination";
@@ -135,13 +135,18 @@ const NotificationsCenter = () => {
 				items={[
 					{ label: "Lihat detail", action: () => {}, id: "detail" },
 					{ label: "Edit item", action: () => {}, id: "edit" },
-					{ label: <Typography color="error">Batalkan</Typography>, action: () => {}, id: "hapus" }
+					{ label: "Batalkan", action: () => {}, id: "hapus" }
 				]}
 			/>
 
-			<Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-				<PageTitle>Notifications Center</PageTitle>
-				<Stack direction="row" gap={2}>
+			<Stack
+				direction={{ xs: "column", sm: "row" }}
+				alignItems={{ xs: "flex-start", sm: "center" }}
+				justifyContent="space-between"
+				sx={{ mb: 2 }}
+			>
+				<PageTitle sx={{ mb: { xs: 1, sm: 0 } }}>Notifications Center</PageTitle>
+				<Stack direction={"row"} gap={2}>
 					<Button startIcon={<AddIcon />} size="small" color="primary">
 						Email Marketing
 					</Button>
@@ -152,7 +157,7 @@ const NotificationsCenter = () => {
 			</Stack>
 
 			<Grid container spacing={3}>
-				<Grid item xs={6}>
+				<Grid item xs={12} md={6}>
 					<Section>
 						<SectionTitle>Scheduled Notifications</SectionTitle>
 						<ListContainer>
@@ -189,7 +194,7 @@ const NotificationsCenter = () => {
 						</ListContainer>
 					</Section>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12} md={6}>
 					<Section>
 						<SectionTitle>Scheduled Email</SectionTitle>
 						<ListContainer>
@@ -212,13 +217,14 @@ const NotificationsCenter = () => {
 				<Grid item xs={12}>
 					<Section>
 						<Stack
-							direction="row"
+							direction={{ xs: "column", sm: "row" }}
 							justifyContent="space-between"
-							alignItems="center"
+							alignItems={{ xs: "flex-start", sm: "center" }}
 							sx={{ mb: 2 }}
+							gap={{ xs: 1, sm: 0 }}
 						>
 							<SectionTitle>Notifications History</SectionTitle>
-							<Stack direction="row" gap={2} sx={{ width: "30rem" }}>
+							<Stack direction="row" gap={2} sx={{ width: { xs: "100%", sm: "30rem" } }}>
 								<TextInput
 									label=""
 									placeholder="Search notification..."
@@ -253,7 +259,16 @@ const NotificationsCenter = () => {
 								</TableRow>
 							))}
 						</Table>
-						<Stack justifyContent="flex-end" direction="row" mt={4}>
+						<Stack
+							justifyContent="flex-end"
+							direction="row"
+							mt={{ xs: 3, md: 4 }}
+							sx={{
+								"@media screen and (max-width: 800px)": {
+									justifyContent: "center"
+								}
+							}}
+						>
 							<Pagination
 								page={notificationsPage}
 								onChange={notificationsPageChangeHandler}
@@ -267,13 +282,14 @@ const NotificationsCenter = () => {
 				<Grid item xs={12}>
 					<Section>
 						<Stack
-							direction="row"
+							direction={{ xs: "column", sm: "row" }}
 							justifyContent="space-between"
-							alignItems="center"
+							alignItems={{ xs: "flex-start", sm: "center" }}
 							sx={{ mb: 2 }}
+							gap={{ xs: 1, sm: 0 }}
 						>
 							<SectionTitle>Email Marketing History</SectionTitle>
-							<Stack direction="row" gap={2} sx={{ width: "30rem" }}>
+							<Stack direction="row" gap={2} sx={{ width: { xs: "100%", sm: "30rem" } }}>
 								<TextInput label="" placeholder="Search email..." id="search-email" size="small" />
 							</Stack>
 						</Stack>
@@ -291,7 +307,16 @@ const NotificationsCenter = () => {
 								</TableRow>
 							))}
 						</Table>
-						<Stack justifyContent="flex-end" direction="row" mt={4}>
+						<Stack
+							justifyContent="flex-end"
+							direction="row"
+							mt={{ xs: 3, md: 4 }}
+							sx={{
+								"@media screen and (max-width: 800px)": {
+									justifyContent: "center"
+								}
+							}}
+						>
 							<Pagination
 								page={emailsPage}
 								onChange={emailsPageChangeHandler}

@@ -1,7 +1,6 @@
 // Dependencies
 import React from "react";
 import { useRouter } from "next/router";
-import { purple } from "@mui/material/colors";
 
 // Styles
 import {
@@ -31,7 +30,7 @@ const NotificationDetails = () => {
 	return (
 		<NotificationDetailsContainer>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Notification Details</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Notification Details</PageTitle>
 				<Stack direction="row" alignItems="center" gap={1}>
 					<Button
 						startIcon={<EditIcon />}
@@ -49,15 +48,15 @@ const NotificationDetails = () => {
 			</Stack>
 			<ContentContainer>
 				<Grid container spacing={3}>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<DetailsContainer>
 							<SectionTitle>Notification Information</SectionTitle>
 							<DetailItem>
-								<DetailTitle>Notification Title</DetailTitle>
+								<DetailTitle>Title</DetailTitle>
 								<DetailDescription>Diskon Muriah Meria Tahun Baru</DetailDescription>
 							</DetailItem>
 							<DetailItem>
-								<DetailTitle>Kode Notifikasi</DetailTitle>
+								<DetailTitle>Kode Notif</DetailTitle>
 								<Stack direction="row" alignItems="center" gap={1}>
 									<DetailDescription>ACBD98DC88</DetailDescription>
 									<IconButton size="small">
@@ -96,7 +95,7 @@ const NotificationDetails = () => {
 							</DetailItem>
 						</DetailsContainer>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} md={6}>
 						<DetailsContainer>
 							<SectionTitle>Message Information</SectionTitle>
 							<DetailItem>
