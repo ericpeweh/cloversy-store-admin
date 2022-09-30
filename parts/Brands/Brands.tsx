@@ -103,7 +103,7 @@ const Brands = () => {
 				cancelColor="secondary"
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
-				<PageTitle>Brand List</PageTitle>
+				<PageTitle sx={{ mb: 0 }}>Brand List</PageTitle>
 				<Button
 					startIcon={<AddIcon />}
 					size="small"
@@ -114,7 +114,7 @@ const Brands = () => {
 				</Button>
 			</Stack>
 			<BrandsHeader container>
-				<Stack direction="row" sx={{ width: "30rem" }}>
+				<Stack direction="row" sx={{ width: { xs: "100%", sm: "30rem" } }}>
 					<TextInput label="" placeholder="Search Brand..." id="search-order" size="small" />
 				</Stack>
 				<Stack direction="row" justifyContent="flex-end" gap={2}>
@@ -140,7 +140,17 @@ const Brands = () => {
 							<TableCell>{data.identifier}</TableCell>
 							<TableCell>
 								<Link>
-									<Typography sx={{ cursor: "pointer", fontWeight: 500 }}>
+									<Typography
+										sx={{
+											cursor: "pointer",
+											fontWeight: 500,
+											fontSize: {
+												xs: "1.4rem",
+												sm: "1.5rem",
+												md: "1.6rem"
+											}
+										}}
+									>
 										{data.produk} Produk
 									</Typography>
 								</Link>
@@ -157,7 +167,16 @@ const Brands = () => {
 					))}
 				</Table>
 			</BrandsList>
-			<Stack justifyContent="flex-end" direction="row" mt={4}>
+			<Stack
+				justifyContent="flex-end"
+				direction="row"
+				mt={{ xs: 3, md: 4 }}
+				sx={{
+					"@media screen and (max-width: 800px)": {
+						justifyContent: "center"
+					}
+				}}
+			>
 				<Pagination
 					page={page}
 					onChange={paginationChangeHandler}
