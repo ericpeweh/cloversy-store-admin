@@ -186,7 +186,7 @@ const Orders = () => {
 							<TableCell
 								align="center"
 								sx={{
-									"& > p": {
+									"& > span": {
 										width: "max-content"
 									}
 								}}

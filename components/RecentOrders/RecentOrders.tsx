@@ -128,7 +128,7 @@ const RecentOrders = () => {
 							<TableCell
 								align="center"
 								sx={{
-									"& > p": {
+									"& > span": {
 										width: "max-content"
 									}
 								}}

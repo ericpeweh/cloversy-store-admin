@@ -17,7 +17,7 @@ import {
 	DetailTitle,
 	CardItemImage,
 	CardTitle,
-	OrderDetailsContainer,
+	CustomerDetailsContainer,
 	RecipientName,
 	Section,
 	SectionTitle,
@@ -87,7 +87,7 @@ const colors: colorsType = {
 	proses: "info"
 };
 
-const OrderDetails = () => {
+const CustomerDetails = () => {
 	const router = useRouter();
 	const { page: purchaseHistoryPage, onChange: purchaseHistoryPageChangeHandler } = usePagination();
 
@@ -98,7 +98,7 @@ const OrderDetails = () => {
 	} = useModal();
 
 	return (
-		<OrderDetailsContainer>
+		<CustomerDetailsContainer>
 			<ConfirmationModal
 				modalTitle="Delete order"
 				modalDescription="Are you sure you want to delete <order name>, this action can't be undone."
@@ -163,7 +163,7 @@ const OrderDetails = () => {
 									</Stack>
 								</DetailItem>
 								<DetailItem>
-									<DetailTitle>Order status</DetailTitle>
+									<DetailTitle>User status</DetailTitle>
 									<DetailDescription>
 										<Stack
 											justifyContent="flex-start"
@@ -304,7 +304,10 @@ const OrderDetails = () => {
 										}
 									}}
 								>
-									<StatusBadge color={colors[data.status.toLowerCase() as keyof colorsType]}>
+									<StatusBadge
+										color={colors[data.status.toLowerCase() as keyof colorsType]}
+										sx={{ width: "max-content" }}
+									>
 										{data.status}
 									</StatusBadge>
 								</TableCell>
@@ -336,8 +339,8 @@ const OrderDetails = () => {
 					</Stack>
 				</Section>
 			</ContentContainer>
-		</OrderDetailsContainer>
+		</CustomerDetailsContainer>
 	);
 };
 
-export default OrderDetails;
+export default CustomerDetails;

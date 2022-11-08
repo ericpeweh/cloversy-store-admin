@@ -49,7 +49,7 @@ const AddEmailMarketing = () => {
 				</Stack>
 			</Stack>
 			<FormContainer>
-				<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
+				<Grid container spacing={{ xs: 1, sm: 3, lg: 4 }} alignItems="flex-start">
 					<Grid item xs={12} md={6}>
 						<Grid container spacing={{ xs: 2, md: 3 }}>
 							<Grid item xs={12}>

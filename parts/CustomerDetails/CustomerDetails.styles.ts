@@ -1,7 +1,7 @@
 // Dependencies
 import { styled } from "@mui/system";
 
-export const OrderDetailsContainer = styled("div")({});
+export const CustomerDetailsContainer = styled("div")({});
 
 export const ContentContainer = styled("div")(({ theme }) => ({
 	backgroundColor: "#fff",

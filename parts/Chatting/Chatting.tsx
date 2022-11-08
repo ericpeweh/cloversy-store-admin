@@ -23,13 +23,16 @@ import {
 	ConversationLatest,
 	ConversationTitle,
 	ConversationContent,
-	ConversationTime
+	ConversationTime,
+	HideConversationButton
 } from "./Chatting.styles";
 
 // Icons
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
+import ContactsIcon from "@mui/icons-material/Contacts";
 
 // Components
 import EmojiPicker from "../../components/EmojiPicker/EmojiPicker";
@@ -37,19 +40,32 @@ import StatusBadge from "../../components/StatusBadge/StatusBadge";
 
 const Chatting = () => {
 	const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+	const [showConversationSidebar, setShowConversationSidebar] = useState<boolean>(false);
 
 	const showEmojiPickerHandler = () => setShowEmojiPicker(true);
-
 	const hideEmojiPickerHandler = () => setShowEmojiPicker(false);
+
+	const showConversationHandler = () => setShowConversationSidebar(true);
+	const hideConversationHandler = () => setShowConversationSidebar(false);
 
 	return (
 		<ChattingContainer>
-			<ConversationPanelContainer>
+			<ConversationPanelContainer show={showConversationSidebar}>
+				<HideConversationButton
+					variant="text"
+					startIcon={<ChevronLeftIcon />}
+					onClick={hideConversationHandler}
+				>
+					Hide Conversations
+				</HideConversationButton>
 				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, i) => (
 					<>
 						<Conversation key={item}>
 							<ConversationImage>
-								<Avatar sx={{ width: 50, height: 50 }} src="/images/1.jpg" />
+								<Avatar
+									sx={{ width: { xs: 40, sm: 45, md: 50 }, height: { xs: 40, sm: 45, md: 50 } }}
+									src="/images/1.jpg"
+								/>
 							</ConversationImage>
 							<ConversationContent>
 								<Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -69,12 +85,21 @@ const Chatting = () => {
 			<ChatPanelContainer>
 				<ChattingHeader>
 					<Badge color="primary" overlap="circular" badgeContent=" " variant="dot">
-						<Avatar sx={{ width: 60, height: 60 }} src="/images/2.jpg" />
+						<Avatar
+							sx={{ width: { xs: 45, sm: 52, md: 60 }, height: { xs: 45, sm: 52, md: 60 } }}
+							src="/images/2.jpg"
+						/>
 					</Badge>
 					<NameContainer>
 						<Name>Mikici Cimol</Name>
 						<Position>mikicicimol@gmail.com | +62 812 1234 1234</Position>
 					</NameContainer>
+					<IconButton
+						sx={{ ml: "auto", display: { xs: "flex", md: "none" } }}
+						onClick={showConversationHandler}
+					>
+						<ContactsIcon />
+					</IconButton>
 				</ChattingHeader>
 				<ConversationContainer>
 					<BubbleGroup>

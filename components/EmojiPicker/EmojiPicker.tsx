@@ -19,7 +19,18 @@ const EmojiPicker = () => {
 
 	return (
 		<EmojiPickerContainer>
-			<Picker onEmojiClick={emojiClickHandler} disableSkinTonePicker native />
+			<Picker
+				onEmojiClick={emojiClickHandler}
+				disableSkinTonePicker
+				native
+				disableSearchBar
+				groupVisibility={{
+					flags: false,
+					food_drink: false,
+					travel_places: false,
+					animals_nature: false
+				}}
+			/>
 		</EmojiPickerContainer>
 	);
 };

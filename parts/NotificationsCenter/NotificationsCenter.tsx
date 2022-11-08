@@ -246,7 +246,10 @@ const NotificationsCenter = () => {
 											}
 										}}
 									>
-										<StatusBadge color={colors[data.type.toLowerCase() as keyof colorsType]}>
+										<StatusBadge
+											color={colors[data.type.toLowerCase() as keyof colorsType]}
+											sx={{ width: "max-content" }}
+										>
 											{data.type}
 										</StatusBadge>
 									</TableCell>

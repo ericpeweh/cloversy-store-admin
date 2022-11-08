@@ -53,7 +53,7 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 				{[...NotificationItems, ...NotificationItems].map(item => (
 					<React.Fragment key={item.name}>
 						<NotificationItem key={item.name}>
-							<ListItemAvatar sx={{ marginRight: { xs: "1rem", sm: "1.5rem", lg: "2rem" } }}>
+							<ListItemAvatar sx={{ mr: { xs: "0rem", sm: "1.5rem", lg: "2rem" } }}>
 								<Link href="#">
 									<NotificationItemImage
 										alt={item.name}

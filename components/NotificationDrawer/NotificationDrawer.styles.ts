@@ -25,7 +25,7 @@ export const HideNotificationButton = styled(Button)(({ theme }) => ({
 		fontSize: "1.5rem"
 	},
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.4rem"
+		fontSize: "1.3rem"
 	}
 }));
 

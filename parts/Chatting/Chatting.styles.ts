@@ -1,20 +1,60 @@
 // Dependencies
 import { styled } from "@mui/system";
 
+// Components
+import { Button } from "@mui/material";
+
 export const ChattingContainer = styled("section")({
 	display: "flex",
 	height: "100%",
 	borderRadius: "0.5rem",
-	overflow: "hidden"
+	overflow: "hidden",
+	position: "relative"
 });
 
-export const ConversationPanelContainer = styled("div")(({ theme }) => ({
+interface ConversationPanelContainerProps {
+	show: boolean;
+}
+
+export const ConversationPanelContainer = styled("div", {
+	shouldForwardProp: props => props !== "show"
+})<ConversationPanelContainerProps>(({ theme, show }) => ({
 	width: "40rem",
 	maxHeight: "calc(55rem + 9rem + 6rem)",
 	overflowY: "auto",
 	display: "flex",
 	flexDirection: "column",
-	border: `1px solid ${theme.palette.grey[400]}`
+	backgroundColor: "#fff",
+	border: `1px solid ${theme.palette.grey[400]}`,
+	transition: "0.2s ease-out",
+	[theme.breakpoints.down("md")]: {
+		position: "absolute",
+		top: "0",
+		left: show ? "0" : "-100%",
+		zIndex: 10
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "100%"
+	}
+}));
+
+export const HideConversationButton = styled(Button)(({ theme }) => ({
+	color: theme.palette.grey[500],
+	backgroundColor: theme.palette.grey[200],
+	width: "100%",
+	borderRadius: "0",
+	fontSize: "1.6rem",
+	alignSelf: "flex-start",
+	justifyContent: "flex-start",
+	paddingLeft: "2rem",
+	display: "none",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.5rem",
+		display: "flex"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.3rem"
+	}
 }));
 
 export const Conversation = styled("div")(({ theme }) => ({
@@ -30,9 +70,12 @@ export const Conversation = styled("div")(({ theme }) => ({
 	}
 }));
 
-export const ConversationImage = styled("div")({
-	marginRight: "2rem"
-});
+export const ConversationImage = styled("div")(({ theme }) => ({
+	marginRight: "2rem",
+	[theme.breakpoints.down("sm")]: {
+		marginRight: "1.5rem"
+	}
+}));
 
 export const ConversationContent = styled("div")({
 	display: "flex",
@@ -47,9 +90,18 @@ interface ConversationProps {
 
 export const ConversationTitle = styled("h3", {
 	shouldForwardProp: props => props !== "unread"
-})<ConversationProps>(({ unread = false }) => ({
+})<ConversationProps>(({ unread = false, theme }) => ({
 	fontSize: "1.7rem",
-	fontWeight: unread ? 500 : 400
+	fontWeight: unread ? 500 : 400,
+	[theme.breakpoints.down("lg")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
 }));
 
 export const ConversationTime = styled("p", {
@@ -57,14 +109,20 @@ export const ConversationTime = styled("p", {
 })<ConversationProps>(({ unread = false, theme }) => ({
 	fontSize: "1.4rem",
 	color: unread ? theme.palette.primary.main : theme.palette.grey[500],
-	fontWeight: unread ? 500 : 400
+	fontWeight: unread ? 500 : 400,
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.3rem"
+	}
 }));
 
 export const ConversationLatest = styled("p", {
 	shouldForwardProp: props => props !== "unread"
-})<ConversationProps>(({ unread = false }) => ({
+})<ConversationProps>(({ unread = false, theme }) => ({
 	fontSize: "1.5rem",
-	fontWeight: unread ? 500 : 400
+	fontWeight: unread ? 500 : 400,
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.4rem"
+	}
 }));
 
 export const ChatPanelContainer = styled("div")({
@@ -83,20 +141,38 @@ export const ChattingHeader = styled("div")(({ theme }) => ({
 	backgroundColor: theme.palette.grey[200],
 	borderRadius: "0.5rem 0.5rem 0 0",
 	padding: "1rem",
-	border: `1px solid ${theme.palette.grey[300]}`
+	border: `1px solid ${theme.palette.grey[300]}`,
+	[theme.breakpoints.down("sm")]: {
+		gap: "1.5rem"
+	}
 }));
 
 export const NameContainer = styled("div")({});
 
-export const Name = styled("h3")({
+export const Name = styled("h3")(({ theme }) => ({
 	fontSize: "1.8rem",
-	fontWeight: 500
-});
+	fontWeight: 500,
+	[theme.breakpoints.down("lg")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	}
+}));
 
-export const Position = styled("p")({
+export const Position = styled("p")(({ theme }) => ({
 	fontSize: "1.4rem",
-	fontWeight: 400
-});
+	fontWeight: 400,
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.3rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.2rem"
+	}
+}));
 
 export const ConversationContainer = styled("div")(({ theme }) => ({
 	border: `1px solid ${theme.palette.grey[300]}`,
@@ -106,7 +182,13 @@ export const ConversationContainer = styled("div")(({ theme }) => ({
 	flexDirection: "column",
 	gap: "1rem",
 	maxHeight: "55rem",
-	overflowY: "auto"
+	overflowY: "auto",
+	[theme.breakpoints.down("md")]: {
+		padding: "1.5rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		padding: "1rem"
+	}
 }));
 
 export const GroupTimestamp = styled("div")(({ theme }) => ({
@@ -117,15 +199,21 @@ export const GroupTimestamp = styled("div")(({ theme }) => ({
 	textAlign: "center",
 	padding: "0.5rem 1rem",
 	alignSelf: "center",
-	fontFamily: "var(--font-secondary)"
+	fontFamily: "var(--font-secondary)",
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.3rem"
+	}
 }));
 
-export const BubbleGroup = styled("div")({
+export const BubbleGroup = styled("div")(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
 	gap: "1rem",
-	marginBottom: "2rem"
-});
+	marginBottom: "2rem",
+	[theme.breakpoints.down("sm")]: {
+		marginBottom: "1.5rem"
+	}
+}));
 
 interface ChatBubbleProps {
 	align?: "left" | "right";
@@ -142,17 +230,28 @@ export const ChatBubble = styled("div", {
 	maxWidth: "65%",
 	padding: "1rem 1.5rem",
 	paddingRight: "6rem",
-	fontSize: "1.6rem"
+	fontSize: "1.6rem",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.5rem",
+		maxWidth: "75%"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.4rem",
+		maxWidth: "80%"
+	}
 }));
 
-export const BubbleTimestamp = styled("p")({
+export const BubbleTimestamp = styled("p")(({ theme }) => ({
 	position: "absolute",
 	bottom: "0.5rem",
 	right: "1rem",
 	fontSize: "1.4rem",
 	fontFamily: "var(--font-secondary)",
-	color: "inherit"
-});
+	color: "inherit",
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.3rem"
+	}
+}));
 
 export const ChattingActions = styled("form")(({ theme }) => ({
 	display: "flex",
@@ -173,6 +272,9 @@ export const ChatInput = styled("input")(({ theme }) => ({
 	border: "none",
 	borderRadius: "0.5rem",
 	outline: "none",
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem"
+	},
 	"&:active, &:focus": {
 		outline: `1px solid ${theme.palette.primary.main}`
 	}
