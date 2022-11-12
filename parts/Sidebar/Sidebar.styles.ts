@@ -36,6 +36,7 @@ export const SidebarHeader = styled("div")({
 
 export const LogoContainer = styled("div")(({ theme }) => ({
 	width: "60%",
+	cursor: "pointer",
 	[theme.breakpoints.down("lg")]: {
 		width: "55%"
 	},

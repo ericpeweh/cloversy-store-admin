@@ -1,6 +1,7 @@
 // Dependencies
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch, shallowEqual } from "react-redux";
 
 // Styles
@@ -49,6 +50,7 @@ const Sidebar = () => {
 	const [showOrdersMenu, setShowOrdersMenu] = useState(false);
 	const { showSidebar } = useSelector(state => state.global, shallowEqual);
 
+	const router = useRouter();
 	const dispatch = useDispatch();
 
 	const toggleSidebarHandler = () => {
@@ -88,7 +90,7 @@ const Sidebar = () => {
 		<>
 			<SidebarContainer showSidebar={showSidebar}>
 				<SidebarHeader>
-					<LogoContainer>
+					<LogoContainer onClick={() => router.push("/")}>
 						<Image
 							src="/images/logo.png"
 							alt="Cloversy logo"
@@ -100,7 +102,7 @@ const Sidebar = () => {
 				</SidebarHeader>
 				<Divider flexItem />
 				<NavList>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/")}>
 						<ListItemIcon>
 							<DashboardIcon {...listItemIconProps} />
 						</ListItemIcon>
@@ -115,16 +117,16 @@ const Sidebar = () => {
 					</ListItemButton>
 					<Collapse in={showProductMenu} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							<SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/products/new")}>
 								<ItemText primary="Add product" />
 							</SidebarItemChild>
-							<SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/products")}>
 								<ItemText primary="Product list" />
 							</SidebarItemChild>
-							<SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/categories")}>
 								<ItemText primary="Categories" />
 							</SidebarItemChild>
-							<SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/brands")}>
 								<ItemText primary="Brands" />
 							</SidebarItemChild>
 						</List>
@@ -141,36 +143,36 @@ const Sidebar = () => {
 							<SidebarItemChild>
 								<ItemText primary="Add order" />
 							</SidebarItemChild>
-							<SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/orders")}>
 								<ItemText primary="Order List" />
 							</SidebarItemChild>
 						</List>
 					</Collapse>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/customers")}>
 						<ListItemIcon>
 							<GroupIcon {...listItemIconProps} />
 						</ListItemIcon>
 						<ItemText primary="Customers" />
 					</ListItemButton>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/reviews")}>
 						<ListItemIcon>
 							<StarsIcon {...listItemIconProps} />
 						</ListItemIcon>
 						<ItemText primary="Reviews" />
 					</ListItemButton>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/vouchers")}>
 						<ListItemIcon>
 							<DiscountIcon {...listItemIconProps} />
 						</ListItemIcon>
 						<ItemText primary="Voucher" />
 					</ListItemButton>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/chat")}>
 						<ListItemIcon>
 							<ChatIcon {...listItemIconProps} />
 						</ListItemIcon>
 						<ItemText primary="Chatting" />
 					</ListItemButton>
-					<ListItemButton>
+					<ListItemButton onClick={() => router.push("/notifications")}>
 						<ListItemIcon>
 							<CircleNotificationsIcon {...listItemIconProps} />
 						</ListItemIcon>
