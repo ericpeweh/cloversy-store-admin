@@ -1,5 +1,7 @@
 // Dependencies
 import React from "react";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 // Styles
 import {
@@ -10,19 +12,50 @@ import {
 	ModalTitle
 } from "./InputCategoryModal.styles";
 
+// Types
+import { Category } from "../../interfaces";
+
 // Components
 import CloseButton from "../CloseButton/CloseButton";
 import TextInput from "../TextInput/TextInput";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { Divider, Grid } from "@mui/material";
 import Button from "../Button/Button";
 
 interface InputCategoryModalProps {
 	modalTitle: string;
 	open: boolean;
+	isLoading?: boolean;
+	categoryData?: Category;
 	onClose: () => void;
+	onSubmit: Function;
 }
 
-const InputCategoryModal = ({ open, onClose, modalTitle }: InputCategoryModalProps) => {
+interface InputCategoryFormValues {
+	name: string;
+	identifier: string;
+	description: string;
+}
+
+const CreateCategorySchema = Yup.object().shape({
+	name: Yup.string().required("Required"),
+	identifier: Yup.string().required("Required")
+});
+
+const InputCategoryModal = ({
+	open,
+	onClose,
+	modalTitle,
+	onSubmit,
+	isLoading,
+	categoryData
+}: InputCategoryModalProps) => {
+	const formInitialValues: InputCategoryFormValues = {
+		name: categoryData?.name ?? "",
+		identifier: categoryData?.identifier ?? "",
+		description: categoryData?.description ?? ""
+	};
+
 	return (
 		<InputCategoryModalContainer open={open} onClose={onClose}>
 			<CloseButton
@@ -36,27 +69,75 @@ const InputCategoryModal = ({ open, onClose, modalTitle }: InputCategoryModalPro
 			/>
 			<ModalTitle>{modalTitle}</ModalTitle>
 			<Divider />
-			<FormContainer>
-				<Grid container spacing={{ xs: 2, md: 3 }}>
-					<InputContainer item xs={12}>
-						<TextInput label="Nama kategori" id="kategori" />
-					</InputContainer>
-					<InputContainer item xs={12}>
-						<TextInput label="Identifier" id="identifier" />
-					</InputContainer>
-					<InputContainer item xs={12}>
-						<TextInput label="Deskripsi" id="deskripsi" multiline rows={4} />
-						<InputLimitText>0/50</InputLimitText>
-					</InputContainer>
-					<Grid item xs={12}>
-						<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
-							<Button color="primary" fullWidth>
-								Simpan
-							</Button>
-						</InputContainer>
-					</Grid>
-				</Grid>
-			</FormContainer>
+			<Formik
+				initialValues={formInitialValues}
+				validationSchema={CreateCategorySchema}
+				onSubmit={values => {
+					onSubmit(categoryData ? { id: categoryData.id, ...values } : values);
+				}}
+			>
+				{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isValid }) => (
+					<FormContainer onSubmit={handleSubmit}>
+						<Grid container spacing={{ xs: 2, md: 3 }}>
+							<InputContainer item xs={12}>
+								<TextInput
+									label="Nama kategori"
+									name="name"
+									value={values.name}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={Boolean(errors.name && touched.name)}
+								/>
+								{errors.name && touched.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+							</InputContainer>
+							<InputContainer item xs={12}>
+								<TextInput
+									label="Identifier"
+									name="identifier"
+									value={values.identifier}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={Boolean(errors.identifier && touched.identifier)}
+								/>
+								{errors.identifier && touched.identifier && (
+									<ErrorMessage>{errors.identifier}</ErrorMessage>
+								)}
+							</InputContainer>
+							<InputContainer item xs={12}>
+								<TextInput
+									label="Deskripsi"
+									multiline
+									rows={4}
+									name="description"
+									value={values.description}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+										const description = e.target.value;
+										if (description.length > 50) {
+											return;
+										}
+										handleChange(e);
+									}}
+									onBlur={handleBlur}
+								/>
+								<InputLimitText>{values.description.length}/200</InputLimitText>
+							</InputContainer>
+							<Grid item xs={12}>
+								<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
+									<Button
+										color="primary"
+										fullWidth
+										type="submit"
+										disabled={!isValid}
+										loading={isLoading}
+									>
+										Simpan
+									</Button>
+								</InputContainer>
+							</Grid>
+						</Grid>
+					</FormContainer>
+				)}
+			</Formik>
 		</InputCategoryModalContainer>
 	);
 };

@@ -1,5 +1,6 @@
 // Dependencies
 import React from "react";
+import { BaseTextFieldProps } from "@mui/material";
 
 // Hooks
 import useWindowSize from "../../hooks/useWindowSize";
@@ -7,32 +8,39 @@ import useWindowSize from "../../hooks/useWindowSize";
 // Styles
 import { TextInputContainer } from "./TextInput.styles";
 
-interface TextInputProps {
+interface TextInputProps extends BaseTextFieldProps {
 	label: string;
-	id: string;
 	variant?: "outlined" | "standard" | "filled" | undefined;
 	placeholder?: string;
 	multiline?: boolean;
 	rows?: number;
 	type?: string;
 	size?: "small" | "medium" | undefined;
+	value: string;
+	name?: string;
+	onChange: Function;
 }
 
 const TextInput = ({
 	label,
-	id,
 	variant = "outlined",
 	placeholder,
 	multiline,
 	rows,
 	type = "text",
+	value,
+	onChange,
+	name,
 	...props
 }: TextInputProps) => {
 	const { wWidth } = useWindowSize();
 
+	const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+		onChange(event);
+	};
+
 	return (
 		<TextInputContainer
-			id={id}
 			label={label}
 			variant={variant}
 			fullWidth
@@ -42,6 +50,9 @@ const TextInput = ({
 			rows={rows}
 			type={type}
 			size={wWidth <= 600 ? "small" : "medium"}
+			value={value}
+			name={name}
+			onChange={inputChangeHandler}
 			{...props}
 		/>
 	);

@@ -1,18 +1,18 @@
 // Dependencies
-import { InputLabel, Select, SelectProps, SxProps } from "@mui/material";
+import { InputLabel, Select, SelectChangeEvent, SelectProps, SxProps } from "@mui/material";
 import React from "react";
 
 // Styles
 import { SelectInputContainer, SelectMenuItem } from "./SelectInput.styles";
 
 interface SelectInputProps extends SelectProps {
-	options: string[];
+	options: { label: string; value: string }[];
 	label?: string;
 	value: string | number;
 	sx?: SxProps;
 }
 
-const SelectInput = ({ options, label, value, sx, ...props }: SelectInputProps) => {
+const SelectInput = ({ options, label, value, sx, onChange, ...props }: SelectInputProps) => {
 	return (
 		<SelectInputContainer fullWidth>
 			{label && <InputLabel id={label}>{label}</InputLabel>}
@@ -21,7 +21,7 @@ const SelectInput = ({ options, label, value, sx, ...props }: SelectInputProps) 
 				id={label}
 				value={value}
 				label={label}
-				onChange={() => {}}
+				onChange={onChange}
 				MenuProps={{ sx: { maxHeight: { xs: "40rem", sm: "20rem" } } }}
 				sx={{
 					...{
@@ -38,9 +38,9 @@ const SelectInput = ({ options, label, value, sx, ...props }: SelectInputProps) 
 				}}
 				{...props}
 			>
-				{options.map(option => (
-					<SelectMenuItem value={option} key={option}>
-						{option}
+				{options.map(({ label, value }) => (
+					<SelectMenuItem value={value} key={value}>
+						{label}
 					</SelectMenuItem>
 				))}
 			</Select>

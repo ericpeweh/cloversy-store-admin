@@ -3,6 +3,9 @@ import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 
+// Types
+import { DateTime } from "luxon";
+
 // Styles
 import { DatePickerContainer } from "./DatePicker.styles";
 
@@ -15,12 +18,12 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ label }: DatePickerProps) => {
-	const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-		new Date("2022-08-03T21:11:54")
-	);
+	const [selectedDate, setSelectedDate] = React.useState<Date | DateTime | null>(new Date());
 
-	const handleChange = (newValue: Date | null) => {
-		setSelectedDate(newValue);
+	const handleChange = (newValue: DateTime | null) => {
+		if (newValue) {
+			setSelectedDate(newValue);
+		}
 	};
 
 	return (

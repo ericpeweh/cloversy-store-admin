@@ -20,18 +20,22 @@ interface ConfirmationModalProps {
 	modalTitle: string;
 	modalDescription: string;
 	open: boolean;
-	onClose: () => void;
 	cancelText?: string;
 	confirmText?: string;
 	cancelColor?: ColorType;
 	confirmColor?: ColorType;
+	isLoading?: boolean;
+	onConfirm: () => void;
+	onClose: () => void;
 }
 
 const ConfirmationModal = ({
 	open,
 	onClose,
+	onConfirm,
 	modalTitle,
 	modalDescription,
+	isLoading,
 	cancelText = "Batal",
 	confirmText = "Hapus",
 	cancelColor = "primary",
@@ -54,7 +58,7 @@ const ConfirmationModal = ({
 				<Button onClick={onClose} variant="outlined" color={cancelColor} size="small">
 					{cancelText}
 				</Button>
-				<Button onClick={() => {}} color={confirmColor} size="small">
+				<Button onClick={onConfirm} color={confirmColor} size="small" loading={isLoading}>
 					{confirmText}
 				</Button>
 			</DialogActions>
