@@ -1,11 +1,12 @@
 // Dependencies
 import React from "react";
 import { ButtonProps as MuiButtonProps } from "@mui/material";
+import { LoadingButtonProps as MuiLoadingButtonProps } from "@mui/lab";
 
 // Styles
 import { CustomButton } from "./Button.styles";
 
-interface ButtonProps extends MuiButtonProps {
+interface ButtonProps extends MuiLoadingButtonProps {
 	children: React.ReactNode;
 }
 
