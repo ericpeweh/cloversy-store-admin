@@ -14,29 +14,34 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 // Actions
 import { toggleShowSidebar } from "../../store/slices/globalSlice";
+import { setCredentials } from "../../store/slices/authSlice";
 
 // Hooks
 import useMenu from "../../hooks/useMenu";
+import useModal from "../../hooks/useModal";
 
 // Components
 import { Avatar, ButtonBase, IconButton, Stack } from "@mui/material";
 import Menu from "../../components/Menu/Menu";
 import NotificationDrawer from "../../components/NotificationDrawer/NotificationDrawer";
-import useModal from "../../hooks/useModal";
 import Button from "../../components/Button/Button";
 
 const Header = () => {
+	const dispatch = useDispatch();
 	const { loginWithRedirect, logout, isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
 	console.log(user);
 
 	useEffect(() => {
-		const getToken = async () => {
-			const token = await getAccessTokenSilently();
-			console.log(token);
-		};
-		getToken();
-	}, []);
+		if (isAuthenticated) {
+			const getToken = async () => {
+				const token = await getAccessTokenSilently();
+				dispatch(setCredentials({ isAuth: true, token }));
+				console.log(token);
+			};
+			getToken();
+		}
+	}, [getAccessTokenSilently, isAuthenticated, dispatch]);
 
 	const {
 		isMenuOpen: isAccountMenuOpen,
@@ -50,8 +55,6 @@ const Header = () => {
 		openHandler: notificationModalOpenHandler,
 		closeHandler: notificationModalCloseHandler
 	} = useModal();
-
-	const dispatch = useDispatch();
 
 	const toggleSidebarHandler = () => {
 		dispatch(toggleShowSidebar());
@@ -90,9 +93,6 @@ const Header = () => {
 				)}
 				{isAuthenticated && (
 					<>
-						<Button size="small" onClick={() => logout({ returnTo: "http://localhost:3000/" })}>
-							Log out
-						</Button>
 						<IconButton onClick={notificationModalOpenHandler}>
 							<NotificationsActiveIcon
 								sx={{ color: grey[400], fontSize: { xs: 20, md: 25, lg: 30 } }}
@@ -110,6 +110,7 @@ const Header = () => {
 									width: { xs: "3rem", sm: "4rem", md: "5rem" },
 									height: { xs: "3rem", sm: "4rem", md: "5rem" }
 								}}
+								imgProps={{ referrerPolicy: "no-referrer" }}
 							/>
 							<ArrowDropDownIcon />
 						</ButtonBase>
@@ -122,7 +123,11 @@ const Header = () => {
 					isOpen={isAccountMenuOpen}
 					items={[
 						{ label: "Profil saya", action: () => {}, id: "profil" },
-						{ label: "Logout", action: () => {}, id: "logout" }
+						{
+							label: "Logout",
+							action: () => logout({ returnTo: "http://localhost:3000/" }),
+							id: "logout"
+						}
 					]}
 					anchorEl={accountMenuAnchorEl}
 					onClose={closeAccountMenuHandler}

@@ -6,6 +6,9 @@ import Button from "../Button/Button";
 // Styles
 import { ConfirmationModalContainer } from "./ConfirmationModal.styles";
 
+// Components
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+
 type ColorType =
 	| "primary"
 	| "inherit"
@@ -25,6 +28,7 @@ interface ConfirmationModalProps {
 	cancelColor?: ColorType;
 	confirmColor?: ColorType;
 	isLoading?: boolean;
+	error?: any;
 	onConfirm: () => void;
 	onClose: () => void;
 }
@@ -36,6 +40,7 @@ const ConfirmationModal = ({
 	modalTitle,
 	modalDescription,
 	isLoading,
+	error,
 	cancelText = "Batal",
 	confirmText = "Hapus",
 	cancelColor = "primary",
@@ -53,6 +58,9 @@ const ConfirmationModal = ({
 			</DialogTitle>
 			<DialogContent sx={{ p: { xs: 2, sm: 3 } }}>
 				<DialogContentText>{modalDescription}</DialogContentText>
+			</DialogContent>
+			<DialogContent sx={{ py: 0 }}>
+				{error && <ErrorMessage>{error.data.message}</ErrorMessage>}
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={onClose} variant="outlined" color={cancelColor} size="small">

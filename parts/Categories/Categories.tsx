@@ -26,7 +26,7 @@ import {
 } from "../../api/category.api";
 
 // Components
-import { Stack } from "@mui/material";
+import { Stack, CircularProgress } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
@@ -37,13 +37,14 @@ import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import InputCategoryModal from "../../components/InputCategoryModal/InputCategoryModal";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 
 const tableHeadData = ["Kategori", "Deskripsi", "Identifier", "Produk", "Tindakan"];
 
 const Categories = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
-	const [categoryIdToDelete, setCategoryIdToDelete] = useState<number | null>(null);
 	const [searchInput, setSearchInput] = useState("");
 	const [sortBy, setSortBy] = useState<string>("id");
 	const searchQuery = useDebounce(searchInput, 500);
@@ -54,13 +55,15 @@ const Categories = () => {
 		isLoading: isGetCategoriesLoading,
 		isSuccess: isGetCategoriesSuccess,
 		isError: isGetCategoriesError,
-		error: getCategoriesError
+		error: getCategoriesError,
+		refetch: refetchCategories
 	} = useGetCategoriesQuery(
 		{ q: searchQuery, page, sortBy },
 		{
 			skip: !isAuth
 		}
 	);
+	const categoriesError: any = getCategoriesError;
 
 	const [
 		createCategory,
@@ -165,28 +168,40 @@ const Categories = () => {
 		<CategoriesContainer>
 			<InputCategoryModal
 				open={isAddCategoryModalOpen}
-				onClose={closeAddCategoryModalHandler}
+				onClose={() => {
+					resetCreateCategory();
+					closeAddCategoryModalHandler();
+				}}
 				modalTitle="Tambah Kategori"
 				onSubmit={createCategoryHandler}
 				isLoading={isCreateCategoryLoading}
+				error={createCategoryError}
 			/>
 			<InputCategoryModal
 				open={isEditCategoryModalOpen}
-				onClose={closeEditCategoryModalHandler}
+				onClose={() => {
+					resetUpdateCategory();
+					closeEditCategoryModalHandler();
+				}}
 				modalTitle="Ubah Kategori"
 				onSubmit={updateCategoryHandler}
 				isLoading={isUpdateCategoryLoading}
 				categoryData={selectedCategory}
+				error={updateCategoryError}
 			/>
 			<ConfirmationModal
 				modalTitle="Delete category"
 				modalDescription={`Are you sure you want to delete category ${selectedCategory?.identifier} ?, this action can't be undone.`}
-				onClose={closeDeleteCategoryModalHandler}
+				onClose={() => {
+					resetDeleteCategory();
+					closeDeleteCategoryModalHandler();
+				}}
 				open={isDeleteCategoryModalOpen}
 				confirmText="Delete"
 				confirmColor="error"
 				cancelText="Cancel"
 				cancelColor="secondary"
+				error={deleteCategoryError}
 				isLoading={isDeleteCategoryLoading}
 				onConfirm={() => {
 					if (selectedCategory) deleteCategoryHandler(selectedCategory.id);
@@ -229,6 +244,17 @@ const Categories = () => {
 					/>
 				</Stack>
 			</CategoriesHeader>
+
+			{!isGetCategoriesLoading && getCategoriesError && (
+				<FallbackContainer>
+					<ErrorMessage>{categoriesError.data.message}</ErrorMessage>
+				</FallbackContainer>
+			)}
+			{isGetCategoriesLoading && (
+				<FallbackContainer>
+					<CircularProgress />
+				</FallbackContainer>
+			)}
 
 			{isGetCategoriesSuccess && categoryData && (
 				<>

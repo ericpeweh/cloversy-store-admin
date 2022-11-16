@@ -26,7 +26,7 @@ import useSelector from "../../hooks/useSelector";
 import useDebounce from "../../hooks/useDebounce";
 
 // Components
-import { Link, Stack, Typography } from "@mui/material";
+import { Link, Stack, Typography, CircularProgress } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
@@ -37,6 +37,8 @@ import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import InputBrandModal from "../../components/InputBrandModal/InputBrandModal";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 
 const tableHeadData = ["Nama Brand", "Identifier", "Produk Terkait", "Tindakan"];
 
@@ -61,6 +63,7 @@ const Brands = () => {
 			skip: !isAuth
 		}
 	);
+	const brandsError: any = getBrandsError;
 
 	const [
 		createBrand,
@@ -160,14 +163,20 @@ const Brands = () => {
 		<BrandsContainer>
 			<InputBrandModal
 				open={isAddBrandModalOpen}
-				onClose={closeAddBrandModalHandler}
+				onClose={() => {
+					resetCreateBrand();
+					closeAddBrandModalHandler();
+				}}
 				modalTitle="Tambah Brand"
 				onSubmit={createBrandHandler}
 				isLoading={isCreateBrandLoading}
 			/>
 			<InputBrandModal
 				open={isEditBrandModalOpen}
-				onClose={closeEditBrandModalHandler}
+				onClose={() => {
+					resetUpdateBrand();
+					closeEditBrandModalHandler();
+				}}
 				modalTitle="Ubah Brand"
 				onSubmit={updateBrandHandler}
 				isLoading={isUpdateBrandLoading}
@@ -176,13 +185,17 @@ const Brands = () => {
 			<ConfirmationModal
 				modalTitle="Delete Brand"
 				modalDescription={`Are you sure you want to delete ${selectedBrand?.identifier}, this action can't be undone.`}
-				onClose={closeDeleteBrandModalHandler}
+				onClose={() => {
+					resetDeleteBrand();
+					closeDeleteBrandModalHandler();
+				}}
 				open={isDeleteBrandModalOpen}
 				confirmText="Delete"
 				confirmColor="error"
 				cancelText="Cancel"
 				cancelColor="secondary"
 				isLoading={isDeleteBrandLoading}
+				error={deleteBrandError}
 				onConfirm={() => {
 					if (selectedBrand) deleteBrandHandler(selectedBrand.id);
 				}}
@@ -224,6 +237,17 @@ const Brands = () => {
 					/>
 				</Stack>
 			</BrandsHeader>
+
+			{!isGetBrandsLoading && getBrandsError && (
+				<FallbackContainer>
+					<ErrorMessage>{brandsError.data.message}</ErrorMessage>
+				</FallbackContainer>
+			)}
+			{isGetBrandsLoading && (
+				<FallbackContainer>
+					<CircularProgress />
+				</FallbackContainer>
+			)}
 
 			{isGetBrandsSuccess && brandData && (
 				<>

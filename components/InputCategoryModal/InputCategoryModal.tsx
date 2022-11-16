@@ -29,6 +29,7 @@ interface InputCategoryModalProps {
 	categoryData?: Category;
 	onClose: () => void;
 	onSubmit: Function;
+	error?: any;
 }
 
 interface InputCategoryFormValues {
@@ -48,7 +49,8 @@ const InputCategoryModal = ({
 	modalTitle,
 	onSubmit,
 	isLoading,
-	categoryData
+	categoryData,
+	error
 }: InputCategoryModalProps) => {
 	const formInitialValues: InputCategoryFormValues = {
 		name: categoryData?.name ?? "",
@@ -122,6 +124,7 @@ const InputCategoryModal = ({
 								<InputLimitText>{values.description.length}/200</InputLimitText>
 							</InputContainer>
 							<Grid item xs={12}>
+								{error && <ErrorMessage>{error.data.message}</ErrorMessage>}
 								<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
 									<Button
 										color="primary"
