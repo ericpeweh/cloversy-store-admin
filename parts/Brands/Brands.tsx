@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // Styles
 import { BrandsContainer, BrandsHeader, BrandsList } from "./Brands.styles";
@@ -9,8 +9,21 @@ import AddIcon from "@mui/icons-material/Add";
 import SortIcon from "@mui/icons-material/Sort";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+// Types
+import { Brand, BrandsSortValues } from "../../interfaces";
+import { SelectChangeEvent } from "@mui/material";
+
 // Hooks
+import {
+	useGetBrandsQuery,
+	useCreateBrandMutation,
+	useDeleteBrandMutation,
+	useUpdateBrandMutation
+} from "../../api/brand.api";
 import usePagination from "../../hooks/usePagination";
+import useModal from "../../hooks/useModal";
+import useSelector from "../../hooks/useSelector";
+import useDebounce from "../../hooks/useDebounce";
 
 // Components
 import { Link, Stack, Typography } from "@mui/material";
@@ -22,47 +35,70 @@ import Table from "../../components/Table/Table";
 import { TableCell, TableRow } from "../../components/Table/Table.styles";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
-import useModal from "../../hooks/useModal";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import InputBrandModal from "../../components/InputBrandModal/InputBrandModal";
 
 const tableHeadData = ["Nama Brand", "Identifier", "Produk Terkait", "Tindakan"];
 
-const BrandsData = [
-	{
-		id: 1,
-		brand: "Nike",
-		identifier: "nike",
-		produk: 40
-	},
-	{
-		id: 2,
-		brand: "Adidas",
-		identifier: "adidas",
-		produk: 12
-	},
-	{
-		id: 3,
-		brand: "Ventela",
-		identifier: "ventela",
-		produk: 30
-	},
-	{
-		id: 4,
-		brand: "Patrobas",
-		identifier: "patrobas",
-		produk: 24
-	},
-	{
-		id: 5,
-		brand: "NAH Project",
-		identifier: "nah_project",
-		produk: 17
-	}
-];
-
 const Brands = () => {
+	const isAuth = useSelector(state => state.auth.isAuth);
+	const [selectedBrand, setSelectedBrand] = useState<Brand | undefined>();
+
+	const [searchInput, setSearchInput] = useState("");
+	const [sortBy, setSortBy] = useState<string>("id");
+	const searchQuery = useDebounce(searchInput, 500);
 	const { page, onChange: paginationChangeHandler } = usePagination();
+
+	const {
+		data: brandData,
+		isLoading: isGetBrandsLoading,
+		isSuccess: isGetBrandsSuccess,
+		isError: isGetBrandsError,
+		error: getBrandsError
+	} = useGetBrandsQuery(
+		{ q: searchQuery, page, sortBy },
+		{
+			skip: !isAuth
+		}
+	);
+
+	const [
+		createBrand,
+		{
+			isLoading: isCreateBrandLoading,
+			error: createBrandError,
+			isSuccess: isCreateBrandSuccess,
+			reset: resetCreateBrand
+		}
+	] = useCreateBrandMutation();
+
+	const [
+		updateBrand,
+		{
+			isLoading: isUpdateBrandLoading,
+			error: updateBrandError,
+			isSuccess: isUpdateBrandSuccess,
+			reset: resetUpdateBrand
+		}
+	] = useUpdateBrandMutation();
+
+	const [
+		deleteBrand,
+		{
+			isLoading: isDeleteBrandLoading,
+			error: deleteBrandError,
+			isSuccess: isDeleteBrandSuccess,
+			reset: resetDeleteBrand
+		}
+	] = useDeleteBrandMutation();
+
+	const searchQueryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchInput(e.target.value);
+	};
+
+	const sortByChangeHandler = (e: SelectChangeEvent<unknown>) => {
+		setSortBy(e.target.value as BrandsSortValues);
+	};
 
 	const {
 		isOpen: isAddBrandModalOpen,
@@ -80,27 +116,76 @@ const Brands = () => {
 		closeHandler: closeDeleteBrandModalHandler
 	} = useModal();
 
+	const createBrandHandler = (data: Partial<Brand>) => createBrand(data);
+
+	const updateBrandHandler = (data: Partial<Brand>) => updateBrand(data);
+
+	const deleteBrandHandler = (brandId: number) => deleteBrand(brandId);
+
+	const setAndOpenDeleteBrandModalHandler = (brand: Brand) => {
+		setSelectedBrand(brand);
+		openDeleteBrandModalHandler();
+	};
+
+	const setAndOpenEditBrandModalHandler = (brand: Brand) => {
+		setSelectedBrand(brand);
+		openEditBrandModalHandler();
+	};
+
+	useEffect(() => {
+		if (isCreateBrandSuccess) {
+			paginationChangeHandler(null, 1);
+			closeAddBrandModalHandler();
+			resetCreateBrand();
+		}
+	}, [isCreateBrandSuccess, closeAddBrandModalHandler, resetCreateBrand, paginationChangeHandler]);
+
+	useEffect(() => {
+		if (isUpdateBrandSuccess) {
+			closeEditBrandModalHandler();
+			resetUpdateBrand();
+			setSelectedBrand(undefined);
+		}
+	}, [isUpdateBrandSuccess, closeEditBrandModalHandler, resetUpdateBrand]);
+
+	useEffect(() => {
+		if (isDeleteBrandSuccess) {
+			closeDeleteBrandModalHandler();
+			resetDeleteBrand();
+			setSelectedBrand(undefined);
+		}
+	}, [isDeleteBrandSuccess, closeDeleteBrandModalHandler, resetDeleteBrand]);
+
 	return (
 		<BrandsContainer>
 			<InputBrandModal
 				open={isAddBrandModalOpen}
 				onClose={closeAddBrandModalHandler}
 				modalTitle="Tambah Brand"
+				onSubmit={createBrandHandler}
+				isLoading={isCreateBrandLoading}
 			/>
 			<InputBrandModal
 				open={isEditBrandModalOpen}
 				onClose={closeEditBrandModalHandler}
 				modalTitle="Ubah Brand"
+				onSubmit={updateBrandHandler}
+				isLoading={isUpdateBrandLoading}
+				brandData={selectedBrand}
 			/>
 			<ConfirmationModal
 				modalTitle="Delete Brand"
-				modalDescription="Are you sure you want to delete <brand name>, this action can't be undone."
+				modalDescription={`Are you sure you want to delete ${selectedBrand?.identifier}, this action can't be undone.`}
 				onClose={closeDeleteBrandModalHandler}
 				open={isDeleteBrandModalOpen}
 				confirmText="Delete"
 				confirmColor="error"
 				cancelText="Cancel"
 				cancelColor="secondary"
+				isLoading={isDeleteBrandLoading}
+				onConfirm={() => {
+					if (selectedBrand) deleteBrandHandler(selectedBrand.id);
+				}}
 			/>
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
 				<PageTitle sx={{ mb: 0 }}>Brand List</PageTitle>
@@ -113,78 +198,96 @@ const Brands = () => {
 					New Brand
 				</Button>
 			</Stack>
-			<BrandsHeader container>
+			<BrandsHeader>
 				<Stack direction="row" sx={{ width: { xs: "100%", sm: "30rem" } }}>
-					<TextInput label="" placeholder="Search Brand..." id="search-order" size="small" />
+					<TextInput
+						label=""
+						placeholder="Search Brand..."
+						id="search-order"
+						size="small"
+						value={searchInput}
+						onChange={searchQueryChangeHandler}
+					/>
 				</Stack>
 				<Stack direction="row" justifyContent="flex-end" gap={2}>
 					<SelectInput
 						startAdornment={<SortIcon sx={{ mr: 1 }} />}
 						options={[
-							"Default sorting",
-							"Sort by product number",
-							"Sort by alphabet (A-Z)",
-							"Sort by alphabet (Z-A)"
+							{ label: "Default sorting", value: "id" },
+							{ label: "Sort by product amount", value: "product_amount" },
+							{ label: "Sort by alphabet (A-Z)", value: "a-z" },
+							{ label: "Sort by alphabet (Z-A)", value: "z-a" }
 						]}
-						value="Default sorting"
+						value={sortBy}
 						size="small"
+						onChange={sortByChangeHandler}
 					/>
 				</Stack>
 			</BrandsHeader>
 
-			<BrandsList>
-				<Table headData={tableHeadData}>
-					{BrandsData.map(data => (
-						<TableRow key={data.id}>
-							<TableCell>{data.brand}</TableCell>
-							<TableCell>{data.identifier}</TableCell>
-							<TableCell>
-								<Link>
-									<Typography
-										sx={{
-											cursor: "pointer",
-											fontWeight: 500,
-											fontSize: {
-												xs: "1.4rem",
-												sm: "1.5rem",
-												md: "1.6rem"
-											}
-										}}
-									>
-										{data.produk} Produk
-									</Typography>
-								</Link>
-							</TableCell>
-							<TableCell>
-								<Stack direction="row" gap={1}>
-									<BoxButton onClick={openEditBrandModalHandler}>Edit</BoxButton>
-									<Button color="error" size="small" onClick={openDeleteBrandModalHandler}>
-										<DeleteIcon />
-									</Button>
-								</Stack>
-							</TableCell>
-						</TableRow>
-					))}
-				</Table>
-			</BrandsList>
-			<Stack
-				justifyContent="flex-end"
-				direction="row"
-				mt={{ xs: 3, md: 4 }}
-				sx={{
-					"@media screen and (max-width: 800px)": {
-						justifyContent: "center"
-					}
-				}}
-			>
-				<Pagination
-					page={page}
-					onChange={paginationChangeHandler}
-					count={10}
-					shape="rounded"
-					color="primary"
-				/>
-			</Stack>
+			{isGetBrandsSuccess && brandData && (
+				<>
+					<BrandsList>
+						<Table headData={tableHeadData}>
+							{brandData?.data.brands.map((brand: Brand) => (
+								<TableRow key={brand.id}>
+									<TableCell>{brand.name}</TableCell>
+									<TableCell>{brand.identifier}</TableCell>
+									<TableCell>
+										<Link>
+											<Typography
+												sx={{
+													cursor: "pointer",
+													fontWeight: 500,
+													fontSize: {
+														xs: "1.4rem",
+														sm: "1.5rem",
+														md: "1.6rem"
+													}
+												}}
+											>
+												{brand.product_amount} Produk
+											</Typography>
+										</Link>
+									</TableCell>
+									<TableCell>
+										<Stack direction="row" gap={1}>
+											<BoxButton onClick={() => setAndOpenEditBrandModalHandler(brand)}>
+												Edit
+											</BoxButton>
+											<Button
+												color="error"
+												size="small"
+												onClick={() => setAndOpenDeleteBrandModalHandler(brand)}
+											>
+												<DeleteIcon />
+											</Button>
+										</Stack>
+									</TableCell>
+								</TableRow>
+							))}
+						</Table>
+					</BrandsList>
+					<Stack
+						justifyContent="flex-end"
+						direction="row"
+						mt={{ xs: 3, md: 4 }}
+						sx={{
+							"@media screen and (max-width: 800px)": {
+								justifyContent: "center"
+							}
+						}}
+					>
+						<Pagination
+							page={page}
+							onChange={paginationChangeHandler}
+							count={brandData.totalPages}
+							shape="rounded"
+							color="primary"
+						/>
+					</Stack>
+				</>
+			)}
 		</BrandsContainer>
 	);
 };

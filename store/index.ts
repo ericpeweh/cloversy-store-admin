@@ -8,14 +8,12 @@ import authReducer from "./slices/authSlice";
 
 // API
 import API from "../api";
-import categoryApi from "../api/category.api";
 
 const store = configureStore({
 	reducer: {
 		global: globalReducer,
 		auth: authReducer,
-		[API.reducerPath]: API.reducer,
-		[categoryApi.reducerPath]: categoryApi.reducer
+		[API.reducerPath]: API.reducer
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(API.middleware)
 });
