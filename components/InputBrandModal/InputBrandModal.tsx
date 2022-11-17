@@ -28,6 +28,7 @@ interface InputdBrandModalProps {
 	brandData?: Brand;
 	onClose: () => void;
 	onSubmit: Function;
+	error: any;
 }
 
 interface InputBrandFormValues {
@@ -46,7 +47,8 @@ const InputdBrandModal = ({
 	modalTitle,
 	onSubmit,
 	isLoading,
-	brandData
+	brandData,
+	error
 }: InputdBrandModalProps) => {
 	const formInitialValues: InputBrandFormValues = {
 		name: brandData?.name ?? "",
@@ -101,6 +103,7 @@ const InputdBrandModal = ({
 								)}
 							</InputContainer>
 							<Grid item xs={12}>
+								{error && <ErrorMessage>{error.data.message}</ErrorMessage>}
 								<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
 									<Button
 										color="primary"

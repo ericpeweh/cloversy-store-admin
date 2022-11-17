@@ -8,7 +8,7 @@ interface ErrorMessageProps {
 
 const ErrorMessage = ({ children }: ErrorMessageProps) => {
 	return (
-		<Typography color="red" fontSize="1.3rem" mt={0.5}>
+		<Typography color="red" fontSize="1.6rem" mt={0.5} mb={1}>
 			{children}
 		</Typography>
 	);
