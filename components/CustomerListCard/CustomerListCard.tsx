@@ -15,23 +15,37 @@ import {
 	CustomerContent
 } from "./CustomerListCard.styles";
 
+// Hooks
+import { useRouter } from "next/router";
+
+// Types
+import { Customer } from "../../interfaces";
+
 // Components
 import BoxButton from "../BoxButton/BoxButton";
 import StatusBadge from "../StatusBadge/StatusBadge";
 
-const CustomerListCard = () => {
+interface CustomerListItemProps {
+	customerData: Customer;
+}
+
+const CustomerListCard = ({ customerData }: CustomerListItemProps) => {
+	const router = useRouter();
+
 	return (
 		<CustomerListCardContainer>
 			<StatusContainer>
-				<StatusBadge>Active</StatusBadge>
+				<StatusBadge>{customerData.user_status}</StatusBadge>
 			</StatusContainer>
 			<CustomerImageContainer>
-				<CustomerImage imageUrl="/images/1.jpg" />
+				<CustomerImage imageUrl={customerData.profile_image} />
 			</CustomerImageContainer>
 			<CustomerContent>
-				<CustomerTitle>Mikici Cimol</CustomerTitle>
-				<CustomerText>mikicicimol88@gmail.com</CustomerText>
-				<BoxButton>View profile</BoxButton>
+				<CustomerTitle>{customerData.full_name}</CustomerTitle>
+				<CustomerText>{customerData.email}</CustomerText>
+				<BoxButton onClick={() => router.push(`customers/${customerData.id}`)}>
+					View profile
+				</BoxButton>
 			</CustomerContent>
 		</CustomerListCardContainer>
 	);

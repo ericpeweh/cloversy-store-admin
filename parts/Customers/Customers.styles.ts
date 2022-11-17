@@ -25,7 +25,8 @@ export const CustomersHeader = styled("div")(({ theme }) => ({
 
 export const CustomersList = styled("div")({
 	display: "flex",
-	flexDirection: "column"
+	flexDirection: "column",
+	marginTop: "2rem"
 });
 
 export const CustomersCardList = styled("div")(({ theme }) => ({
