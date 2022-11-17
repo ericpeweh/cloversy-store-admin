@@ -53,10 +53,10 @@ const Brands = () => {
 
 	const {
 		data: brandData,
-		isLoading: isGetBrandsLoading,
+		isFetching: isGetBrandsLoading,
 		isSuccess: isGetBrandsSuccess,
-		isError: isGetBrandsError,
-		error: getBrandsError
+		error: getBrandsError,
+		refetch: refetchBrands
 	} = useGetBrandsQuery(
 		{ q: searchQuery, page, sortBy },
 		{
@@ -64,6 +64,7 @@ const Brands = () => {
 		}
 	);
 	const brandsError: any = getBrandsError;
+	const noDataFound = brandData?.data.brands.length === 0;
 
 	const [
 		createBrand,
@@ -170,6 +171,7 @@ const Brands = () => {
 				modalTitle="Tambah Brand"
 				onSubmit={createBrandHandler}
 				isLoading={isCreateBrandLoading}
+				error={createBrandError}
 			/>
 			<InputBrandModal
 				open={isEditBrandModalOpen}
@@ -181,6 +183,7 @@ const Brands = () => {
 				onSubmit={updateBrandHandler}
 				isLoading={isUpdateBrandLoading}
 				brandData={selectedBrand}
+				error={updateBrandError}
 			/>
 			<ConfirmationModal
 				modalTitle="Delete Brand"
@@ -194,8 +197,8 @@ const Brands = () => {
 				confirmColor="error"
 				cancelText="Cancel"
 				cancelColor="secondary"
-				isLoading={isDeleteBrandLoading}
 				error={deleteBrandError}
+				isLoading={isDeleteBrandLoading}
 				onConfirm={() => {
 					if (selectedBrand) deleteBrandHandler(selectedBrand.id);
 				}}
@@ -241,6 +244,7 @@ const Brands = () => {
 			{!isGetBrandsLoading && getBrandsError && (
 				<FallbackContainer>
 					<ErrorMessage>{brandsError.data.message}</ErrorMessage>
+					<BoxButton onClick={refetchBrands}>Try again</BoxButton>
 				</FallbackContainer>
 			)}
 			{isGetBrandsLoading && (
@@ -248,8 +252,13 @@ const Brands = () => {
 					<CircularProgress />
 				</FallbackContainer>
 			)}
+			{!isGetBrandsLoading && isGetBrandsSuccess && noDataFound && (
+				<FallbackContainer>
+					<Typography>No brand found!</Typography>
+				</FallbackContainer>
+			)}
 
-			{isGetBrandsSuccess && brandData && (
+			{!isGetBrandsLoading && isGetBrandsSuccess && brandData && !noDataFound && (
 				<>
 					<BrandsList>
 						<Table headData={tableHeadData}>

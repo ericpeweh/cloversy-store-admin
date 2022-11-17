@@ -27,7 +27,6 @@ export const CustomerImage = styled("div", {
 	backgroundImage: `url(${imageUrl})`,
 	backgroundPosition: "center",
 	backgroundSize: "cover",
-	cursor: "pointer",
 	borderRadius: "50%",
 	border: "2px solid #fff"
 }));

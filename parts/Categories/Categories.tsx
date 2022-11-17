@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // Types
 import { Category, CategoriesSortValues } from "../../interfaces";
-import { SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent, Typography } from "@mui/material";
 
 // Hooks
 import usePagination from "../../hooks/usePagination";
@@ -52,9 +52,8 @@ const Categories = () => {
 
 	const {
 		data: categoryData,
-		isLoading: isGetCategoriesLoading,
+		isFetching: isGetCategoriesLoading,
 		isSuccess: isGetCategoriesSuccess,
-		isError: isGetCategoriesError,
 		error: getCategoriesError,
 		refetch: refetchCategories
 	} = useGetCategoriesQuery(
@@ -64,6 +63,7 @@ const Categories = () => {
 		}
 	);
 	const categoriesError: any = getCategoriesError;
+	const noDataFound = categoryData?.data.categories.length === 0;
 
 	const [
 		createCategory,
@@ -234,7 +234,7 @@ const Categories = () => {
 						startAdornment={<SortIcon sx={{ mr: 1 }} />}
 						options={[
 							{ label: "Default sorting", value: "id" },
-							{ label: "Sort by product number", value: "product_amount" },
+							{ label: "Sort by product amount", value: "product_amount" },
 							{ label: "Sort by alphabet (A-Z)", value: "a-z" },
 							{ label: "Sort by alphabet (Z-A)", value: "z-a" }
 						]}
@@ -248,6 +248,7 @@ const Categories = () => {
 			{!isGetCategoriesLoading && getCategoriesError && (
 				<FallbackContainer>
 					<ErrorMessage>{categoriesError.data.message}</ErrorMessage>
+					<BoxButton onClick={refetchCategories}>Try again</BoxButton>
 				</FallbackContainer>
 			)}
 			{isGetCategoriesLoading && (
@@ -255,8 +256,13 @@ const Categories = () => {
 					<CircularProgress />
 				</FallbackContainer>
 			)}
+			{!isGetCategoriesLoading && isGetCategoriesSuccess && noDataFound && (
+				<FallbackContainer>
+					<Typography>No category found!</Typography>
+				</FallbackContainer>
+			)}
 
-			{isGetCategoriesSuccess && categoryData && (
+			{!isGetCategoriesLoading && isGetCategoriesSuccess && categoryData && !noDataFound && (
 				<>
 					<CategoriesList>
 						<Table headData={tableHeadData}>

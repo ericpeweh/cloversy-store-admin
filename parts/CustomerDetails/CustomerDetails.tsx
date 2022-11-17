@@ -1,6 +1,7 @@
 // Dependencies
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { DateTime } from "luxon";
 
 // Styles
 import {
@@ -30,14 +31,18 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DiscountIcon from "@mui/icons-material/Discount";
 
 // Hooks
+import { useGetCustomerDetailQuery } from "../../api/customer.api";
 import useModal from "../../hooks/useModal";
 import usePagination from "../../hooks/usePagination";
+import useSelector from "../../hooks/useSelector";
+
+// Utils
+import { formatDateFull } from "../../utils/formatDate";
 
 // Components
 import { Grid, IconButton, Stack } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
-import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import SelectInput from "../../components/SelectInput/SelectInput";
 import Table from "../../components/Table/Table";
@@ -88,8 +93,22 @@ const colors: colorsType = {
 };
 
 const CustomerDetails = () => {
+	const isAuth = useSelector(state => state.auth.isAuth);
 	const router = useRouter();
+	const { customerId } = router.query;
 	const { page: purchaseHistoryPage, onChange: purchaseHistoryPageChangeHandler } = usePagination();
+
+	const {
+		data: getCustomerData,
+		isLoading: isGetCustomerLoading,
+		isSuccess: isGetCustomerSuccess,
+		error: getCustomerError,
+		refetch: refetchCustomer
+	} = useGetCustomerDetailQuery(customerId, {
+		skip: !isAuth || !customerId
+	});
+	const customerError: any = getCustomerError;
+	const customerData = getCustomerData?.data.customer;
 
 	const {
 		isOpen: isDeleteorderModalOpen,
@@ -99,246 +118,271 @@ const CustomerDetails = () => {
 
 	return (
 		<CustomerDetailsContainer>
-			<ConfirmationModal
-				modalTitle="Delete order"
-				modalDescription="Are you sure you want to delete <order name>, this action can't be undone."
-				onClose={closeDeleteorderModalHandler}
-				open={isDeleteorderModalOpen}
-				confirmText="Delete"
-				confirmColor="error"
-				cancelText="Cancel"
-				cancelColor="secondary"
-			/>
-			<Stack
-				direction={{ xs: "column", sm: "row" }}
-				alignItems={{ xs: "flex-start", sm: "center" }}
-				justifyContent="space-between"
-				gap={{ xs: 1, sm: 0 }}
-			>
-				<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
-				<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
-					<SelectInput
-						options={["Change user status", "Active", "Banned"]}
-						value={"Change user status"}
-						size="small"
-						sx={{
-							width: { xs: "100%", sm: "25rem" }
-						}}
-					/>
-					<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
-				</Stack>
-			</Stack>
-
-			<ContentContainer>
-				<Grid container spacing={3}>
-					<Grid item xs={12} md={6}>
-						<Section>
-							<DetailsContainer>
-								<SectionTitle>Account Information</SectionTitle>
-								<DetailItem>
-									<DetailTitle>Full name</DetailTitle>
-									<DetailDescription>
-										<Stack direction="row" alignItems="center" gap={1}>
-											<CustomerImage imageUrl="/images/1.jpg" />
-											Mikici Cimol
-										</Stack>
-									</DetailDescription>
-								</DetailItem>
-								<DetailItem>
-									<DetailTitle>Email</DetailTitle>
-									<Stack direction="row" alignItems="center" gap={1}>
-										<DetailDescription>mikicicimol@gmail.com</DetailDescription>
-										<IconButton size="small">
-											<ContentCopyIcon fontSize="small" />
-										</IconButton>
-									</Stack>
-								</DetailItem>
-								<DetailItem>
-									<DetailTitle>Contact</DetailTitle>
-									<Stack direction="row" alignItems="center" gap={1}>
-										<DetailDescription>+62 853 1234 2134</DetailDescription>
-										<IconButton size="small">
-											<ContentCopyIcon fontSize="small" />
-										</IconButton>
-									</Stack>
-								</DetailItem>
-								<DetailItem>
-									<DetailTitle>User status</DetailTitle>
-									<DetailDescription>
-										<Stack
-											justifyContent="flex-start"
-											direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
-											gap={1}
-										>
-											<StatusBadge color="error">Banned</StatusBadge>
-											<p>| Banned: 21 Juli 2022, 14:40 WIB</p>
-										</Stack>
-									</DetailDescription>
-								</DetailItem>
-								<DetailItem>
-									<DetailTitle>Clover Credits</DetailTitle>
-									<Stack direction="row" alignItems="center" gap={1}>
-										<DetailDescription>0</DetailDescription>
-									</Stack>
-								</DetailItem>
-							</DetailsContainer>
-						</Section>
-						<Section>
-							<SectionTitle>Saved Addresses</SectionTitle>
-							<AddressContainer>
-								<AddressContent>
-									<AddressInfo>
-										<AddressLabel>
-											<StatusBadge color="primary">Utama</StatusBadge>Address 1
-										</AddressLabel>
-										<RecipientName>Eric Prima Wijaya</RecipientName>
-										<AddressText>+62 878 1234 5678</AddressText>
-										<AddressText>
-											Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama), Kec.
-											Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
-										</AddressText>
-									</AddressInfo>
-								</AddressContent>
-							</AddressContainer>
-							<AddressContainer>
-								<AddressContent>
-									<AddressInfo>
-										<AddressLabel>Address 2</AddressLabel>
-										<RecipientName>Mikici Cimol</RecipientName>
-										<AddressText>+62 878 1234 5678</AddressText>
-										<AddressText>
-											Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama), Kec.
-											Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
-										</AddressText>
-									</AddressInfo>
-								</AddressContent>
-							</AddressContainer>
-						</Section>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<Section>
-							<SectionTitle>Last Seen Product</SectionTitle>
-							<Grid container spacing={1}>
-								{[1, 2, 3].map(item => (
-									<Grid item xs={12} key={item}>
-										<CardItemContainer>
-											<CardItemImage imageUrl="/images/product.jpg" />
-											<CardTitle>Nike AF1 Homesick - Special Edition</CardTitle>
-											<BoxButton>Detail</BoxButton>
-										</CardItemContainer>
-									</Grid>
-								))}
-							</Grid>
-						</Section>
-						<Section>
-							<SectionTitle>Wishlist</SectionTitle>
-							<Grid container spacing={1}>
-								{[1, 2].map(item => (
-									<Grid item xs={12} key={item}>
-										<CardItemContainer>
-											<CardItemImage imageUrl="/images/product.jpg" />
-											<Stack justifyContent="center">
-												<CardTitle>Nike AF1 Creation of Adam</CardTitle>
-												<CardSubtitle>Size: EU 40</CardSubtitle>
-											</Stack>
-											<BoxButton>Detail</BoxButton>
-										</CardItemContainer>
-									</Grid>
-								))}
-							</Grid>
-						</Section>
-						<Section>
-							<SectionTitle>Owned Vouchers</SectionTitle>
-							<Grid container spacing={1}>
-								{[1, 2].map(item => (
-									<Grid item xs={12} key={item}>
-										<CardItemContainer>
-											<CardItemImage>
-												<DiscountIcon />
-											</CardItemImage>
-											<Stack justifyContent="center">
-												<CardTitle>Diskon Spesial Natal 25K</CardTitle>
-												<CardSubtitle>Berlaku hingga 23 Jul 2022</CardSubtitle>
-											</Stack>
-											<Stack direction={{ xs: "column", sm: "row" }} sx={{ ml: "auto" }} gap={1}>
-												<StatusBadge
-													color="secondary"
-													sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
-												>
-													ACBD98DC88
-												</StatusBadge>
-												<BoxButton>Detail</BoxButton>
-											</Stack>
-										</CardItemContainer>
-									</Grid>
-								))}
-							</Grid>
-						</Section>
-					</Grid>
-				</Grid>
-			</ContentContainer>
-			<ContentContainer>
-				<Section>
-					<Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-						<SectionTitle sx={{ mb: 0 }}>Purchase History</SectionTitle>
-						<Stack direction="row" gap={2}>
+			{isGetCustomerSuccess && customerData && (
+				<>
+					<Stack
+						direction={{ xs: "column", sm: "row" }}
+						alignItems={{ xs: "flex-start", sm: "center" }}
+						justifyContent="space-between"
+						gap={{ xs: 1, sm: 0 }}
+					>
+						<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
+						<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
 							<SelectInput
-								options={["Status pesanan", "Dikirim", "Pending", "Dibatalkan", "Proses"]}
-								value={"Status pesanan"}
+								options={[
+									{ label: "Active", value: "active" },
+									{ label: "Banned", value: "banned" }
+								]}
+								value={customerData.user_status}
 								size="small"
-								sx={{ width: "25rem" }}
+								sx={{
+									width: { xs: "100%", sm: "25rem" }
+								}}
 							/>
+							<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
 						</Stack>
 					</Stack>
-					<Table headData={tableHeadData}>
-						{[...ordersData, ...ordersData].map(data => (
-							<TableRow key={data.noInvoice}>
-								<TableCell>{data.date}</TableCell>
-								<TableCell>{data.noInvoice}</TableCell>
-								<TableCell>{data.totalPesanan}</TableCell>
-								<TableCell
-									align="center"
-									sx={{
-										"& > p": {
-											width: "max-content"
-										}
-									}}
-								>
-									<StatusBadge
-										color={colors[data.status.toLowerCase() as keyof colorsType]}
-										sx={{ width: "max-content" }}
-									>
-										{data.status}
-									</StatusBadge>
-								</TableCell>
-								<TableCell>
-									<Stack direction="row" gap={1}>
-										<BoxButton>Detail</BoxButton>
-									</Stack>
-								</TableCell>
-							</TableRow>
-						))}
-					</Table>
-					<Stack
-						justifyContent="flex-end"
-						direction="row"
-						mt={4}
-						sx={{
-							"@media screen and (max-width: 800px)": {
-								justifyContent: "center"
-							}
-						}}
-					>
-						<Pagination
-							page={purchaseHistoryPage}
-							onChange={purchaseHistoryPageChangeHandler}
-							count={10}
-							shape="rounded"
-							color="primary"
-						/>
-					</Stack>
-				</Section>
-			</ContentContainer>
+
+					<ContentContainer>
+						<Grid container spacing={3}>
+							<Grid item xs={12} md={6}>
+								<Section>
+									<DetailsContainer>
+										<SectionTitle>Account Information</SectionTitle>
+										<DetailItem>
+											<DetailTitle>Full name</DetailTitle>
+											<DetailDescription>
+												<Stack direction="row" alignItems="center" gap={1}>
+													<CustomerImage imageUrl={customerData.profile_image} />
+													{customerData.full_name}
+												</Stack>
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Email</DetailTitle>
+											<Stack direction="row" alignItems="center" gap={1}>
+												<DetailDescription>{customerData.email}</DetailDescription>
+												<IconButton size="small">
+													<ContentCopyIcon fontSize="small" />
+												</IconButton>
+											</Stack>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Contact</DetailTitle>
+											<Stack direction="row" alignItems="center" gap={1}>
+												<DetailDescription>
+													{customerData.contact ? customerData.contact : "No contact provided"}
+												</DetailDescription>
+												{customerData.contact && (
+													<IconButton size="small">
+														<ContentCopyIcon fontSize="small" />
+													</IconButton>
+												)}
+											</Stack>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>User status</DetailTitle>
+											<DetailDescription>
+												<Stack
+													justifyContent="flex-start"
+													direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
+													gap={1}
+												>
+													<StatusBadge
+														color={customerData.user_status === "active" ? "primary" : "error"}
+													>
+														{customerData.user_status}
+													</StatusBadge>
+													<p>
+														| {customerData.user_status === "banned" ? "Banned" : "Joined"}:{" "}
+														{customerData.user_status === "banned"
+															? formatDateFull(customerData.banned_date)
+															: formatDateFull(customerData.created_at)}
+													</p>
+												</Stack>
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Clover Credits</DetailTitle>
+											<Stack direction="row" alignItems="center" gap={1}>
+												<DetailDescription>0</DetailDescription>
+											</Stack>
+										</DetailItem>
+									</DetailsContainer>
+								</Section>
+								<Section>
+									<SectionTitle>Saved Addresses</SectionTitle>
+									<AddressContainer>
+										<AddressContent>
+											<AddressInfo>
+												<AddressLabel>
+													<StatusBadge color="primary">Utama</StatusBadge>Address 1
+												</AddressLabel>
+												<RecipientName>Eric Prima Wijaya</RecipientName>
+												<AddressText>+62 878 1234 5678</AddressText>
+												<AddressText>
+													Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama),
+													Kec. Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
+												</AddressText>
+											</AddressInfo>
+										</AddressContent>
+									</AddressContainer>
+									<AddressContainer>
+										<AddressContent>
+											<AddressInfo>
+												<AddressLabel>Address 2</AddressLabel>
+												<RecipientName>Mikici Cimol</RecipientName>
+												<AddressText>+62 878 1234 5678</AddressText>
+												<AddressText>
+													Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama),
+													Kec. Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
+												</AddressText>
+											</AddressInfo>
+										</AddressContent>
+									</AddressContainer>
+								</Section>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<Section>
+									<SectionTitle>Last Seen Product</SectionTitle>
+									<Grid container spacing={1}>
+										{[1, 2, 3].map(item => (
+											<Grid item xs={12} key={item}>
+												<CardItemContainer>
+													<CardItemImage imageUrl="/images/product.jpg" />
+													<CardTitle>Nike AF1 Homesick - Special Edition</CardTitle>
+													<BoxButton>Detail</BoxButton>
+												</CardItemContainer>
+											</Grid>
+										))}
+									</Grid>
+								</Section>
+								<Section>
+									<SectionTitle>Wishlist</SectionTitle>
+									<Grid container spacing={1}>
+										{[1, 2].map(item => (
+											<Grid item xs={12} key={item}>
+												<CardItemContainer>
+													<CardItemImage imageUrl="/images/product.jpg" />
+													<Stack justifyContent="center">
+														<CardTitle>Nike AF1 Creation of Adam</CardTitle>
+														<CardSubtitle>Size: EU 40</CardSubtitle>
+													</Stack>
+													<BoxButton>Detail</BoxButton>
+												</CardItemContainer>
+											</Grid>
+										))}
+									</Grid>
+								</Section>
+								<Section>
+									<SectionTitle>Owned Vouchers</SectionTitle>
+									<Grid container spacing={1}>
+										{[1, 2].map(item => (
+											<Grid item xs={12} key={item}>
+												<CardItemContainer>
+													<CardItemImage>
+														<DiscountIcon />
+													</CardItemImage>
+													<Stack justifyContent="center">
+														<CardTitle>Diskon Spesial Natal 25K</CardTitle>
+														<CardSubtitle>Berlaku hingga 23 Jul 2022</CardSubtitle>
+													</Stack>
+													<Stack
+														direction={{ xs: "column", sm: "row" }}
+														sx={{ ml: "auto" }}
+														gap={1}
+													>
+														<StatusBadge
+															color="secondary"
+															sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
+														>
+															ACBD98DC88
+														</StatusBadge>
+														<BoxButton>Detail</BoxButton>
+													</Stack>
+												</CardItemContainer>
+											</Grid>
+										))}
+									</Grid>
+								</Section>
+							</Grid>
+						</Grid>
+					</ContentContainer>
+					<ContentContainer>
+						<Section>
+							<Stack
+								direction="row"
+								justifyContent="space-between"
+								alignItems="center"
+								sx={{ mb: 2 }}
+							>
+								<SectionTitle sx={{ mb: 0 }}>Purchase History</SectionTitle>
+								<Stack direction="row" gap={2}>
+									<SelectInput
+										options={[
+											{ label: "Semua pesanan", value: "default" },
+											{ label: "Dikirim", value: "shipped" },
+											{ label: "Pending", value: "pending" },
+											{ label: "Dibatalkan", value: "cancel" },
+											{ label: "Proses", value: "progress" }
+										]}
+										value={"Status pesanan"}
+										size="small"
+										sx={{ width: "25rem" }}
+									/>
+								</Stack>
+							</Stack>
+							<Table headData={tableHeadData}>
+								{[...ordersData, ...ordersData].map(data => (
+									<TableRow key={data.noInvoice}>
+										<TableCell>{data.date}</TableCell>
+										<TableCell>{data.noInvoice}</TableCell>
+										<TableCell>{data.totalPesanan}</TableCell>
+										<TableCell
+											align="center"
+											sx={{
+												"& > p": {
+													width: "max-content"
+												}
+											}}
+										>
+											<StatusBadge
+												color={colors[data.status.toLowerCase() as keyof colorsType]}
+												sx={{ width: "max-content" }}
+											>
+												{data.status}
+											</StatusBadge>
+										</TableCell>
+										<TableCell>
+											<Stack direction="row" gap={1}>
+												<BoxButton>Detail</BoxButton>
+											</Stack>
+										</TableCell>
+									</TableRow>
+								))}
+							</Table>
+							<Stack
+								justifyContent="flex-end"
+								direction="row"
+								mt={4}
+								sx={{
+									"@media screen and (max-width: 800px)": {
+										justifyContent: "center"
+									}
+								}}
+							>
+								<Pagination
+									page={purchaseHistoryPage}
+									onChange={purchaseHistoryPageChangeHandler}
+									count={10}
+									shape="rounded"
+									color="primary"
+								/>
+							</Stack>
+						</Section>
+					</ContentContainer>
+				</>
+			)}
 		</CustomerDetailsContainer>
 	);
 };
