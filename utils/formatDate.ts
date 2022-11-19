@@ -10,3 +10,7 @@ export const formatDateFull = (str: StringDate) => {
 export const formatDateStandard = (str: StringDate) => {
 	return DateTime.fromISO(str).setLocale("id").toFormat("dd/LL/yyyy");
 };
+
+export const formatDateFullMonth = (str: StringDate) => {
+	return DateTime.fromISO(str).setLocale("id").toFormat("dd LLL yyyy");
+};
