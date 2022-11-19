@@ -1,6 +1,5 @@
 // Dependencies
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { grey } from "@mui/material/colors";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -14,11 +13,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 // Actions
 import { toggleShowSidebar } from "../../store/slices/globalSlice";
-import { setCredentials } from "../../store/slices/authSlice";
 
 // Hooks
 import useMenu from "../../hooks/useMenu";
 import useModal from "../../hooks/useModal";
+import useDispatch from "../../hooks/useDispatch";
 
 // Components
 import { Avatar, ButtonBase, IconButton, Stack } from "@mui/material";
@@ -28,20 +27,8 @@ import Button from "../../components/Button/Button";
 
 const Header = () => {
 	const dispatch = useDispatch();
-	const { loginWithRedirect, logout, isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
-	console.log(user);
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			const getToken = async () => {
-				const token = await getAccessTokenSilently();
-				dispatch(setCredentials({ isAuth: true, token }));
-				console.log(token);
-			};
-			getToken();
-		}
-	}, [getAccessTokenSilently, isAuthenticated, dispatch]);
+	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
 
 	const {
 		isMenuOpen: isAccountMenuOpen,
