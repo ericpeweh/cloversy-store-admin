@@ -4,22 +4,21 @@ import Head from "next/head";
 
 // Components
 import MainWrapper from "../../../components/MainWrapper/MainWrapper";
-import EditVoucher from "../../../parts/EditVoucher/EditVoucher";
+import VoucherDetails from "../../../parts/VoucherDetails/VoucherDetails";
 
-const EditVoucherPage: NextPage = () => {
+const VoucherDetailsPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Edit Voucher | Cloversy Web Admin</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<MainWrapper>
-				<EditVoucher />
+				<VoucherDetails />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default EditVoucherPage;
+export default VoucherDetailsPage;

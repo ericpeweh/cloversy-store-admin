@@ -4,22 +4,21 @@ import Head from "next/head";
 
 // Components
 import MainWrapper from "../../../components/MainWrapper/MainWrapper";
-import VoucherDetails from "../../../parts/VoucherDetails/VoucherDetails";
+import EditVoucher from "../../../parts/EditVoucher/EditVoucher";
 
-const VoucherDetailsPage: NextPage = () => {
+const EditVoucherPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Voucher Details | Voucher Name Goes Here</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<MainWrapper>
-				<VoucherDetails />
+				<EditVoucher />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default VoucherDetailsPage;
+export default EditVoucherPage;
