@@ -1,7 +1,6 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { DateTime } from "luxon";
 
 // Styles
 import {
@@ -30,17 +29,26 @@ import {
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DiscountIcon from "@mui/icons-material/Discount";
 
+// Types
+import { CustomerStatus } from "../../interfaces";
+
 // Hooks
-import { useGetCustomerDetailQuery } from "../../api/customer.api";
-import useModal from "../../hooks/useModal";
+import { useGetCustomerDetailQuery, useUpdateCustomerMutation } from "../../api/customer.api";
 import usePagination from "../../hooks/usePagination";
 import useSelector from "../../hooks/useSelector";
 
 // Utils
-import { formatDateFull } from "../../utils/formatDate";
+import { formatDateFull, formatDateFullMonth } from "../../utils/formatDate";
 
 // Components
-import { Grid, IconButton, Stack } from "@mui/material";
+import {
+	Grid,
+	IconButton,
+	SelectChangeEvent,
+	Stack,
+	Typography,
+	CircularProgress
+} from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import BoxButton from "../../components/BoxButton/BoxButton";
@@ -48,6 +56,8 @@ import SelectInput from "../../components/SelectInput/SelectInput";
 import Table from "../../components/Table/Table";
 import { TableCell, TableRow } from "../../components/Table/Table.styles";
 import Pagination from "../../components/Pagination/Pagination";
+import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 const tableHeadData = ["Tanggal Order", "No Pesanan", "Total Pesanan", "Status", "Tindakan"];
 
@@ -109,15 +119,61 @@ const CustomerDetails = () => {
 	});
 	const customerError: any = getCustomerError;
 	const customerData = getCustomerData?.data.customer;
+	const userStatus = customerData?.user_status;
+	const [userStatusInput, setUserStatusInput] = useState(userStatus);
 
-	const {
-		isOpen: isDeleteorderModalOpen,
-		openHandler: openDeleteorderModalHandler,
-		closeHandler: closeDeleteorderModalHandler
-	} = useModal();
+	const [
+		updateUserStatus,
+		{
+			isLoading: isUpdateUserStatusLoading,
+			error: updateUserStatusError,
+			isSuccess: isUpdateUserStatusSuccess,
+			reset: resetUpdateStatus
+		}
+	] = useUpdateCustomerMutation();
+	const userStatusError: any = updateUserStatusError;
+
+	const userStatusInputChangeHandler = (e: SelectChangeEvent<unknown>) => {
+		setUserStatusInput(e.target.value as CustomerStatus);
+	};
+
+	const updateUserStatusHandler = () => {
+		if (userStatusInput !== customerData?.user_status && customerData?.id) {
+			updateUserStatus({
+				prev_status: userStatus,
+				user_status: userStatusInput,
+				id: customerData?.id
+			});
+		}
+	};
+
+	useEffect(() => {
+		if (userStatus) {
+			setUserStatusInput(userStatus);
+		}
+	}, [userStatus]);
+
+	useEffect(() => {
+		if (isUpdateUserStatusSuccess) {
+			resetUpdateStatus();
+		}
+	}, [isUpdateUserStatusSuccess, resetUpdateStatus]);
+
+	console.log(userStatusError);
 
 	return (
 		<CustomerDetailsContainer>
+			{!isGetCustomerLoading && getCustomerError && (
+				<FallbackContainer>
+					<ErrorMessage>{customerError.data.message}</ErrorMessage>
+					<BoxButton onClick={refetchCustomer}>Try again</BoxButton>
+				</FallbackContainer>
+			)}
+			{isGetCustomerLoading && (
+				<FallbackContainer>
+					<CircularProgress />
+				</FallbackContainer>
+			)}
 			{isGetCustomerSuccess && customerData && (
 				<>
 					<Stack
@@ -127,19 +183,37 @@ const CustomerDetails = () => {
 						gap={{ xs: 1, sm: 0 }}
 					>
 						<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
-						<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
-							<SelectInput
-								options={[
-									{ label: "Active", value: "active" },
-									{ label: "Banned", value: "banned" }
-								]}
-								value={customerData.user_status}
-								size="small"
-								sx={{
-									width: { xs: "100%", sm: "25rem" }
-								}}
-							/>
-							<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
+						<Stack direction="column">
+							<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
+								{userStatusInput && (
+									<>
+										<SelectInput
+											options={[
+												{ label: "Active", value: "active" },
+												{ label: "Banned", value: "banned" }
+											]}
+											value={userStatusInput}
+											onChange={userStatusInputChangeHandler}
+											size="small"
+											sx={{
+												width: { xs: "100%", sm: "25rem" }
+											}}
+										/>
+										<BoxButton
+											loading={isUpdateUserStatusLoading}
+											sx={{ mr: { xs: 0, sm: 1 } }}
+											onClick={updateUserStatusHandler}
+										>
+											Save
+										</BoxButton>
+									</>
+								)}
+							</Stack>
+							{updateUserStatusError && (
+								<ErrorMessage sx={{ alignSelf: "flex-end" }}>
+									{userStatusError?.data.message}
+								</ErrorMessage>
+							)}
 						</Stack>
 					</Stack>
 
@@ -205,41 +279,33 @@ const CustomerDetails = () => {
 										<DetailItem>
 											<DetailTitle>Clover Credits</DetailTitle>
 											<Stack direction="row" alignItems="center" gap={1}>
-												<DetailDescription>0</DetailDescription>
+												<DetailDescription>{customerData.credits}</DetailDescription>
 											</Stack>
 										</DetailItem>
 									</DetailsContainer>
 								</Section>
 								<Section>
 									<SectionTitle>Saved Addresses</SectionTitle>
-									<AddressContainer>
-										<AddressContent>
-											<AddressInfo>
-												<AddressLabel>
-													<StatusBadge color="primary">Utama</StatusBadge>Address 1
-												</AddressLabel>
-												<RecipientName>Eric Prima Wijaya</RecipientName>
-												<AddressText>+62 878 1234 5678</AddressText>
-												<AddressText>
-													Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama),
-													Kec. Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
-												</AddressText>
-											</AddressInfo>
-										</AddressContent>
-									</AddressContainer>
-									<AddressContainer>
-										<AddressContent>
-											<AddressInfo>
-												<AddressLabel>Address 2</AddressLabel>
-												<RecipientName>Mikici Cimol</RecipientName>
-												<AddressText>+62 878 1234 5678</AddressText>
-												<AddressText>
-													Kedai Vegetarian Kan En, Jl. DR. Setia Budi No.88 (Samping Cafe Bersama),
-													Kec. Pontianak Sel.,Kota Pontianak, Kalimantan Barat 78245
-												</AddressText>
-											</AddressInfo>
-										</AddressContent>
-									</AddressContainer>
+									{customerData.address.length === 0 && (
+										<FallbackContainer>
+											<Typography>No address saved</Typography>
+										</FallbackContainer>
+									)}
+									{customerData.address.map((data, i) => (
+										<AddressContainer key={data.id}>
+											<AddressContent>
+												<AddressInfo>
+													<AddressLabel>
+														{data.is_default && <StatusBadge color="primary">Utama</StatusBadge>}
+														Address {i + 1}
+													</AddressLabel>
+													<RecipientName>{data.recipient_name}</RecipientName>
+													<AddressText>{data.contact}</AddressText>
+													<AddressText>{data.address}</AddressText>
+												</AddressInfo>
+											</AddressContent>
+										</AddressContainer>
+									))}
 								</Section>
 							</Grid>
 							<Grid item xs={12} md={6}>
@@ -277,15 +343,17 @@ const CustomerDetails = () => {
 								<Section>
 									<SectionTitle>Owned Vouchers</SectionTitle>
 									<Grid container spacing={1}>
-										{[1, 2].map(item => (
-											<Grid item xs={12} key={item}>
+										{customerData.vouchers.map(voucher => (
+											<Grid item xs={12} key={voucher.code}>
 												<CardItemContainer>
-													<CardItemImage>
+													<CardItemImage sx={{ cursor: "default" }}>
 														<DiscountIcon />
 													</CardItemImage>
 													<Stack justifyContent="center">
-														<CardTitle>Diskon Spesial Natal 25K</CardTitle>
-														<CardSubtitle>Berlaku hingga 23 Jul 2022</CardSubtitle>
+														<CardTitle>{voucher.title}</CardTitle>
+														<CardSubtitle>
+															Berlaku hingga {formatDateFullMonth(voucher.expiry_date)}
+														</CardSubtitle>
 													</Stack>
 													<Stack
 														direction={{ xs: "column", sm: "row" }}
@@ -296,7 +364,7 @@ const CustomerDetails = () => {
 															color="secondary"
 															sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
 														>
-															ACBD98DC88
+															{voucher.code}
 														</StatusBadge>
 														<BoxButton>Detail</BoxButton>
 													</Stack>
@@ -308,7 +376,7 @@ const CustomerDetails = () => {
 							</Grid>
 						</Grid>
 					</ContentContainer>
-					<ContentContainer>
+					{/* <ContentContainer>
 						<Section>
 							<Stack
 								direction="row"
@@ -380,7 +448,7 @@ const CustomerDetails = () => {
 								/>
 							</Stack>
 						</Section>
-					</ContentContainer>
+					</ContentContainer> */}
 				</>
 			)}
 		</CustomerDetailsContainer>

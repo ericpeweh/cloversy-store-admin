@@ -28,9 +28,17 @@ interface VoucherProps {
 	code: string;
 	onOpenDetail: () => void;
 	onOpenMenu: (event: React.MouseEvent<HTMLButtonElement>) => void;
+	onCopyCode: (voucherCode: string) => void;
 }
 
-const Voucher = ({ title, expiryDate, code, onOpenDetail, onOpenMenu }: VoucherProps) => {
+const Voucher = ({
+	title,
+	expiryDate,
+	code,
+	onOpenDetail,
+	onOpenMenu,
+	onCopyCode
+}: VoucherProps) => {
 	return (
 		<VoucherContainer>
 			<VoucherImage>
@@ -43,7 +51,7 @@ const Voucher = ({ title, expiryDate, code, onOpenDetail, onOpenMenu }: VoucherP
 				</VoucherContent>
 				<VoucherCode>
 					<Tooltip title="Salin kode">
-						<IconButton>
+						<IconButton onClick={() => onCopyCode(code)}>
 							<ContentCopyIcon />
 						</IconButton>
 					</Tooltip>

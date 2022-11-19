@@ -35,7 +35,9 @@ const CustomerListCard = ({ customerData }: CustomerListItemProps) => {
 	return (
 		<CustomerListCardContainer>
 			<StatusContainer>
-				<StatusBadge>{customerData.user_status}</StatusBadge>
+				<StatusBadge color={customerData.user_status === "banned" ? "error" : "primary"}>
+					{customerData.user_status}
+				</StatusBadge>
 			</StatusContainer>
 			<CustomerImageContainer>
 				<CustomerImage imageUrl={customerData.profile_image} />

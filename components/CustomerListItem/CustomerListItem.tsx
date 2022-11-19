@@ -34,34 +34,38 @@ const CustomerListItem = ({ customerData }: CustomerListItemProps) => {
 
 	return (
 		<CustomerListItemContainer container alignItems="center" rowSpacing={1}>
-			<Grid item xs={wWidth <= 600 ? 6 : wWidth <= 900 ? 4 : 3}>
+			<Grid item xs={wWidth <= 600 ? 12 : wWidth <= 900 ? 6 : 5}>
 				<Stack direction="row" gap={1} alignItems="center">
 					<CustomerImage>
 						<Avatar
 							src={customerData.profile_image}
 							alt="user profile"
 							sx={{
-								width: { xs: "3rem", sm: "4rem", md: "5rem" },
-								height: { xs: "3rem", sm: "4rem", md: "5rem" }
+								width: "6rem",
+								height: "6rem"
 							}}
 							imgProps={{ referrerPolicy: "no-referrer" }}
 						/>
 					</CustomerImage>
-					<CustomerTitle>{customerData.full_name}</CustomerTitle>
+					<CustomerTitle onClick={() => router.push(`customers/${customerData.id}`)}>
+						{customerData.full_name}
+					</CustomerTitle>
 				</Stack>
 			</Grid>
-			<Grid item xs={wWidth <= 600 ? 6 : wWidth <= 900 ? 4 : 3}>
+			<Grid item xs={wWidth <= 600 ? 5 : wWidth <= 900 ? 4 : 3}>
 				<CustomerText>{customerData.email}</CustomerText>
 			</Grid>
-			<Grid item xs={wWidth < 600 ? 4 : 2}>
+			<Grid item xs={wWidth < 600 ? 2 : 2}>
 				<Stack justifyContent="flex-end">
 					<CustomerText>
-						<StatusBadge>{customerData.user_status}</StatusBadge>
+						<StatusBadge color={customerData.user_status === "banned" ? "error" : "primary"}>
+							{customerData.user_status}
+						</StatusBadge>
 					</CustomerText>
 				</Stack>
 			</Grid>
 			{(wWidth < 600 || wWidth > 900) && (
-				<Grid item xs={wWidth < 600 ? 4 : 2}>
+				<Grid item xs={wWidth < 600 ? 5 : 2}>
 					<CustomerText
 						sx={{
 							"@media screen and (max-width: 700px)": {
@@ -73,11 +77,6 @@ const CustomerListItem = ({ customerData }: CustomerListItemProps) => {
 					</CustomerText>
 				</Grid>
 			)}
-			<Grid item xs={wWidth < 600 ? 4 : 2}>
-				<Stack justifyContent="flex-end" direction="row" gap={1}>
-					<BoxButton onClick={() => router.push(`customers/${customerData.id}`)}>Detail</BoxButton>
-				</Stack>
-			</Grid>
 		</CustomerListItemContainer>
 	);
 };

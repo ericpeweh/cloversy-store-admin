@@ -16,7 +16,7 @@ interface TextInputProps extends BaseTextFieldProps {
 	rows?: number;
 	type?: string;
 	size?: "small" | "medium" | undefined;
-	value: string;
+	value: string | number;
 	name?: string;
 	onChange: Function;
 }

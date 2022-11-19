@@ -6,11 +6,16 @@ import { Stack } from "@mui/material";
 
 interface FallbackContainerProps {
 	children: React.ReactNode;
+	size?: "small" | "medium";
 }
 
-const FallbackContainer = ({ children }: FallbackContainerProps) => {
+const FallbackContainer = ({ children, size = "medium" }: FallbackContainerProps) => {
 	return (
-		<Stack justifyContent="center" alignItems="center" sx={{ height: "20rem" }}>
+		<Stack
+			justifyContent="center"
+			alignItems="center"
+			sx={{ height: size === "medium" ? "20rem" : "13rem" }}
+		>
 			{children}
 		</Stack>
 	);

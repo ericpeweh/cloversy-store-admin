@@ -14,6 +14,10 @@ export const BoxButtonContainer = styled(ButtonBase)(({ theme }) => ({
 	"&:hover": {
 		border: `1px solid ${theme.palette.grey[600]}`
 	},
+	"&:disabled": {
+		cursor: "not-allowed",
+		backgroundColor: `${theme.palette.grey[200]}`
+	},
 	[theme.breakpoints.down("lg")]: {
 		fontSize: "1.5rem"
 	},

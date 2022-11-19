@@ -16,4 +16,4 @@ export const CustomButton = styled(LoadingButton)(({ theme, ...props }) => ({
 		fontSize: props.size === "large" ? "1.4rem" : "1.3rem",
 		padding: props.size === "large" ? "0.6rem 2rem" : "0.4rem 1.5rem"
 	}
-})) as typeof Button;
+})) as typeof LoadingButton;

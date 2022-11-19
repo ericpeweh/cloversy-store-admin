@@ -28,11 +28,20 @@ const customerApi = API.injectEndpoints({
 				return `customers/${customerId}`;
 			},
 			providesTags: res => [{ type: "Customer", id: res?.data.customer.id }]
+		}),
+		updateCustomer: build.mutation<ResponseBody<{ updatedCustomer: Customer }>, Partial<Customer>>({
+			query: ({ id: customerId, ...updatedCustomerData }) => ({
+				url: `customers/${customerId}`,
+				method: "PUT",
+				body: updatedCustomerData
+			}),
+			invalidatesTags: res => [{ type: "Customer", id: res?.data.updatedCustomer.id }, "Customers"]
 		})
 	}),
 	overrideExisting: false
 });
 
-export const { useGetCustomersQuery, useGetCustomerDetailQuery } = customerApi;
+export const { useGetCustomersQuery, useGetCustomerDetailQuery, useUpdateCustomerMutation } =
+	customerApi;
 
 export default customerApi;
