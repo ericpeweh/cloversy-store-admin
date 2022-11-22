@@ -4,7 +4,8 @@ import { styled } from "@mui/system";
 // Components
 import { TextField } from "@mui/material";
 
-export const TextInputContainer = styled(TextField)(({ theme }) => ({
+export const TextInputContainer = styled(TextField)(({ theme, ...props }) => ({
+	whiteSpace: props.multiline ? "pre-wrap" : "normal",
 	"& label, & label:focused": {
 		fontSize: "1.6rem",
 		[theme.breakpoints.down("md")]: {

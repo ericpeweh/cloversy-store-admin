@@ -8,7 +8,7 @@ export interface Brand {
 }
 
 export interface GetBrandsQuery {
-	page: number;
+	page: number | string;
 	q: string;
 	sortBy: string;
 }

@@ -12,3 +12,9 @@ export interface ResponseBody<T> {
 }
 
 export type ResponseWithPagination<T> = ResponseBody<T> & PaginationData;
+
+export type SetFieldValue = (
+	field: string,
+	value: any,
+	shouldValidate?: boolean | undefined
+) => void;

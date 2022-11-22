@@ -276,7 +276,7 @@ const EditVoucher = () => {
 										size="small"
 										color="secondary"
 										variant="outlined"
-										onClick={() => router.push(`/vouchers/${voucherCode}`)}
+										onClick={() => router.back()}
 									>
 										Discard
 									</Button>

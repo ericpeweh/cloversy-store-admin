@@ -6,7 +6,7 @@ import React from "react";
 import { SelectInputContainer, SelectMenuItem } from "./SelectInput.styles";
 
 interface SelectInputProps extends SelectProps {
-	options: { label: string; value: string }[];
+	options: { label: string; value: string | number }[];
 	label?: string;
 	value: string | number;
 	sx?: SxProps;

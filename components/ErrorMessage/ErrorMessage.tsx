@@ -15,7 +15,11 @@ const ErrorMessage = ({ children, ...props }: ErrorMessageProps) => {
 			mt={0.5}
 			mb={1}
 			{...props}
-			sx={{ textTransform: "capitalize" }}
+			sx={{
+				"&:first-letter": {
+					textTransform: "uppercase"
+				}
+			}}
 		>
 			{children}
 		</Typography>

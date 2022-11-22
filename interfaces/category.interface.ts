@@ -11,7 +11,7 @@ export interface Category {
 }
 
 export interface GetCategoriesQuery {
-	page: number;
+	page: number | string;
 	q: string;
 	sortBy: string;
 }

@@ -35,14 +35,13 @@ const thumbsOptions: SwiperOptions = {
 	}
 };
 
-const images = ["/images/product.jpg", "/images/1.jpg", "/images/2.jpg", "/images/3.jpg"];
-
 interface CarouselWithThumbProps {
 	size?: "small" | "medium" | "large";
 	sx?: SxProps;
+	images: string[];
 }
 
-const CarouselWithThumb = ({ size = "small", sx }: CarouselWithThumbProps) => {
+const CarouselWithThumb = ({ size = "small", sx, images }: CarouselWithThumbProps) => {
 	const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType>();
 
 	return (

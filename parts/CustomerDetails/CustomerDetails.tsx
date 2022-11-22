@@ -159,8 +159,6 @@ const CustomerDetails = () => {
 		}
 	}, [isUpdateUserStatusSuccess, resetUpdateStatus]);
 
-	console.log(userStatusError);
-
 	return (
 		<CustomerDetailsContainer>
 			{!isGetCustomerLoading && getCustomerError && (
