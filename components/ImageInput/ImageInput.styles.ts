@@ -35,7 +35,9 @@ interface ImageContainerProps {
 	imgSrc: string;
 }
 
-export const ImageContainer = styled("div")<ImageContainerProps>(({ imgSrc, theme }) => ({
+export const ImageContainer = styled("div", {
+	shouldForwardProp: props => props !== "imgSrc"
+})<ImageContainerProps>(({ imgSrc, theme }) => ({
 	width: "100%",
 	border: `1px solid ${theme.palette.grey[300]}`,
 	aspectRatio: "1",

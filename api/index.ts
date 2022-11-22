@@ -20,7 +20,16 @@ export const API = createApi({
 			return headers;
 		}
 	}),
-	tagTypes: ["Categories", "Brands", "Customers", "Customer", "Vouchers", "Voucher"],
+	tagTypes: [
+		"Categories",
+		"Brands",
+		"Customers",
+		"Customer",
+		"Vouchers",
+		"Voucher",
+		"Products",
+		"Product"
+	],
 	endpoints: () => ({})
 });
 
