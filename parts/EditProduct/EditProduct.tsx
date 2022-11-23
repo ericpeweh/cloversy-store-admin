@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Head from "next/head";
 
 // Styles
 import {
@@ -287,278 +288,287 @@ const EditProduct = () => {
 	};
 
 	return (
-		<EditProductContainer>
-			<Formik
-				initialValues={formInitialValues}
-				validationSchema={UpdateProductSchema}
-				onSubmit={values => updateProductHandler(values)}
-				enableReinitialize={true}
-			>
-				{({
-					values,
-					errors,
-					touched,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					setFieldValue,
-					setTouched
-				}) => (
-					<>
-						<Stack direction="row" alignItems="center" justifyContent="space-between">
-							<PageTitle sx={{ mb: 0 }}>Edit Product</PageTitle>
-							<Stack direction="row" alignItems="center" gap={1}>
-								<Button
-									size="small"
-									color="secondary"
-									variant="outlined"
-									onClick={() => router.back()}
-								>
-									Cancel
-								</Button>
-								<Button
-									startIcon={<DoneIcon />}
-									size="small"
-									color="primary"
-									onClick={() => handleSubmit()}
-									loading={isupdateProductLoading}
-								>
-									Update Product
-								</Button>
+		<>
+			<Head>
+				<title>Edit Product | {productData?.title || "Loading..."}</title>
+			</Head>
+			<EditProductContainer>
+				<Formik
+					initialValues={formInitialValues}
+					validationSchema={UpdateProductSchema}
+					onSubmit={values => updateProductHandler(values)}
+					enableReinitialize={true}
+				>
+					{({
+						values,
+						errors,
+						touched,
+						handleChange,
+						handleBlur,
+						handleSubmit,
+						setFieldValue,
+						setTouched
+					}) => (
+						<>
+							<Stack direction="row" alignItems="center" justifyContent="space-between">
+								<PageTitle sx={{ mb: 0 }}>Edit Product</PageTitle>
+								<Stack direction="row" alignItems="center" gap={1}>
+									<Button
+										size="small"
+										color="secondary"
+										variant="outlined"
+										onClick={() => router.back()}
+									>
+										Cancel
+									</Button>
+									<Button
+										startIcon={<DoneIcon />}
+										size="small"
+										color="primary"
+										onClick={() => handleSubmit()}
+										loading={isupdateProductLoading}
+									>
+										Update Product
+									</Button>
+								</Stack>
 							</Stack>
-						</Stack>
-						{updateProductError && <ErrorMessage>{updateProductError.data.message}</ErrorMessage>}
-						{!isGetProductLoading && getProductError && (
-							<FallbackContainer>
-								<ErrorMessage>{getProductError.data.message}</ErrorMessage>
-								<BoxButton onClick={refetchProduct}>Try again</BoxButton>
-							</FallbackContainer>
-						)}
-						{isGetProductLoading && (
-							<FallbackContainer>
-								<CircularProgress />
-							</FallbackContainer>
-						)}
-						{!isGetProductLoading && getProductData && (
-							<FormContainer>
-								<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
-									<Grid item xs={12} md={6}>
-										<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
-											<Grid item xs={12}>
-												<TextInput
-													name="title"
-													label="Product title"
-													value={values.title}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={Boolean(errors.title && touched.title)}
-												/>
-												{errors.title && touched.title && (
-													<ErrorMessage>{errors.title}</ErrorMessage>
-												)}
-											</Grid>
-
-											<Grid item xs={12} sm={6}>
-												<TextInput
-													name="sku"
-													label="SKU Code"
-													value={values.sku}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={Boolean(errors.sku && touched.sku)}
-												/>
-												{errors.sku && touched.sku && <ErrorMessage>{errors.sku}</ErrorMessage>}
-											</Grid>
-											<Grid item xs={12} sm={6}>
-												<TextInput
-													name="price"
-													type="number"
-													label="Price"
-													value={values.price}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={Boolean(errors.price && touched.price)}
-												/>
-												{errors.price && touched.price && (
-													<ErrorMessage>{errors.price}</ErrorMessage>
-												)}
-											</Grid>
-											<Grid item xs={12}>
-												<SelectInput
-													name="status"
-													options={[
-														{ label: "Active", value: "active" },
-														{ label: "Disabled", value: "disabled" }
-													]}
-													value={values.status}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={Boolean(errors.status && touched.status)}
-												/>
-												{errors.status && touched.status && (
-													<ErrorMessage>{errors.status}</ErrorMessage>
-												)}
-											</Grid>
-
-											<Grid item xs={12}>
-												<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
-													<SelectInput
-														name="category_id"
-														options={
-															isGetCategoriesLoading
-																? [{ label: "Loading...", value: values.category_id }]
-																: categoryOptions
-														}
-														value={values.category_id}
+							{updateProductError && <ErrorMessage>{updateProductError.data.message}</ErrorMessage>}
+							{!isGetProductLoading && getProductError && (
+								<FallbackContainer>
+									<ErrorMessage>{getProductError.data.message}</ErrorMessage>
+									<BoxButton onClick={refetchProduct}>Try again</BoxButton>
+								</FallbackContainer>
+							)}
+							{isGetProductLoading && (
+								<FallbackContainer>
+									<CircularProgress />
+								</FallbackContainer>
+							)}
+							{!isGetProductLoading && getProductData && (
+								<FormContainer>
+									<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
+										<Grid item xs={12} md={6}>
+											<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
+												<Grid item xs={12}>
+													<TextInput
+														name="title"
+														label="Product title"
+														value={values.title}
 														onChange={handleChange}
 														onBlur={handleBlur}
-														error={Boolean(errors.category_id && touched.category_id)}
+														error={Boolean(errors.title && touched.title)}
 													/>
-													<BoxButton onClick={refetchCategories}>
-														<RefreshIcon />
-													</BoxButton>
-												</Stack>
-												{errors.category_id && touched.category_id && (
-													<ErrorMessage>{errors.category_id}</ErrorMessage>
-												)}
-											</Grid>
-											<Grid item xs={12}>
-												<Divider flexItem />
-											</Grid>
-											<Grid item xs={12}>
-												<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
-													<SelectInput
-														name="brand_id"
-														options={
-															isGetBrandsLoading
-																? [{ label: "Loading...", value: values.brand_id }]
-																: brandOptions
-														}
-														value={values.brand_id}
+													{errors.title && touched.title && (
+														<ErrorMessage>{errors.title}</ErrorMessage>
+													)}
+												</Grid>
+
+												<Grid item xs={12} sm={6}>
+													<TextInput
+														name="sku"
+														label="SKU Code"
+														value={values.sku}
 														onChange={handleChange}
 														onBlur={handleBlur}
-														error={Boolean(errors.brand_id && touched.brand_id)}
+														error={Boolean(errors.sku && touched.sku)}
 													/>
-													<BoxButton onClick={refetchBrands}>
-														<RefreshIcon />
-													</BoxButton>
-												</Stack>
-												{errors.brand_id && touched.brand_id && (
-													<ErrorMessage>{errors.brand_id}</ErrorMessage>
-												)}
+													{errors.sku && touched.sku && <ErrorMessage>{errors.sku}</ErrorMessage>}
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextInput
+														name="price"
+														type="number"
+														label="Price"
+														value={values.price}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={Boolean(errors.price && touched.price)}
+													/>
+													{errors.price && touched.price && (
+														<ErrorMessage>{errors.price}</ErrorMessage>
+													)}
+												</Grid>
+												<Grid item xs={12}>
+													<SelectInput
+														name="status"
+														options={[
+															{ label: "Active", value: "active" },
+															{ label: "Disabled", value: "disabled" }
+														]}
+														value={values.status}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={Boolean(errors.status && touched.status)}
+													/>
+													{errors.status && touched.status && (
+														<ErrorMessage>{errors.status}</ErrorMessage>
+													)}
+												</Grid>
+
+												<Grid item xs={12}>
+													<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
+														<SelectInput
+															name="category_id"
+															options={
+																isGetCategoriesLoading
+																	? [{ label: "Loading...", value: values.category_id }]
+																	: categoryOptions
+															}
+															value={values.category_id}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={Boolean(errors.category_id && touched.category_id)}
+														/>
+														<BoxButton onClick={refetchCategories}>
+															<RefreshIcon />
+														</BoxButton>
+													</Stack>
+													{errors.category_id && touched.category_id && (
+														<ErrorMessage>{errors.category_id}</ErrorMessage>
+													)}
+												</Grid>
+												<Grid item xs={12}>
+													<Divider flexItem />
+												</Grid>
+												<Grid item xs={12}>
+													<Stack direction="row" gap={{ xs: 1, md: 2, lg: 3 }}>
+														<SelectInput
+															name="brand_id"
+															options={
+																isGetBrandsLoading
+																	? [{ label: "Loading...", value: values.brand_id }]
+																	: brandOptions
+															}
+															value={values.brand_id}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={Boolean(errors.brand_id && touched.brand_id)}
+														/>
+														<BoxButton onClick={refetchBrands}>
+															<RefreshIcon />
+														</BoxButton>
+													</Stack>
+													{errors.brand_id && touched.brand_id && (
+														<ErrorMessage>{errors.brand_id}</ErrorMessage>
+													)}
+												</Grid>
+												<Grid item xs={12} sx={{ mt: 2 }}>
+													<InputTitle>Product Sizes</InputTitle>
+													{errors.sizes && touched.sizes && (
+														<ErrorMessage>{errors.sizes}</ErrorMessage>
+													)}
+													<Grid container item spacing={{ xs: 1, md: 2 }}>
+														{shoesSizes.map(size => (
+															<Grid item xs={3} sm={3} md={2} lg={2.4} xl={2} key={size}>
+																<Button
+																	color="primary"
+																	size="small"
+																	name="sizes"
+																	fullWidth
+																	onClick={() => {
+																		toggleSizeHandler(size, values, setFieldValue);
+																		setTouched({ ...touched, sizes: true }, true);
+																	}}
+																	variant={
+																		values.sizes.find((item: string) => item === size)
+																			? "contained"
+																			: "outlined"
+																	}
+																>
+																	{size}
+																</Button>
+															</Grid>
+														))}
+													</Grid>
+												</Grid>
 											</Grid>
-											<Grid item xs={12} sx={{ mt: 2 }}>
-												<InputTitle>Product Sizes</InputTitle>
-												{errors.sizes && touched.sizes && (
-													<ErrorMessage>{errors.sizes}</ErrorMessage>
-												)}
-												<Grid container item spacing={{ xs: 1, md: 2 }}>
-													{shoesSizes.map(size => (
-														<Grid item xs={3} sm={3} md={2} lg={2.4} xl={2} key={size}>
-															<Button
-																color="primary"
-																size="small"
-																name="sizes"
-																fullWidth
-																onClick={() => {
-																	toggleSizeHandler(size, values, setFieldValue);
-																	setTouched({ ...touched, sizes: true }, true);
-																}}
-																variant={
-																	values.sizes.find((item: string) => item === size)
-																		? "contained"
-																		: "outlined"
-																}
-															>
-																{size}
-															</Button>
-														</Grid>
-													))}
+										</Grid>
+										<Grid item xs={12} md={6} sx={{ mt: { xs: 2, sm: 0 } }}>
+											<Grid container item spacing={{ xs: 2, md: 3 }}>
+												<Grid item xs={12}>
+													<TextInput
+														name="slug"
+														label="Product slug"
+														value={values.slug}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={Boolean(errors.slug && touched.slug)}
+													/>
+													{errors.slug && touched.slug && (
+														<ErrorMessage>{errors.slug}</ErrorMessage>
+													)}
+												</Grid>{" "}
+												<Grid item xs={12}>
+													<TextInput
+														name="tags"
+														label="Tags"
+														placeholder="Enter tag"
+														value={tagInput}
+														onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+															setTagInput(e.target.value)
+														}
+														onBlur={() => addTagHandler(values, setFieldValue)}
+														error={Boolean(errors.tags && touched.tags)}
+														onKeyDown={(e: React.KeyboardEvent) => {
+															if (e.key === "Enter") {
+																addTagHandler(values, setFieldValue);
+															}
+														}}
+													/>
+													{errors.tags && touched.tags && (
+														<ErrorMessage>{errors.tags}</ErrorMessage>
+													)}
+													{values.tags.length === 0 && (
+														<FallbackContainer size="small">
+															<Typography>No tag added</Typography>
+														</FallbackContainer>
+													)}
+													<TagsContainer>
+														{values.tags.map(tag => {
+															return (
+																<ListItem key={tag}>
+																	<Chip
+																		label={tag}
+																		onDelete={() => removeTagHandler(values, setFieldValue, tag)}
+																	/>
+																</ListItem>
+															);
+														})}
+													</TagsContainer>
+												</Grid>
+												<Grid item xs={12}>
+													<TextInput
+														name="description"
+														label="Description"
+														multiline
+														rows={10}
+														value={values.description}
+														onChange={handleChange}
+														onBlur={handleBlur}
+													/>
+												</Grid>
+												<Grid item xs={12} sx={{ mt: 2 }}>
+													<InputTitle>Product Images</InputTitle>
+													<ImageInput
+														images={images}
+														imagesUrl={imagesUrl}
+														setImages={setImages}
+														setImagesUrl={setImagesUrl}
+														setFieldValue={setFieldValue}
+														originalImagesData={originalProductData?.images || []}
+														removedImages={values.removedImages}
+													/>
 												</Grid>
 											</Grid>
 										</Grid>
 									</Grid>
-									<Grid item xs={12} md={6} sx={{ mt: { xs: 2, sm: 0 } }}>
-										<Grid container item spacing={{ xs: 2, md: 3 }}>
-											<Grid item xs={12}>
-												<TextInput
-													name="slug"
-													label="Product slug"
-													value={values.slug}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={Boolean(errors.slug && touched.slug)}
-												/>
-												{errors.slug && touched.slug && <ErrorMessage>{errors.slug}</ErrorMessage>}
-											</Grid>{" "}
-											<Grid item xs={12}>
-												<TextInput
-													name="tags"
-													label="Tags"
-													placeholder="Enter tag"
-													value={tagInput}
-													onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-														setTagInput(e.target.value)
-													}
-													onBlur={() => addTagHandler(values, setFieldValue)}
-													error={Boolean(errors.tags && touched.tags)}
-													onKeyDown={(e: React.KeyboardEvent) => {
-														if (e.key === "Enter") {
-															addTagHandler(values, setFieldValue);
-														}
-													}}
-												/>
-												{errors.tags && touched.tags && <ErrorMessage>{errors.tags}</ErrorMessage>}
-												{values.tags.length === 0 && (
-													<FallbackContainer size="small">
-														<Typography>No tag added</Typography>
-													</FallbackContainer>
-												)}
-												<TagsContainer>
-													{values.tags.map(tag => {
-														return (
-															<ListItem key={tag}>
-																<Chip
-																	label={tag}
-																	onDelete={() => removeTagHandler(values, setFieldValue, tag)}
-																/>
-															</ListItem>
-														);
-													})}
-												</TagsContainer>
-											</Grid>
-											<Grid item xs={12}>
-												<TextInput
-													name="description"
-													label="Description"
-													multiline
-													rows={10}
-													value={values.description}
-													onChange={handleChange}
-													onBlur={handleBlur}
-												/>
-											</Grid>
-											<Grid item xs={12} sx={{ mt: 2 }}>
-												<InputTitle>Product Images</InputTitle>
-												<ImageInput
-													images={images}
-													imagesUrl={imagesUrl}
-													setImages={setImages}
-													setImagesUrl={setImagesUrl}
-													setFieldValue={setFieldValue}
-													originalImagesData={originalProductData?.images || []}
-													removedImages={values.removedImages}
-												/>
-											</Grid>
-										</Grid>
-									</Grid>
-								</Grid>
-							</FormContainer>
-						)}
-					</>
-				)}
-			</Formik>
-		</EditProductContainer>
+								</FormContainer>
+							)}
+						</>
+					)}
+				</Formik>
+			</EditProductContainer>
+		</>
 	);
 };
 

@@ -6,7 +6,7 @@ import { RootState } from "../store";
 
 const BASE_URL =
 	process.env.NODE_ENV === "development"
-		? "http://localhost:5000/"
+		? "http://localhost:5000/admin"
 		: "<production backend url goes here>";
 
 export const API = createApi({

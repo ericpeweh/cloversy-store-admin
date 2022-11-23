@@ -1,6 +1,7 @@
 // Dependencies
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 // Styles
 import {
@@ -47,7 +48,8 @@ import {
 	SelectChangeEvent,
 	Stack,
 	Typography,
-	CircularProgress
+	CircularProgress,
+	Snackbar
 } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
@@ -103,6 +105,7 @@ const colors: colorsType = {
 };
 
 const CustomerDetails = () => {
+	const [successCopy, setSuccessCopy] = useState(false);
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const router = useRouter();
 	const { customerId } = router.query;
@@ -159,222 +162,241 @@ const CustomerDetails = () => {
 		}
 	}, [isUpdateUserStatusSuccess, resetUpdateStatus]);
 
+	const copyCustomerEmailHandler = async () => {
+		if (customerData?.email) {
+			await navigator.clipboard.writeText(customerData?.email);
+			setSuccessCopy(true);
+		}
+	};
+
 	return (
-		<CustomerDetailsContainer>
-			{!isGetCustomerLoading && getCustomerError && (
-				<FallbackContainer>
-					<ErrorMessage>{customerError.data.message}</ErrorMessage>
-					<BoxButton onClick={refetchCustomer}>Try again</BoxButton>
-				</FallbackContainer>
-			)}
-			{isGetCustomerLoading && (
-				<FallbackContainer>
-					<CircularProgress />
-				</FallbackContainer>
-			)}
-			{isGetCustomerSuccess && customerData && (
-				<>
-					<Stack
-						direction={{ xs: "column", sm: "row" }}
-						alignItems={{ xs: "flex-start", sm: "center" }}
-						justifyContent="space-between"
-						gap={{ xs: 1, sm: 0 }}
-					>
-						<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
-						<Stack direction="column">
-							<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
-								{userStatusInput && (
-									<>
-										<SelectInput
-											options={[
-												{ label: "Active", value: "active" },
-												{ label: "Banned", value: "banned" }
-											]}
-											value={userStatusInput}
-											onChange={userStatusInputChangeHandler}
-											size="small"
-											sx={{
-												width: { xs: "100%", sm: "25rem" }
-											}}
-										/>
-										<BoxButton
-											loading={isUpdateUserStatusLoading}
-											sx={{ mr: { xs: 0, sm: 1 } }}
-											onClick={updateUserStatusHandler}
-										>
-											Save
-										</BoxButton>
-									</>
+		<>
+			<Head>
+				<title>Customer Details | {customerData?.full_name || "Loading..."}</title>
+			</Head>
+			<CustomerDetailsContainer>
+				<Snackbar
+					anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+					open={successCopy}
+					onClose={() => setSuccessCopy(false)}
+					message="Customer email copied!"
+					key={"customer_code_copy"}
+					autoHideDuration={1500}
+				/>
+				{!isGetCustomerLoading && getCustomerError && (
+					<FallbackContainer>
+						<ErrorMessage>{customerError.data.message}</ErrorMessage>
+						<BoxButton onClick={refetchCustomer}>Try again</BoxButton>
+					</FallbackContainer>
+				)}
+				{isGetCustomerLoading && (
+					<FallbackContainer>
+						<CircularProgress />
+					</FallbackContainer>
+				)}
+				{isGetCustomerSuccess && customerData && (
+					<>
+						<Stack
+							direction={{ xs: "column", sm: "row" }}
+							alignItems={{ xs: "flex-start", sm: "center" }}
+							justifyContent="space-between"
+							gap={{ xs: 1, sm: 0 }}
+						>
+							<PageTitle sx={{ mb: 0 }}>Customer Detail</PageTitle>
+							<Stack direction="column">
+								<Stack direction="row" gap={1} height="4rem" width={{ xs: "100%", sm: "auto" }}>
+									{userStatusInput && (
+										<>
+											<SelectInput
+												options={[
+													{ label: "Active", value: "active" },
+													{ label: "Banned", value: "banned" }
+												]}
+												value={userStatusInput}
+												onChange={userStatusInputChangeHandler}
+												size="small"
+												sx={{
+													width: { xs: "100%", sm: "25rem" }
+												}}
+											/>
+											<BoxButton
+												loading={isUpdateUserStatusLoading}
+												sx={{ mr: { xs: 0, sm: 1 } }}
+												onClick={updateUserStatusHandler}
+											>
+												Save
+											</BoxButton>
+										</>
+									)}
+								</Stack>
+								{updateUserStatusError && (
+									<ErrorMessage sx={{ alignSelf: "flex-end" }}>
+										{userStatusError?.data.message}
+									</ErrorMessage>
 								)}
 							</Stack>
-							{updateUserStatusError && (
-								<ErrorMessage sx={{ alignSelf: "flex-end" }}>
-									{userStatusError?.data.message}
-								</ErrorMessage>
-							)}
 						</Stack>
-					</Stack>
 
-					<ContentContainer>
-						<Grid container spacing={3}>
-							<Grid item xs={12} md={6}>
-								<Section>
-									<DetailsContainer>
-										<SectionTitle>Account Information</SectionTitle>
-										<DetailItem>
-											<DetailTitle>Full name</DetailTitle>
-											<DetailDescription>
-												<Stack direction="row" alignItems="center" gap={1}>
-													<CustomerImage imageUrl={customerData.profile_image} />
-													{customerData.full_name}
-												</Stack>
-											</DetailDescription>
-										</DetailItem>
-										<DetailItem>
-											<DetailTitle>Email</DetailTitle>
-											<Stack direction="row" alignItems="center" gap={1}>
-												<DetailDescription>{customerData.email}</DetailDescription>
-												<IconButton size="small">
-													<ContentCopyIcon fontSize="small" />
-												</IconButton>
-											</Stack>
-										</DetailItem>
-										<DetailItem>
-											<DetailTitle>Contact</DetailTitle>
-											<Stack direction="row" alignItems="center" gap={1}>
+						<ContentContainer>
+							<Grid container spacing={3}>
+								<Grid item xs={12} md={6}>
+									<Section>
+										<DetailsContainer>
+											<SectionTitle>Account Information</SectionTitle>
+											<DetailItem>
+												<DetailTitle>Full name</DetailTitle>
 												<DetailDescription>
-													{customerData.contact ? customerData.contact : "No contact provided"}
+													<Stack direction="row" alignItems="center" gap={1}>
+														<CustomerImage imageUrl={customerData.profile_image} />
+														{customerData.full_name}
+													</Stack>
 												</DetailDescription>
-												{customerData.contact && (
-													<IconButton size="small">
+											</DetailItem>
+											<DetailItem>
+												<DetailTitle>Email</DetailTitle>
+												<Stack direction="row" alignItems="center" gap={1}>
+													<DetailDescription>{customerData.email}</DetailDescription>
+													<IconButton size="small" onClick={copyCustomerEmailHandler}>
 														<ContentCopyIcon fontSize="small" />
 													</IconButton>
-												)}
-											</Stack>
-										</DetailItem>
-										<DetailItem>
-											<DetailTitle>User status</DetailTitle>
-											<DetailDescription>
-												<Stack
-													justifyContent="flex-start"
-													direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
-													gap={1}
-												>
-													<StatusBadge
-														color={customerData.user_status === "active" ? "primary" : "error"}
-													>
-														{customerData.user_status}
-													</StatusBadge>
-													<p>
-														| {customerData.user_status === "banned" ? "Banned" : "Joined"}:{" "}
-														{customerData.user_status === "banned"
-															? formatDateFull(customerData.banned_date)
-															: formatDateFull(customerData.created_at)}
-													</p>
 												</Stack>
-											</DetailDescription>
-										</DetailItem>
-										<DetailItem>
-											<DetailTitle>Clover Credits</DetailTitle>
-											<Stack direction="row" alignItems="center" gap={1}>
-												<DetailDescription>{customerData.credits}</DetailDescription>
-											</Stack>
-										</DetailItem>
-									</DetailsContainer>
-								</Section>
-								<Section>
-									<SectionTitle>Saved Addresses</SectionTitle>
-									{customerData.address.length === 0 && (
-										<FallbackContainer>
-											<Typography>No address saved</Typography>
-										</FallbackContainer>
-									)}
-									{customerData.address.map((data, i) => (
-										<AddressContainer key={data.id}>
-											<AddressContent>
-												<AddressInfo>
-													<AddressLabel>
-														{data.is_default && <StatusBadge color="primary">Utama</StatusBadge>}
-														Address {i + 1}
-													</AddressLabel>
-													<RecipientName>{data.recipient_name}</RecipientName>
-													<AddressText>{data.contact}</AddressText>
-													<AddressText>{data.address}</AddressText>
-												</AddressInfo>
-											</AddressContent>
-										</AddressContainer>
-									))}
-								</Section>
-							</Grid>
-							<Grid item xs={12} md={6}>
-								<Section>
-									<SectionTitle>Last Seen Product</SectionTitle>
-									<Grid container spacing={1}>
-										{[1, 2, 3].map(item => (
-											<Grid item xs={12} key={item}>
-												<CardItemContainer>
-													<CardItemImage imageUrl="/images/product.jpg" />
-													<CardTitle>Nike AF1 Homesick - Special Edition</CardTitle>
-													<BoxButton>Detail</BoxButton>
-												</CardItemContainer>
-											</Grid>
-										))}
-									</Grid>
-								</Section>
-								<Section>
-									<SectionTitle>Wishlist</SectionTitle>
-									<Grid container spacing={1}>
-										{[1, 2].map(item => (
-											<Grid item xs={12} key={item}>
-												<CardItemContainer>
-													<CardItemImage imageUrl="/images/product.jpg" />
-													<Stack justifyContent="center">
-														<CardTitle>Nike AF1 Creation of Adam</CardTitle>
-														<CardSubtitle>Size: EU 40</CardSubtitle>
-													</Stack>
-													<BoxButton>Detail</BoxButton>
-												</CardItemContainer>
-											</Grid>
-										))}
-									</Grid>
-								</Section>
-								<Section>
-									<SectionTitle>Owned Vouchers</SectionTitle>
-									<Grid container spacing={1}>
-										{customerData.vouchers.map(voucher => (
-											<Grid item xs={12} key={voucher.code}>
-												<CardItemContainer>
-													<CardItemImage sx={{ cursor: "default" }}>
-														<DiscountIcon />
-													</CardItemImage>
-													<Stack justifyContent="center">
-														<CardTitle>{voucher.title}</CardTitle>
-														<CardSubtitle>
-															Berlaku hingga {formatDateFullMonth(voucher.expiry_date)}
-														</CardSubtitle>
-													</Stack>
+											</DetailItem>
+											<DetailItem>
+												<DetailTitle>Contact</DetailTitle>
+												<Stack direction="row" alignItems="center" gap={1}>
+													<DetailDescription>
+														{customerData.contact ? customerData.contact : "No contact provided"}
+													</DetailDescription>
+													{customerData.contact && (
+														<IconButton size="small">
+															<ContentCopyIcon fontSize="small" />
+														</IconButton>
+													)}
+												</Stack>
+											</DetailItem>
+											<DetailItem>
+												<DetailTitle>User status</DetailTitle>
+												<DetailDescription>
 													<Stack
-														direction={{ xs: "column", sm: "row" }}
-														sx={{ ml: "auto" }}
+														justifyContent="flex-start"
+														direction={{ xs: "column", sm: "row", md: "column", xl: "row" }}
 														gap={1}
 													>
 														<StatusBadge
-															color="secondary"
-															sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
+															color={customerData.user_status === "active" ? "primary" : "error"}
 														>
-															{voucher.code}
+															{customerData.user_status}
 														</StatusBadge>
-														<BoxButton>Detail</BoxButton>
+														<p>
+															| {customerData.user_status === "banned" ? "Banned" : "Joined"}:{" "}
+															{customerData.user_status === "banned"
+																? formatDateFull(customerData.banned_date)
+																: formatDateFull(customerData.created_at)}
+														</p>
 													</Stack>
-												</CardItemContainer>
-											</Grid>
+												</DetailDescription>
+											</DetailItem>
+											<DetailItem>
+												<DetailTitle>Clover Credits</DetailTitle>
+												<Stack direction="row" alignItems="center" gap={1}>
+													<DetailDescription>{customerData.credits}</DetailDescription>
+												</Stack>
+											</DetailItem>
+										</DetailsContainer>
+									</Section>
+									<Section>
+										<SectionTitle>Saved Addresses</SectionTitle>
+										{customerData.address.length === 0 && (
+											<FallbackContainer>
+												<Typography>No address saved</Typography>
+											</FallbackContainer>
+										)}
+										{customerData.address.map((data, i) => (
+											<AddressContainer key={data.id}>
+												<AddressContent>
+													<AddressInfo>
+														<AddressLabel>
+															{data.is_default && <StatusBadge color="primary">Utama</StatusBadge>}
+															Address {i + 1}
+														</AddressLabel>
+														<RecipientName>{data.recipient_name}</RecipientName>
+														<AddressText>{data.contact}</AddressText>
+														<AddressText>{data.address}</AddressText>
+													</AddressInfo>
+												</AddressContent>
+											</AddressContainer>
 										))}
-									</Grid>
-								</Section>
+									</Section>
+								</Grid>
+								<Grid item xs={12} md={6}>
+									<Section>
+										<SectionTitle>Last Seen Product</SectionTitle>
+										<Grid container spacing={1}>
+											{[1, 2, 3].map(item => (
+												<Grid item xs={12} key={item}>
+													<CardItemContainer>
+														<CardItemImage imageUrl="/images/product.jpg" />
+														<CardTitle>Nike AF1 Homesick - Special Edition</CardTitle>
+														<BoxButton>Detail</BoxButton>
+													</CardItemContainer>
+												</Grid>
+											))}
+										</Grid>
+									</Section>
+									<Section>
+										<SectionTitle>Wishlist</SectionTitle>
+										<Grid container spacing={1}>
+											{[1, 2].map(item => (
+												<Grid item xs={12} key={item}>
+													<CardItemContainer>
+														<CardItemImage imageUrl="/images/product.jpg" />
+														<Stack justifyContent="center">
+															<CardTitle>Nike AF1 Creation of Adam</CardTitle>
+															<CardSubtitle>Size: EU 40</CardSubtitle>
+														</Stack>
+														<BoxButton>Detail</BoxButton>
+													</CardItemContainer>
+												</Grid>
+											))}
+										</Grid>
+									</Section>
+									<Section>
+										<SectionTitle>Owned Vouchers</SectionTitle>
+										<Grid container spacing={1}>
+											{customerData.vouchers.map(voucher => (
+												<Grid item xs={12} key={voucher.code}>
+													<CardItemContainer>
+														<CardItemImage sx={{ cursor: "default" }}>
+															<DiscountIcon />
+														</CardItemImage>
+														<Stack justifyContent="center">
+															<CardTitle>{voucher.title}</CardTitle>
+															<CardSubtitle>
+																Berlaku hingga {formatDateFullMonth(voucher.expiry_date)}
+															</CardSubtitle>
+														</Stack>
+														<Stack
+															direction={{ xs: "column", sm: "row" }}
+															sx={{ ml: "auto" }}
+															gap={1}
+														>
+															<StatusBadge
+																color="secondary"
+																sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}
+															>
+																{voucher.code}
+															</StatusBadge>
+															<BoxButton>Detail</BoxButton>
+														</Stack>
+													</CardItemContainer>
+												</Grid>
+											))}
+										</Grid>
+									</Section>
+								</Grid>
 							</Grid>
-						</Grid>
-					</ContentContainer>
-					{/* <ContentContainer>
+						</ContentContainer>
+						{/* <ContentContainer>
 						<Section>
 							<Stack
 								direction="row"
@@ -447,9 +469,10 @@ const CustomerDetails = () => {
 							</Stack>
 						</Section>
 					</ContentContainer> */}
-				</>
-			)}
-		</CustomerDetailsContainer>
+					</>
+				)}
+			</CustomerDetailsContainer>
+		</>
 	);
 };
 
