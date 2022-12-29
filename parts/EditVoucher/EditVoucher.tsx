@@ -128,7 +128,9 @@ const EditVoucher = () => {
 				title: voucherData.title ?? "",
 				status: voucherData.status ?? "",
 				description: voucherData.description ?? "",
-				expiry_date: DateTime.fromISO(voucherData.expiry_date) ?? DateTime.now(),
+				expiry_date: voucherData?.expiry_date
+					? DateTime.fromISO(voucherData.expiry_date)
+					: DateTime.now(),
 				voucher_scope: voucherData.voucher_scope ?? "global",
 				selectedUsers:
 					voucherData.selectedUsers?.length > 0

@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // Types
 import { RootState } from "../store";
 
-const BASE_URL =
+export const BASE_URL =
 	process.env.NODE_ENV === "development"
 		? "http://localhost:5000/admin"
 		: "<production backend url goes here>";

@@ -25,6 +25,7 @@ import useMenu from "../../hooks/useMenu";
 import useDebounce from "../../hooks/useDebounce";
 import useSelector from "../../hooks/useSelector";
 import { useGetProductsQuery } from "../../api/product.api";
+import { useGetBrandsQuery } from "../../api/brand.api";
 
 // Components
 import {
@@ -48,7 +49,6 @@ import TextInput from "../../components/TextInput/TextInput";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
-import { useGetBrandsQuery } from "../../api/brand.api";
 
 type DisplayModeType = "list" | "card";
 
