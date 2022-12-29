@@ -9,7 +9,10 @@ export const ReviewItemContainer = styled(Grid)({}) as typeof Grid;
 export const ReviewContainer = styled("div")(({ theme }) => ({
 	backgroundColor: theme.palette.grey[100],
 	borderRadius: "0.5rem",
-	padding: "2rem"
+	padding: "2rem",
+	height: "100%",
+	display: "flex",
+	flexDirection: "column"
 }));
 
 export const ReviewerName = styled("h5")(({ theme }) => ({

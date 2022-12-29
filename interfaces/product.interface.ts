@@ -18,6 +18,20 @@ export interface Product {
 	sizes: string[];
 	image: string;
 	images: string[];
+	rating: string;
+	review_count: string;
+	reviews: ProductReviewItem[];
+}
+
+export interface ProductReviewItem {
+	id: number;
+	transaction_id: string;
+	rating: string;
+	status: string;
+	description: string;
+	created_at: string;
+	profile_picture: string;
+	full_name: string;
 }
 
 export type ProductStatusValues = "default" | "active" | "disabled";

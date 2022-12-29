@@ -27,9 +27,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // Hooks
 import useSelector from "../../hooks/useSelector";
 import { useGetProductDetailQuery } from "../../api/product.api";
+import usePagination from "../../hooks/usePagination";
 
 // Components
-import { Chip, CircularProgress, Divider, Grid, Stack } from "@mui/material";
+import { Chip, CircularProgress, Divider, Grid, Rating, Stack, Typography } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import CarouselWithThumb from "../../components/CarouselWithThumb/CarouselWithThumb";
@@ -124,6 +125,9 @@ const ProductDetails = () => {
 	const productError: any = getProductError;
 	const productData = getProductData?.data.product;
 
+	// Reviews pagination
+	const { page: reviewPage, onChange: reviewPaginationChangeHandler } = usePagination();
+
 	return (
 		<>
 			<Head>
@@ -170,7 +174,9 @@ const ProductDetails = () => {
 							<Grid item xs={12} lg={5} xl={4}>
 								<CarouselWithThumb
 									images={
-										productData.images.length !== 0 ? productData.images : ["/images/no-image.png"]
+										productData?.images && productData?.images?.length !== 0
+											? productData.images
+											: ["/images/no-image.png"]
 									}
 									size="small"
 									sx={{
@@ -223,6 +229,24 @@ const ProductDetails = () => {
 										</DetailDescription>
 									</DetailItem>
 									<DetailItem>
+										<DetailTitle>Rating</DetailTitle>
+										<DetailDescription>
+											<Stack direction="row" alignItems="center" gap="1rem">
+												{productData?.rating ? (
+													<>
+														<Rating value={+productData.rating} readOnly precision={0.1} />
+														<DetailDescription>
+															{(+productData?.rating).toFixed(1)} | {productData.review_count}{" "}
+															Review{+productData?.review_count > 1 && "s"}
+														</DetailDescription>
+													</>
+												) : (
+													<DetailDescription>- No reviews yet -</DetailDescription>
+												)}
+											</Stack>
+										</DetailDescription>
+									</DetailItem>
+									<DetailItem>
 										<DetailTitle>Category</DetailTitle>
 										<DetailDescription>{productData.category}</DetailDescription>
 									</DetailItem>
@@ -262,29 +286,52 @@ const ProductDetails = () => {
 											</Stack>
 										</DetailDescription>
 									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Description</DetailTitle>
-										<DetailDescription>
-											{productData.description || "No description provided."}
-										</DetailDescription>
-									</DetailItem>
 								</DetailsContainer>
+							</Grid>
+							<Grid item xs={12}>
+								<DetailItem sx={{ flexDirection: "column" }}>
+									<DetailTitle>Description :</DetailTitle>
+									<DetailDescription sx={{ mt: 2 }}>
+										{productData.description || (
+											<FallbackContainer size="small">
+												{"No description provided."}
+											</FallbackContainer>
+										)}
+									</DetailDescription>
+								</DetailItem>
 							</Grid>
 						</Grid>
 					</ContentContainer>
 				)}
 				<ContentContainer>
-					<ReviewsTitle>Product Reviews</ReviewsTitle>
-					<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
-						<Grid item xs={12}>
-							<ReviewsContainer container spacing={{ xs: 1, md: 2 }}>
-								<ReviewItem />
-								<ReviewItem />
-								<ReviewItem />
-							</ReviewsContainer>
-							<ReviewsPagination count={5} shape="rounded" color="primary" />
+					<ReviewsTitle>Product Reviews ({productData?.review_count || "0"})</ReviewsTitle>
+					{productData?.reviews?.length === 0 && (
+						<FallbackContainer>
+							<Typography textAlign="center">- No reviews yet -</Typography>
+						</FallbackContainer>
+					)}
+					{productData && productData?.reviews?.length !== 0 && (
+						<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
+							<Grid item xs={12}>
+								<ReviewsContainer container spacing={{ xs: 1, md: 2 }}>
+									{productData.reviews
+										.slice((reviewPage - 1) * 4, (reviewPage - 1) * 4 + 4)
+										.map(review => (
+											<ReviewItem reviewData={review} key={review.id} />
+										))}
+								</ReviewsContainer>
+								{Math.ceil(productData.reviews.length / 4) > 1 && (
+									<ReviewsPagination
+										page={reviewPage}
+										onChange={reviewPaginationChangeHandler}
+										count={Math.ceil(productData.reviews.length / 4)}
+										shape="rounded"
+										color="primary"
+									/>
+								)}
+							</Grid>
 						</Grid>
-					</Grid>
+					)}
 				</ContentContainer>
 
 				<ContentContainer>
