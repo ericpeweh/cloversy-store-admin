@@ -29,12 +29,13 @@ import useSelector from "../../hooks/useSelector";
 import { Chip, Divider, Grid, ListItem, Stack, Typography } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import TextInput from "../../components/TextInput/TextInput";
+import PerformantTextInput from "../../components/PerformantTextInput/PerformantTextInput";
 import SelectInput from "../../components/SelectInput/SelectInput";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import ImageInput from "../../components/ImageInput/ImageInput";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
+import TextInput from "../../components/TextInput/TextInput";
 
 interface CreateProductFormValues {
 	title: string;
@@ -53,7 +54,7 @@ const CreateProductSchema = Yup.object().shape({
 	title: Yup.string().required("Required"),
 	sku: Yup.string().max(50).required("Required"),
 	slug: Yup.string().required("Required"),
-	price: Yup.number().min(0).required("Required"),
+	price: Yup.number().typeError("Invalid price").min(0).required("Required"),
 	status: Yup.string().equals(["active", "disabled"]).required("Required"),
 	category_id: Yup.number().not([-1], "Please select a category").required("Required"),
 	brand_id: Yup.number().not([-1], "Please select a brand").required("Required"),
@@ -165,7 +166,7 @@ const AddProduct = () => {
 		if (!tagInput) return;
 
 		// Check is tag already exist
-		const exist = values.tags
+		const exist = values?.tags
 			.map((tag: string) => tag.toLowerCase())
 			.includes(tagInput.toLowerCase());
 		if (exist) {
@@ -239,7 +240,7 @@ const AddProduct = () => {
 								<Grid item xs={12} md={6}>
 									<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
 										<Grid item xs={12}>
-											<TextInput
+											<PerformantTextInput
 												name="title"
 												label="Product title"
 												value={values.title}
@@ -251,7 +252,7 @@ const AddProduct = () => {
 										</Grid>
 
 										<Grid item xs={12} sm={6}>
-											<TextInput
+											<PerformantTextInput
 												name="sku"
 												label="SKU Code"
 												value={values.sku}
@@ -262,7 +263,7 @@ const AddProduct = () => {
 											{errors.sku && touched.sku && <ErrorMessage>{errors.sku}</ErrorMessage>}
 										</Grid>
 										<Grid item xs={12} sm={6}>
-											<TextInput
+											<PerformantTextInput
 												name="price"
 												label="Price"
 												value={values.price}
@@ -368,7 +369,7 @@ const AddProduct = () => {
 								<Grid item xs={12} md={6} sx={{ mt: { xs: 2, sm: 0 } }}>
 									<Grid container item spacing={{ xs: 2, md: 3 }}>
 										<Grid item xs={12}>
-											<TextInput
+											<PerformantTextInput
 												name="slug"
 												label="Product slug"
 												value={values.slug}
@@ -420,7 +421,7 @@ const AddProduct = () => {
 											</TagsContainer>
 										</Grid>
 										<Grid item xs={12}>
-											<TextInput
+											<PerformantTextInput
 												name="description"
 												label="Description"
 												multiline

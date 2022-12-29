@@ -140,9 +140,6 @@ const Sidebar = () => {
 					</ListItemButton>
 					<Collapse in={showOrdersMenu} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							<SidebarItemChild>
-								<ItemText primary="Add order" />
-							</SidebarItemChild>
 							<SidebarItemChild onClick={() => router.push("/orders")}>
 								<ItemText primary="Order List" />
 							</SidebarItemChild>
