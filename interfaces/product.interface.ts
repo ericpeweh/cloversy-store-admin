@@ -25,13 +25,14 @@ export interface Product {
 
 export interface ProductReviewItem {
 	id: number;
+	product_id: number;
 	transaction_id: string;
 	rating: string;
-	status: string;
 	description: string;
-	created_at: string;
-	profile_picture: string;
+	status: string;
 	full_name: string;
+	profile_picture: string;
+	created_at: string;
 }
 
 export type ProductStatusValues = "default" | "active" | "disabled";

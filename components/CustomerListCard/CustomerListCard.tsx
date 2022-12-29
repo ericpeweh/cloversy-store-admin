@@ -40,7 +40,7 @@ const CustomerListCard = ({ customerData }: CustomerListItemProps) => {
 				</StatusBadge>
 			</StatusContainer>
 			<CustomerImageContainer>
-				<CustomerImage imageUrl={customerData.profile_image} />
+				<CustomerImage imageUrl={customerData.profile_picture} />
 			</CustomerImageContainer>
 			<CustomerContent>
 				<CustomerTitle>{customerData.full_name}</CustomerTitle>

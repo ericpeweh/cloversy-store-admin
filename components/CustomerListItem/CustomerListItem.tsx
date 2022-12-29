@@ -38,7 +38,7 @@ const CustomerListItem = ({ customerData }: CustomerListItemProps) => {
 				<Stack direction="row" gap={1} alignItems="center">
 					<CustomerImage>
 						<Avatar
-							src={customerData.profile_image}
+							src={customerData.profile_picture}
 							alt="user profile"
 							sx={{
 								width: "6rem",

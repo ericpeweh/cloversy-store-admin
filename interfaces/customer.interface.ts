@@ -32,7 +32,7 @@ export interface Customer {
 	full_name: string;
 	email: string;
 	contact: string;
-	profile_image: string;
+	profile_picture: string;
 	prev_status?: CustomerStatus;
 	user_status: CustomerStatus;
 	credits: number;

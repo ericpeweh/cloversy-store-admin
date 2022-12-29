@@ -247,7 +247,7 @@ const CustomerDetails = () => {
 												<DetailTitle>Full name</DetailTitle>
 												<DetailDescription>
 													<Stack direction="row" alignItems="center" gap={1}>
-														<CustomerImage imageUrl={customerData.profile_image} />
+														<CustomerImage imageUrl={customerData.profile_picture} />
 														{customerData.full_name}
 													</Stack>
 												</DetailDescription>

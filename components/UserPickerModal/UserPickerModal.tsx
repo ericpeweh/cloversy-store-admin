@@ -132,7 +132,7 @@ const UserPickerModal = ({
 										<UserContent>
 											<UserImage>
 												<Avatar
-													src={user.profile_image}
+													src={user.profile_picture}
 													alt="user profile"
 													imgProps={{ referrerPolicy: "no-referrer" }}
 													sx={{ height: "100%", width: "100%" }}
