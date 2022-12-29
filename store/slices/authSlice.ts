@@ -9,6 +9,10 @@ interface AuthState {
 	email: string;
 	profile_picture: string;
 	email_verified: boolean;
+	contact: string | null;
+	birth_date: string | null;
+	status: string;
+	user_role: string;
 }
 
 const initialState: AuthState = {
@@ -17,7 +21,11 @@ const initialState: AuthState = {
 	full_name: "",
 	email: "",
 	profile_picture: "",
-	email_verified: false
+	email_verified: false,
+	contact: "",
+	birth_date: "",
+	status: "idle",
+	user_role: ""
 };
 
 const authSlice = createSlice({
@@ -27,7 +35,18 @@ const authSlice = createSlice({
 		setCredentials: (
 			state,
 			{
-				payload: { isAuth, token, full_name, email, profile_picture, email_verified }
+				payload: {
+					isAuth,
+					token,
+					full_name,
+					email,
+					profile_picture,
+					email_verified,
+					contact,
+					birth_date,
+					status,
+					user_role
+				}
 			}: PayloadAction<AuthState>
 		) => {
 			state.isAuth = isAuth;
@@ -36,10 +55,23 @@ const authSlice = createSlice({
 			state.email = email;
 			state.profile_picture = profile_picture;
 			state.email_verified = email_verified;
+			state.contact = contact;
+			state.birth_date = birth_date;
+			state.status = status;
+			state.user_role = user_role;
+		},
+		setAuthStatus: (state, { payload }: PayloadAction<string>) => {
+			state.status = payload;
+		},
+		setUserProfilePicture: (
+			state,
+			{ payload: { profile_picture } }: PayloadAction<{ profile_picture: string }>
+		) => {
+			state.profile_picture = profile_picture;
 		}
 	}
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, setAuthStatus, setUserProfilePicture } = authSlice.actions;
 
 export default authSlice.reducer;
