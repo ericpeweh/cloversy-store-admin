@@ -24,6 +24,7 @@ import usePagination from "../../hooks/usePagination";
 import useModal from "../../hooks/useModal";
 import useSelector from "../../hooks/useSelector";
 import useDebounce from "../../hooks/useDebounce";
+import { useRouter } from "next/router";
 
 // Components
 import { Link, Stack, Typography, CircularProgress } from "@mui/material";
@@ -43,6 +44,7 @@ import FallbackContainer from "../../components/FallbackContainer/FallbackContai
 const tableHeadData = ["Nama Brand", "Identifier", "Produk Terkait", "Tindakan"];
 
 const Brands = () => {
+	const router = useRouter();
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const [selectedBrand, setSelectedBrand] = useState<Brand | undefined>();
 
@@ -267,7 +269,13 @@ const Brands = () => {
 									<TableCell>{brand.name}</TableCell>
 									<TableCell>{brand.identifier}</TableCell>
 									<TableCell>
-										<Link>
+										<Link
+											onClick={() => {
+												if (brand?.product_amount === "0") return;
+
+												router.push(`/products?brand=${brand.id}`);
+											}}
+										>
 											<Typography
 												sx={{
 													cursor: "pointer",

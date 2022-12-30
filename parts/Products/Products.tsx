@@ -1,6 +1,5 @@
 // Dependencies
-import React, { useMemo, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useMemo, useState } from "react";
 
 // Styles
 import {
@@ -24,6 +23,7 @@ import usePagination from "../../hooks/usePagination";
 import useMenu from "../../hooks/useMenu";
 import useDebounce from "../../hooks/useDebounce";
 import useSelector from "../../hooks/useSelector";
+import { useRouter } from "next/router";
 import { useGetProductsQuery } from "../../api/product.api";
 import { useGetBrandsQuery } from "../../api/brand.api";
 
@@ -55,6 +55,7 @@ type DisplayModeType = "list" | "card";
 const Products = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const router = useRouter();
+	const { brand: brandIdQuery } = router.query;
 	const [displayMode, setDisplayMode] = useState<DisplayModeType>("card");
 	const [searchInput, setSearchInput] = useState("");
 	const [brandFilter, setBrandFilter] = useState(-1);
@@ -62,6 +63,13 @@ const Products = () => {
 	const [statusFilter, setStatusFilter] = useState<ProductStatusValues>("default");
 	const searchQuery = useDebounce(searchInput, 500);
 	const { page, onChange: paginationChangeHandler } = usePagination();
+
+	useEffect(() => {
+		if (brandIdQuery) {
+			setBrandFilter(+brandIdQuery);
+		}
+	}, [brandIdQuery]);
+
 	const {
 		anchorEl: productItemMenuAnchorEl,
 		anchorElData: productItemMenuAnchorElData,
