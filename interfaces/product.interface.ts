@@ -57,3 +57,14 @@ export interface UpdateProductBody extends Omit<Product, "images"> {
 	images: File[];
 	removedImageIds: number[];
 }
+
+export interface ProductLastSeen {
+	id: number;
+	user_id: number;
+	product_id: number;
+	seen_date: string;
+	title: string;
+	price: string;
+	slug: string;
+	images: string[] | null;
+}

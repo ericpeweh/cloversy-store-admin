@@ -1,15 +1,24 @@
 // Types
+import { ProductLastSeen } from "./product.interface";
 import { Voucher } from "./voucher.interface";
 
 export type CustomerStatus = "active" | "banned";
 
 export interface CustomerAddress {
 	id: number;
-	user_id: number;
 	recipient_name: string;
 	contact: string;
 	address: string;
 	is_default: boolean;
+	province: string;
+	province_id: number;
+	city: string;
+	city_id: number;
+	subdistrict: string;
+	subdistrict_id: number;
+	postal_code: string;
+	label: string;
+	shipping_note: string;
 }
 
 export interface CustomerLastSeen {
@@ -21,9 +30,12 @@ export interface CustomerLastSeen {
 
 export interface CustomerWishlist {
 	id: number;
-	user_id: number;
 	product_id: number;
+	user_id: number;
 	size: string;
+	title: string;
+	images: string[];
+	created_at: string;
 }
 
 export interface Customer {
@@ -41,6 +53,8 @@ export interface Customer {
 	user_role: string;
 	address: CustomerAddress[];
 	vouchers: Voucher[];
+	lastSeen: ProductLastSeen[];
+	wishlist: CustomerWishlist[];
 }
 
 export interface GetCustomersQuery {

@@ -47,9 +47,3 @@ export interface Voucher {
 	discount_type: string;
 	expiry_date: string;
 }
-
-export interface Wishlist {
-	id: number;
-	product_id: number;
-	user_id: number;
-}

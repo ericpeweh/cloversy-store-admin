@@ -49,7 +49,8 @@ import {
 	Stack,
 	Typography,
 	CircularProgress,
-	Snackbar
+	Snackbar,
+	Alert
 } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
@@ -307,9 +308,9 @@ const CustomerDetails = () => {
 									<Section>
 										<SectionTitle>Saved Addresses</SectionTitle>
 										{customerData.address.length === 0 && (
-											<FallbackContainer>
-												<Typography>No address saved</Typography>
-											</FallbackContainer>
+											<Alert severity="info" sx={{ width: "100%", mt: 2 }}>
+												No saved address.
+											</Alert>
 										)}
 										{customerData.address.map((data, i) => (
 											<AddressContainer key={data.id}>
@@ -317,11 +318,16 @@ const CustomerDetails = () => {
 													<AddressInfo>
 														<AddressLabel>
 															{data.is_default && <StatusBadge color="primary">Utama</StatusBadge>}
-															Address {i + 1}
+															{data.label}
 														</AddressLabel>
 														<RecipientName>{data.recipient_name}</RecipientName>
 														<AddressText>{data.contact}</AddressText>
-														<AddressText>{data.address}</AddressText>
+														<AddressText>
+															{data.province}, {data.city}, {data.subdistrict}
+														</AddressText>
+														<AddressText>
+															{data.address} {data.postal_code}
+														</AddressText>
 													</AddressInfo>
 												</AddressContent>
 											</AddressContainer>
@@ -332,12 +338,27 @@ const CustomerDetails = () => {
 									<Section>
 										<SectionTitle>Last Seen Product</SectionTitle>
 										<Grid container spacing={1}>
-											{[1, 2, 3].map(item => (
-												<Grid item xs={12} key={item}>
+											{customerData.lastSeen.length === 0 && (
+												<Grid item xs={12}>
+													<Alert severity="info" sx={{ width: "100%", mt: 1 }}>
+														User hasn&apos;t seen any products yet
+													</Alert>
+												</Grid>
+											)}
+											{customerData.lastSeen.map(product => (
+												<Grid item xs={12} key={product.id}>
 													<CardItemContainer>
-														<CardItemImage imageUrl="/images/product.jpg" />
-														<CardTitle>Nike AF1 Homesick - Special Edition</CardTitle>
-														<BoxButton>Detail</BoxButton>
+														<CardItemImage
+															imageUrl={(product?.images || [])[0] || "/images/no-image.png"}
+														/>
+														<Stack justifyContent="center">
+															<CardTitle>{product.title}</CardTitle>
+															<CardSubtitle>{formatDateFull(product.seen_date)}</CardSubtitle>
+														</Stack>
+
+														<BoxButton onClick={() => router.push(`/products/${product.id}`)}>
+															Detail
+														</BoxButton>
 													</CardItemContainer>
 												</Grid>
 											))}
@@ -346,15 +367,26 @@ const CustomerDetails = () => {
 									<Section>
 										<SectionTitle>Wishlist</SectionTitle>
 										<Grid container spacing={1}>
-											{[1, 2].map(item => (
-												<Grid item xs={12} key={item}>
+											{customerData.wishlist.length === 0 && (
+												<Grid item xs={12}>
+													<Alert severity="info" sx={{ width: "100%", mt: 1 }}>
+														User&apos;s wishlist is empty.
+													</Alert>
+												</Grid>
+											)}
+											{customerData.wishlist.map(item => (
+												<Grid item xs={12} key={item.id}>
 													<CardItemContainer>
-														<CardItemImage imageUrl="/images/product.jpg" />
+														<CardItemImage
+															imageUrl={(item?.images || [])[0] || "/images/no-image.png"}
+														/>
 														<Stack justifyContent="center">
-															<CardTitle>Nike AF1 Creation of Adam</CardTitle>
-															<CardSubtitle>Size: EU 40</CardSubtitle>
+															<CardTitle>{item.title}</CardTitle>
+															<CardSubtitle>{formatDateFull(item.created_at)}</CardSubtitle>
 														</Stack>
-														<BoxButton>Detail</BoxButton>
+														<BoxButton onClick={() => router.push(`/products/${item.product_id}`)}>
+															Detail
+														</BoxButton>
 													</CardItemContainer>
 												</Grid>
 											))}
@@ -363,6 +395,13 @@ const CustomerDetails = () => {
 									<Section>
 										<SectionTitle>Owned Vouchers</SectionTitle>
 										<Grid container spacing={1}>
+											{customerData.vouchers.length === 0 && (
+												<Grid item xs={12}>
+													<Alert severity="info" sx={{ width: "100%", mt: 1 }}>
+														No voucher found!
+													</Alert>
+												</Grid>
+											)}
 											{customerData.vouchers.map(voucher => (
 												<Grid item xs={12} key={voucher.code}>
 													<CardItemContainer>

@@ -73,7 +73,7 @@ const AppWrapper = ({ children }: AppWrapperProps) => {
 	return (
 		<>
 			<AuthActions />
-			{(!isAuthenticated || isLoading || authStatus === "loading" || authStatus === "idle") && (
+			{((!isAuthenticated && authStatus !== "idle") || isLoading || authStatus === "loading") && (
 				<LoadingScreen isOpen={true} />
 			)}
 			{isAuthenticated && userRole === "admin" && (

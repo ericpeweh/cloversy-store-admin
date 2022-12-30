@@ -84,7 +84,7 @@ export const Section = styled("div")({
 export const SectionTitle = styled("h2")(({ theme }) => ({
 	fontSize: "1.8rem",
 	fontWeight: 500,
-	marginBottom: "0.8rem",
+	marginBottom: "1rem",
 	[theme.breakpoints.down("lg")]: {
 		fontSize: "1.8rem"
 	},
@@ -101,6 +101,7 @@ export const AddressContainer = styled("div")(({ theme }) => ({
 	padding: "2rem",
 	borderRadius: "0.5rem",
 	display: "flex",
+	marginBottom: "1rem",
 	justifyContent: "space-between",
 	alignItems: "center",
 	background: theme.palette.grey[100],
@@ -117,6 +118,7 @@ export const AddressContent = styled("div")({
 export const AddressInfo = styled("div")({});
 
 export const AddressLabel = styled("h2")(({ theme }) => ({
+	textTransform: "capitalize",
 	fontSize: "1.8rem",
 	fontFamily: "var(--font-secondary)",
 	fontWeight: 500,
@@ -175,6 +177,7 @@ export const CardItemImage = styled("div", {
 	width: "8rem",
 	height: "6rem",
 	borderRadius: "0.5rem",
+	marginRight: "1rem",
 	backgroundImage: imageUrl
 		? `url(${imageUrl})`
 		: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.primary.light})`,
