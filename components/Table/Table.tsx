@@ -12,7 +12,7 @@ import {
 } from "./Table.styles";
 
 interface TableProps {
-	children: React.ReactElement[];
+	children: React.ReactNode | React.ReactNode[];
 	headData: string[];
 }
 
