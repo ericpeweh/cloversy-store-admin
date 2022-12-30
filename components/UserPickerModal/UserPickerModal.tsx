@@ -19,13 +19,12 @@ import {
 import { Customer } from "../../interfaces";
 
 // Components
-import { Divider, Avatar, CircularProgress, Typography, Box } from "@mui/material";
+import { Divider, Avatar, CircularProgress, Typography, Box, Alert } from "@mui/material";
 import CloseButton from "../CloseButton/CloseButton";
 import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import InfiniteScroller from "react-infinite-scroll-component";
 import FallbackContainer from "../FallbackContainer/FallbackContainer";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 interface UserPickerModalProps {
 	open: boolean;
@@ -105,7 +104,9 @@ const UserPickerModal = ({
 					</FallbackContainer>
 				)}
 				{!isLoading && error && (
-					<FallbackContainer>{<ErrorMessage>{error.data.message}</ErrorMessage>}</FallbackContainer>
+					<FallbackContainer>
+						{<Alert severity="error">{error.data.message}</Alert>}
+					</FallbackContainer>
 				)}
 				{!isLoading && !error && data.length === 0 && (
 					<FallbackContainer>{<Typography>No customer found!</Typography>}</FallbackContainer>

@@ -29,6 +29,7 @@ import { useGetBrandsQuery } from "../../api/brand.api";
 
 // Components
 import {
+	Alert,
 	CircularProgress,
 	Divider,
 	Grid,
@@ -47,7 +48,6 @@ import Menu from "../../components/Menu/Menu";
 import ProductListCard from "../../components/ProductListCard/ProductListCard";
 import TextInput from "../../components/TextInput/TextInput";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
 
 type DisplayModeType = "list" | "card";
@@ -259,7 +259,7 @@ const Products = () => {
 			/>
 			{!isGetProductsLoading && getProductsError && (
 				<FallbackContainer>
-					<ErrorMessage>{productsError.data?.message}</ErrorMessage>
+					<Alert severity="error">{productsError.data?.message}</Alert>
 					<BoxButton onClick={refetchProducts}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

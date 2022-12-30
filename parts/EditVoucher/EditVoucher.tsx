@@ -30,7 +30,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import type { DateTime as DateTimeType } from "luxon";
 
 // Components
-import { Chip, CircularProgress, Grid, ListItem, Stack, Typography } from "@mui/material";
+import { Alert, Chip, CircularProgress, Grid, ListItem, Stack, Typography } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import TextInput from "../../components/TextInput/TextInput";
@@ -295,7 +295,7 @@ const EditVoucher = () => {
 							</Stack>
 							{!isGetVoucherLoading && getVoucherError && (
 								<FallbackContainer>
-									<ErrorMessage>{getVoucherError.data.message}</ErrorMessage>
+									<Alert severity="error">{getVoucherError.data.message}</Alert>
 									<BoxButton onClick={refetchVoucher}>Try again</BoxButton>
 								</FallbackContainer>
 							)}
@@ -304,7 +304,9 @@ const EditVoucher = () => {
 									<CircularProgress />
 								</FallbackContainer>
 							)}
-							{updateVoucherError && <ErrorMessage>{updateVoucherError.data.message}</ErrorMessage>}
+							{updateVoucherError && (
+								<Alert severity="error">{updateVoucherError.data.message}</Alert>
+							)}
 							{isGetVoucherSuccess && getVoucherData && (
 								<FormContainer>
 									<Grid container spacing={{ xs: 2, md: 3 }} alignItems="flex-start">

@@ -26,7 +26,7 @@ import { useCreateProductMutation } from "../../api/product.api";
 import useSelector from "../../hooks/useSelector";
 
 // Components
-import { Chip, Divider, Grid, ListItem, Stack, Typography } from "@mui/material";
+import { Alert, Chip, Divider, Grid, ListItem, Stack, Typography } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import PerformantTextInput from "../../components/PerformantTextInput/PerformantTextInput";
@@ -234,7 +234,9 @@ const AddProduct = () => {
 								</Button>
 							</Stack>
 						</Stack>
-						{createProductError && <ErrorMessage>{createProductError.data.message}</ErrorMessage>}
+						{createProductError && (
+							<Alert severity="error">{createProductError.data.message}</Alert>
+						)}
 						<FormContainer>
 							<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">
 								<Grid item xs={12} md={6}>

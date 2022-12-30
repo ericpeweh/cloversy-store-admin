@@ -21,7 +21,7 @@ import useDebounce from "../../hooks/useDebounce";
 
 // Types
 import { CustomersFilterValues } from "../../interfaces";
-import { SelectChangeEvent, Typography } from "@mui/material";
+import { Alert, SelectChangeEvent, Typography } from "@mui/material";
 
 // Components
 import {
@@ -39,7 +39,6 @@ import TextInput from "../../components/TextInput/TextInput";
 import CustomerListItem from "../../components/CustomerListItem/CustomerListItem";
 import CustomerListCard from "../../components/CustomerListCard/CustomerListCard";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
 
 type DisplayModeType = "list" | "card";
@@ -125,7 +124,7 @@ const Customers = () => {
 
 			{!isGetCustomersLoading && getCustomersError && (
 				<FallbackContainer>
-					<ErrorMessage>{customersError.data.message}</ErrorMessage>
+					<Alert severity="error">{customersError.data.message}</Alert>
 					<BoxButton onClick={refetchCustomers}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

@@ -1,13 +1,13 @@
 // Dependencies
-import { DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import React from "react";
-import Button from "../Button/Button";
 
 // Styles
 import { ConfirmationModalContainer } from "./ConfirmationModal.styles";
 
 // Components
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+
+import Button from "../Button/Button";
 
 type ColorType =
 	| "primary"
@@ -60,7 +60,7 @@ const ConfirmationModal = ({
 				<DialogContentText>{modalDescription}</DialogContentText>
 			</DialogContent>
 			<DialogContent sx={{ py: 0 }}>
-				{error && <ErrorMessage>{error.data.message}</ErrorMessage>}
+				{error && <Alert severity="error">{error.data.message}</Alert>}
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={onClose} variant="outlined" color={cancelColor} size="small">

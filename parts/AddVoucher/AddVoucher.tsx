@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { DateTime } from "luxon";
-import { useRouter } from "next/router";
 
 // Styles
 import { AddVoucherContainer, FormContainer, InputTitle, UserContainer } from "./AddVoucher.styles";
@@ -15,6 +14,7 @@ import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 // Hooks
 import { useGetCustomersQuery } from "../../api/customer.api";
 import { useCreateVoucherMutation } from "../../api/voucher.api";
+import { useRouter } from "next/router";
 import useModal from "../../hooks/useModal";
 import useDebounce from "../../hooks/useDebounce";
 
@@ -26,7 +26,7 @@ import { Customer, CreateVoucherBody } from "../../interfaces";
 import type { DateTime as DateTimeType } from "luxon";
 
 // Components
-import { Chip, Grid, ListItem, Stack, Typography } from "@mui/material";
+import { Alert, Chip, Grid, ListItem, Stack, Typography } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import TextInput from "../../components/TextInput/TextInput";
@@ -200,7 +200,9 @@ const AddVoucher = () => {
 								</Button>
 							</Stack>
 						</Stack>
-						{createVoucherError && <ErrorMessage>{createVoucherError.data.message}</ErrorMessage>}
+						{createVoucherError && (
+							<Alert severity="error">{createVoucherError.data.message}</Alert>
+						)}
 						<FormContainer onSubmit={handleSubmit}>
 							<Grid container spacing={{ xs: 2, md: 3 }} alignItems="flex-start">
 								<Grid item xs={12} md={6}>

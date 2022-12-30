@@ -17,7 +17,7 @@ import { useGetVouchersQuery } from "../../api/voucher.api";
 
 // Types
 import { VouchersStatusValues, VouchersSortValues } from "../../interfaces";
-import { SelectChangeEvent } from "@mui/material";
+import { Alert, SelectChangeEvent } from "@mui/material";
 
 // Utils
 import { formatDateFullMonth } from "../../utils/formatDate";
@@ -31,7 +31,6 @@ import Menu from "../../components/Menu/Menu";
 import Pagination from "../../components/Pagination/Pagination";
 import Voucher from "../../components/Voucher/Voucher";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
 
 const Vouchers = () => {
@@ -150,7 +149,7 @@ const Vouchers = () => {
 			/>
 			{!isGetVouchersLoading && getVouchersError && (
 				<FallbackContainer>
-					<ErrorMessage>{vouchersError.data.message}</ErrorMessage>
+					<Alert severity="error">{vouchersError.data.message}</Alert>
 					<BoxButton onClick={refetchVouchers}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

@@ -32,7 +32,16 @@ import { useRouter } from "next/router";
 import { useGetProductDetailQuery, useUpdateProductMutation } from "../../api/product.api";
 
 // Components
-import { Chip, CircularProgress, Divider, Grid, ListItem, Stack, Typography } from "@mui/material";
+import {
+	Alert,
+	Chip,
+	CircularProgress,
+	Divider,
+	Grid,
+	ListItem,
+	Stack,
+	Typography
+} from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import TextInput from "../../components/TextInput/TextInput";
@@ -332,10 +341,12 @@ const EditProduct = () => {
 									</Button>
 								</Stack>
 							</Stack>
-							{updateProductError && <ErrorMessage>{updateProductError.data.message}</ErrorMessage>}
+							{updateProductError && (
+								<Alert severity="error">{updateProductError.data.message}</Alert>
+							)}
 							{!isGetProductLoading && getProductError && (
 								<FallbackContainer>
-									<ErrorMessage>{getProductError.data.message}</ErrorMessage>
+									<Alert severity="error">{getProductError.data.message}</Alert>
 									<BoxButton onClick={refetchProduct}>Try again</BoxButton>
 								</FallbackContainer>
 							)}

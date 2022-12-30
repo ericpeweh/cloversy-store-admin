@@ -8,9 +8,8 @@ import { useUpdateCustomerMutation } from "../../../api/customer.api";
 import { Customer, CustomerStatus } from "../../../interfaces";
 
 // Components
-import { SelectChangeEvent, Stack } from "@mui/material";
+import { Alert, SelectChangeEvent, Stack } from "@mui/material";
 import BoxButton from "../../../components/BoxButton/BoxButton";
-import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import SelectInput from "../../../components/SelectInput/SelectInput";
 
@@ -94,9 +93,9 @@ const DetailsHeader = ({ customerData }: DetailsHeaderProps) => {
 					)}
 				</Stack>
 				{updateUserStatusError && (
-					<ErrorMessage sx={{ alignSelf: "flex-end" }}>
+					<Alert severity="error" sx={{ alignSelf: "flex-end" }}>
 						{userStatusError?.data.message}
-					</ErrorMessage>
+					</Alert>
 				)}
 			</Stack>
 		</Stack>

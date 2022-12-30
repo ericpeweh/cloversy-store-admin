@@ -16,10 +16,10 @@ import {
 import { Category } from "../../interfaces";
 
 // Components
+import { Alert, Divider, Grid } from "@mui/material";
 import CloseButton from "../CloseButton/CloseButton";
 import TextInput from "../TextInput/TextInput";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { Divider, Grid } from "@mui/material";
 import Button from "../Button/Button";
 
 interface InputCategoryModalProps {
@@ -124,7 +124,7 @@ const InputCategoryModal = ({
 								<InputLimitText>{values.description.length}/200</InputLimitText>
 							</InputContainer>
 							<Grid item xs={12}>
-								{error && <ErrorMessage>{error.data.message}</ErrorMessage>}
+								{error && <Alert severity="error">{error.data.message}</Alert>}
 								<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
 									<Button
 										color="primary"

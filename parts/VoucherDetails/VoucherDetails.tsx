@@ -25,6 +25,7 @@ import useSelector from "../../hooks/useSelector";
 
 // Components
 import {
+	Alert,
 	CircularProgress,
 	Grid,
 	IconButton,
@@ -38,7 +39,6 @@ import Button from "../../components/Button/Button";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import AreaChart from "../../components/AreaChart/AreaChart";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import { formatDateFullMonth } from "../../utils/formatDate";
 import formatToRupiah from "../../utils/formatToRupiah";
@@ -174,7 +174,7 @@ const VoucherDetails = () => {
 				</Stack>
 				{!isGetVoucherLoading && getVoucherError && (
 					<FallbackContainer>
-						<ErrorMessage>{voucherError.data.message}</ErrorMessage>
+						<Alert severity="error">{voucherError.data.message}</Alert>
 						<BoxButton onClick={refetchVoucher}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

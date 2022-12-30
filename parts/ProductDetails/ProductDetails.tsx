@@ -30,7 +30,16 @@ import { useGetProductDetailQuery } from "../../api/product.api";
 import usePagination from "../../hooks/usePagination";
 
 // Components
-import { Chip, CircularProgress, Divider, Grid, Rating, Stack, Typography } from "@mui/material";
+import {
+	Alert,
+	Chip,
+	CircularProgress,
+	Divider,
+	Grid,
+	Rating,
+	Stack,
+	Typography
+} from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import CarouselWithThumb from "../../components/CarouselWithThumb/CarouselWithThumb";
@@ -39,7 +48,6 @@ import ReviewItem from "../../components/ReviewItem/ReviewItem";
 import AreaChart from "../../components/AreaChart/AreaChart";
 import Head from "next/head";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import BoxButton from "../../components/BoxButton/BoxButton";
 
 // Chart data
@@ -158,7 +166,7 @@ const ProductDetails = () => {
 				</Stack>
 				{!isGetProductLoading && getProductError && (
 					<FallbackContainer>
-						<ErrorMessage>{productError.data.message}</ErrorMessage>
+						<Alert severity="error">{productError.data.message}</Alert>
 						<BoxButton onClick={refetchProduct}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

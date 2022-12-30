@@ -26,7 +26,7 @@ import {
 } from "../../api/category.api";
 
 // Components
-import { Stack, CircularProgress } from "@mui/material";
+import { Stack, CircularProgress, Alert } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
@@ -37,7 +37,6 @@ import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import InputCategoryModal from "../../components/InputCategoryModal/InputCategoryModal";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 
 const tableHeadData = ["Kategori", "Deskripsi", "Identifier", "Produk", "Tindakan"];
@@ -247,7 +246,7 @@ const Categories = () => {
 
 			{!isGetCategoriesLoading && getCategoriesError && (
 				<FallbackContainer>
-					<ErrorMessage>{categoriesError.data.message}</ErrorMessage>
+					<Alert severity="error">{categoriesError.data.message}</Alert>
 					<BoxButton onClick={refetchCategories}>Try again</BoxButton>
 				</FallbackContainer>
 			)}
