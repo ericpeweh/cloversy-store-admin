@@ -14,68 +14,6 @@ export const ContentContainer = styled("div")(({ theme }) => ({
 	}
 }));
 
-// Order product details
-interface CustomerImageProps {
-	imageUrl: string;
-}
-
-export const CustomerImage = styled("div", {
-	shouldForwardProp: props => props !== "imageUrl"
-})<CustomerImageProps>(({ imageUrl }) => ({
-	height: "4rem",
-	width: "4rem",
-	backgroundImage: `url(${imageUrl})`,
-	backgroundPosition: "center",
-	backgroundSize: "cover",
-	borderRadius: "50%",
-	border: "2px solid #fff"
-}));
-
-export const DetailsContainer = styled("div")({
-	display: "flex",
-	flexDirection: "column",
-	gap: "1.2rem"
-});
-
-export const DetailItem = styled("div")(({ theme }) => ({
-	display: "flex",
-	alignItems: "center",
-	borderRadius: "0.5rem",
-	backgroundColor: theme.palette.grey[100],
-	border: `1px solid ${theme.palette.grey[100]}`,
-	padding: "1.2rem 2rem",
-	[theme.breakpoints.down("sm")]: {
-		padding: "1rem 1.5rem"
-	}
-}));
-
-export const DetailTitle = styled("h2")(({ theme }) => ({
-	fontSize: "1.6rem",
-	fontWeight: 500,
-	flex: "0 0 30%",
-	position: "relative",
-	marginRight: "1rem",
-	alignSelf: "flex-start",
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.5rem"
-	},
-	"&::after": {
-		content: "':'",
-		position: "absolute",
-		height: "100%",
-		right: 0
-	}
-}));
-
-export const DetailDescription = styled("p")(({ theme }) => ({
-	fontSize: "1.6rem",
-	fontWeight: 400,
-	flex: 1,
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.5rem"
-	}
-}));
-
 // Section
 export const Section = styled("div")({
 	marginBottom: "3rem"
@@ -93,64 +31,6 @@ export const SectionTitle = styled("h2")(({ theme }) => ({
 	},
 	[theme.breakpoints.down("sm")]: {
 		fontSize: "1.6rem"
-	}
-}));
-
-// Address
-export const AddressContainer = styled("div")(({ theme }) => ({
-	padding: "2rem",
-	borderRadius: "0.5rem",
-	display: "flex",
-	marginBottom: "1rem",
-	justifyContent: "space-between",
-	alignItems: "center",
-	background: theme.palette.grey[100],
-	[theme.breakpoints.down("md")]: {
-		padding: "1.5rem"
-	}
-}));
-
-export const AddressContent = styled("div")({
-	display: "flex",
-	flexDirection: "column"
-});
-
-export const AddressInfo = styled("div")({});
-
-export const AddressLabel = styled("h2")(({ theme }) => ({
-	textTransform: "capitalize",
-	fontSize: "1.8rem",
-	fontFamily: "var(--font-secondary)",
-	fontWeight: 500,
-	display: "flex",
-	gap: "1rem",
-	marginBottom: "1rem",
-	[theme.breakpoints.down("md")]: {
-		fontSize: "1.7rem"
-	},
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.6rem",
-		marginBottom: "0.7rem"
-	}
-}));
-
-export const RecipientName = styled("h3")(({ theme }) => ({
-	fontSize: "1.7rem",
-	[theme.breakpoints.down("md")]: {
-		fontSize: "1.6rem"
-	},
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.5rem"
-	}
-}));
-
-export const AddressText = styled("p")(({ theme }) => ({
-	fontSize: "1.6rem",
-	[theme.breakpoints.down("md")]: {
-		fontSize: "1.6rem"
-	},
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.5rem"
 	}
 }));
 
