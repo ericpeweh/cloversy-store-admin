@@ -1,4 +1,5 @@
 // Dependencies
+import { useRouter } from "next/router";
 import React from "react";
 
 // Styles
@@ -16,20 +17,40 @@ interface OrderCardProps {
 	sizeDesc: string;
 	qtyDesc: string;
 	price: string;
-	showInput?: boolean;
+	imageUrl: string;
+	clickable?: boolean;
+	productId?: number;
 }
 
-const OrderCard = ({ title, sizeDesc, qtyDesc, price, showInput = false }: OrderCardProps) => {
+const OrderCard = ({
+	title,
+	sizeDesc,
+	qtyDesc,
+	price,
+	imageUrl,
+	clickable = false,
+	productId
+}: OrderCardProps) => {
+	const router = useRouter();
+
+	const openProductDetailsHandler = () => router.push(`/products/${productId || ""}`);
+
 	return (
 		<OrderCardContainer>
-			<CardImage />
+			<CardImage
+				imageurl={imageUrl}
+				clickable={clickable}
+				onClick={() => clickable && openProductDetailsHandler()}
+			/>
 			<CardContent>
-				<CardTitle>{title}</CardTitle>
+				<CardTitle clickable={clickable} onClick={() => clickable && openProductDetailsHandler()}>
+					{title}
+				</CardTitle>
 				<CardDescription>Ukuran: {sizeDesc}</CardDescription>
-				{!showInput && <CardDescription>Jumlah: {qtyDesc}</CardDescription>}
+				<CardDescription>Jumlah: {qtyDesc}</CardDescription>
 			</CardContent>
 
-			<CardPrice>Rp {price}</CardPrice>
+			<CardPrice>{price}</CardPrice>
 		</OrderCardContainer>
 	);
 };
