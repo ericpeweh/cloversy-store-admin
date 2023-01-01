@@ -62,7 +62,7 @@ const Products = () => {
 	const [sortBy, setSortBy] = useState<string>("id");
 	const [statusFilter, setStatusFilter] = useState<ProductStatusValues>("default");
 	const searchQuery = useDebounce(searchInput, 500);
-	const { page, onChange: paginationChangeHandler } = usePagination();
+	const { page, onChange: paginationChangeHandler } = usePagination({ autoScroll: true });
 
 	useEffect(() => {
 		if (brandIdQuery) {

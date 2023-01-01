@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // Types
 import { Brand, BrandsSortValues } from "../../interfaces";
-import { SelectChangeEvent } from "@mui/material";
+import { Alert, SelectChangeEvent } from "@mui/material";
 
 // Hooks
 import {
@@ -38,7 +38,6 @@ import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import InputBrandModal from "../../components/InputBrandModal/InputBrandModal";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 
 const tableHeadData = ["Nama Brand", "Identifier", "Produk Terkait", "Tindakan"];
@@ -245,7 +244,7 @@ const Brands = () => {
 
 			{!isGetBrandsLoading && getBrandsError && (
 				<FallbackContainer>
-					<ErrorMessage>{brandsError.data.message}</ErrorMessage>
+					<Alert severity="error">{brandsError.data.message}</Alert>
 					<BoxButton onClick={refetchBrands}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

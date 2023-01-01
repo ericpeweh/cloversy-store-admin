@@ -11,6 +11,9 @@ import {
 	TimelineSeparator
 } from "@mui/lab";
 
+// Utils
+import { formatDateTimeline } from "../../utils/formatDate";
+
 // Styles
 import { TimelineContainer } from "./Timeline.styles";
 
@@ -26,7 +29,7 @@ const Timeline = ({ items }: TimelineProps) => {
 				const isFirstItem = i === 0;
 
 				return (
-					<TimelineItem sx={{ justifyContent: "center" }} key={item.date}>
+					<TimelineItem sx={{ justifyContent: "center" }} key={item.date + item.desc}>
 						<TimelineOppositeContent
 							color="text.secondary"
 							sx={{ fontSize: { xs: "1.4rem", sm: "1.5rem" } }}
@@ -46,14 +49,14 @@ const Timeline = ({ items }: TimelineProps) => {
 						</TimelineSeparator>
 						<TimelineContent
 							sx={{
-								flex: "0 0 18rem",
+								flex: "0 0 16rem",
 								pl: 0,
 								pr: 3,
 								fontSize: { xs: "1.4rem", sm: "1.5rem" },
 								textAlign: "left"
 							}}
 						>
-							{item.date}
+							{formatDateTimeline(item.date)}
 						</TimelineContent>
 					</TimelineItem>
 				);
