@@ -34,9 +34,15 @@ import StatusBadge from "../StatusBadge/StatusBadge";
 
 interface ReviewItemProps {
 	reviewData: ProductReviewItem;
+	openEditReviewBtn?: boolean;
+	openTransactionDetailsBtn?: boolean;
 }
 
-const ReviewItem = ({ reviewData }: ReviewItemProps) => {
+const ReviewItem = ({
+	reviewData,
+	openEditReviewBtn = false,
+	openTransactionDetailsBtn = true
+}: ReviewItemProps) => {
 	const router = useRouter();
 
 	const openTransactionDetails = () => router.push(`/orders/${reviewData.transaction_id}`);
@@ -49,9 +55,16 @@ const ReviewItem = ({ reviewData }: ReviewItemProps) => {
 					sx={{ padding: 0 }}
 					secondaryAction={
 						<Stack gap={{ xs: 0.5, sm: 1 }} width={"100%"} direction={{ xs: "column", sm: "row" }}>
-							<ButtonBase component="span" onClick={openTransactionDetails}>
-								<StatusBadge color="secondary">{reviewData.transaction_id}</StatusBadge>
-							</ButtonBase>
+							{openTransactionDetailsBtn && (
+								<ButtonBase component="span" onClick={openTransactionDetails}>
+									<StatusBadge color="secondary">{reviewData.transaction_id}</StatusBadge>
+								</ButtonBase>
+							)}
+							{openEditReviewBtn && (
+								<ButtonBase component="span" onClick={openTransactionDetails}>
+									<StatusBadge color="secondary">Edit Review</StatusBadge>
+								</ButtonBase>
+							)}
 							<StatusBadge
 								color={reviewData.status === "active" ? "primary" : "error"}
 								sx={{ ml: "auto" }}

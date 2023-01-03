@@ -6,3 +6,4 @@ export * from "./voucher.interface";
 export * from "./product.interface";
 export * from "./account.interface";
 export * from "./transaction.interface";
+export * from "./review.interface";

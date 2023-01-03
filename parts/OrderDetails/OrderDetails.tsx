@@ -46,6 +46,7 @@ import {
 	useGetTransactionDetailsQuery,
 	useUpdateTransactionMutation
 } from "../../api/transaction.api";
+import { useGetOrderReviewsQuery } from "../../api/review.api";
 
 // Components
 import {
@@ -68,6 +69,7 @@ import OrderCard from "../../components/OrderCard/OrderCard";
 import TextInput from "../../components/TextInput/TextInput";
 import Timeline from "../../components/Timeline/Timeline";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
+import ReviewItem from "../../components/ReviewItem/ReviewItem";
 
 const OrderDetails = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
@@ -78,6 +80,7 @@ const OrderDetails = () => {
 	const [successCopyEmail, setSuccessCopyEmail] = useState(false);
 	const [successCopyContact, setSuccessCopyContact] = useState(false);
 
+	// Order / transaction data
 	const {
 		data: resultData,
 		isLoading: isGetOrderLoading,
@@ -93,6 +96,18 @@ const OrderDetails = () => {
 	const shipping = orderData?.shipping_details;
 	const payment = orderData?.payment_details;
 	const items = orderData?.item_details;
+
+	// Reviews data
+	const {
+		data: getOrderReviews,
+		isLoading: isGetReviewsLoading,
+		isSuccess: isGetReviewsSuccess,
+		error: getReviewsErrorData,
+		refetch: refetchReviews,
+		isUninitialized: isGetReviewsUninitialized
+	} = useGetOrderReviewsQuery(orderId as string, { skip: !isAuth });
+	const getReviewsError: any = getReviewsErrorData;
+	const reviewsData = getOrderReviews?.data.reviews;
 
 	const [orderNoteInput, setOrderNoteInput] = useState(orderData?.order_note || "");
 
@@ -320,6 +335,16 @@ const OrderDetails = () => {
 										</DetailDescription>
 									</DetailItem>
 									<DetailItem>
+										<DetailTitle>Review status</DetailTitle>
+										<DetailDescription>
+											<Stack justifyContent="flex-start" direction={"row"} gap={1}>
+												<StatusBadge color={orderData.is_reviewed ? "primary" : "warning"}>
+													{orderData.is_reviewed ? "Sudah Review" : "Belum Review"}
+												</StatusBadge>
+											</Stack>
+										</DetailDescription>
+									</DetailItem>
+									<DetailItem>
 										<DetailTitle>Coupon</DetailTitle>
 										{orderData.voucher_code ? (
 											<DetailDescription>
@@ -459,13 +484,34 @@ const OrderDetails = () => {
 							</Grid>
 						</Grid>
 					</ContentContainer>
+					{reviewsData && reviewsData?.length !== 0 && (
+						<ContentContainer>
+							<Section>
+								<SectionTitle>Reviews</SectionTitle>
+								<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
+									<Grid item xs={12}>
+										<Grid container spacing={{ xs: 1, md: 2 }}>
+											{reviewsData.map(review => (
+												<ReviewItem
+													reviewData={review}
+													key={review.id}
+													openTransactionDetailsBtn={false}
+													openEditReviewBtn={true}
+												/>
+											))}
+										</Grid>
+									</Grid>
+								</Grid>
+							</Section>
+						</ContentContainer>
+					)}
 					<ContentContainer>
 						<Grid container spacing={3}>
 							<Grid item xs={12} md={6}>
 								<Section>
-									<SectionTitle>Pengiriman</SectionTitle>
+									<SectionTitle>Shipping</SectionTitle>
 									<InfoContainer>
-										<InfoTitle>Kurir</InfoTitle>
+										<InfoTitle>Courier</InfoTitle>
 										<Stack direction="row" gap={2} alignItems="center">
 											<ImageContainer>
 												<Image
@@ -482,7 +528,7 @@ const OrderDetails = () => {
 										</Stack>
 									</InfoContainer>
 									<InfoContainer>
-										<InfoTitle>No Resi</InfoTitle>
+										<InfoTitle>Tracking code</InfoTitle>
 										<InfoDescription>
 											{shipping.shipping_tracking_code && (
 												<Tooltip title="Salin nomor resi">
@@ -495,7 +541,7 @@ const OrderDetails = () => {
 										</InfoDescription>
 									</InfoContainer>
 									<AddressContainer>
-										<InfoTitle>Alamat Penerima :</InfoTitle>
+										<InfoTitle>Recipient address :</InfoTitle>
 										<AddressName>{shipping.recipient_name}</AddressName>
 										<AddressNumber>{shipping.contact}</AddressNumber>
 										<Address>{shipping.address}</Address>
@@ -513,7 +559,7 @@ const OrderDetails = () => {
 							</Grid>
 							<Grid item xs={12} md={6}>
 								<Section>
-									<SectionTitle>Timeline Pesanan</SectionTitle>
+									<SectionTitle>Order Timeline</SectionTitle>
 									<Timeline
 										items={orderData.timeline.map(item => ({
 											date: item.timeline_date,
