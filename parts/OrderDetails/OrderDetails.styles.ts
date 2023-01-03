@@ -95,7 +95,7 @@ export const DetailTitle = styled("h2")(({ theme }) => ({
 	}
 }));
 
-export const DetailDescription = styled("p")(({ theme }) => ({
+export const DetailDescription = styled("div")(({ theme }) => ({
 	fontSize: "1.6rem",
 	fontWeight: 400,
 	flex: 1,
@@ -176,25 +176,6 @@ export const InfoDescription = styled("p")(({ theme }) => ({
 	}
 }));
 
-export const TotalPriceText = styled("p")(({ theme }) => ({
-	fontSize: "2rem",
-	color: theme.palette.primary.main,
-	alignSelf: "center",
-	fontWeight: 500,
-	[theme.breakpoints.down("xl")]: {
-		fontSize: "1.9rem"
-	},
-	[theme.breakpoints.down("lg")]: {
-		fontSize: "1.8rem"
-	},
-	[theme.breakpoints.down("md")]: {
-		fontSize: "1.7rem"
-	},
-	[theme.breakpoints.down("sm")]: {
-		fontSize: "1.6rem"
-	}
-}));
-
 // Address
 export const AddressContainer = styled("div")({
 	display: "flex",
@@ -237,5 +218,34 @@ export const Address = styled("p")(({ theme }) => ({
 	},
 	[theme.breakpoints.down("sm")]: {
 		fontSize: "1.4rem"
+	}
+}));
+
+export const TotalPriceText = styled("p")(({ theme }) => ({
+	fontSize: "2rem",
+	color: theme.palette.primary.main,
+	alignSelf: "center",
+	fontWeight: 500,
+	[theme.breakpoints.down("xl")]: {
+		fontSize: "1.9rem"
+	},
+	[theme.breakpoints.down("lg")]: {
+		fontSize: "1.8rem"
+	},
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.7rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.6rem"
+	}
+}));
+
+export const ImageContainer = styled("div")(({ theme }) => ({
+	width: "8rem",
+	[theme.breakpoints.down("md")]: {
+		width: "7rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "6rem"
 	}
 }));

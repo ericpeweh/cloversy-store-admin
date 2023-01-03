@@ -3,17 +3,34 @@ import API from "./index";
 
 // Types
 import {
-	Customer,
 	ResponseWithPagination,
-	GetCustomersQuery,
 	ResponseBody,
 	TransactionListItem,
 	TransactionStatus,
-	Transaction
+	GetTransactionsQuery,
+	TransactionDetails,
+	UpdateTransactionReqBody
 } from "../interfaces";
 
 const transactionApi = API.injectEndpoints({
 	endpoints: build => ({
+		getTransactions: build.query<
+			ResponseWithPagination<{ transactions: TransactionListItem[] }>,
+			GetTransactionsQuery
+		>({
+			query: ({ page, statusFilter, q, sortBy }) => {
+				const params = new URLSearchParams({
+					page: page.toString(),
+					status: statusFilter === "default" ? "" : statusFilter,
+					q,
+					sortBy: sortBy === "default" ? "created_at" : sortBy,
+					limit: "10"
+				});
+
+				return `transactions?${params.toString()}`;
+			},
+			providesTags: ["Transactions"]
+		}),
 		getUserTransactions: build.query<
 			ResponseWithPagination<{ transactions: TransactionListItem[] }>,
 			{
@@ -33,17 +50,46 @@ const transactionApi = API.injectEndpoints({
 			}
 		}),
 		getTransactionDetails: build.query<
-			ResponseBody<{ transaction: Transaction }>,
+			ResponseBody<{ transaction: TransactionDetails }>,
 			string | string[] | undefined
 		>({
 			query: transactionId => {
 				return `transactions/${transactionId}`;
+			},
+			providesTags: res => [{ type: "Transaction", id: res?.data.transaction.id }]
+		}),
+		getTransactionDetailsToEdit: build.query<
+			ResponseBody<{ transaction: TransactionDetails }>,
+			string | string[] | undefined
+		>({
+			query: transactionId => {
+				return `transactions/${transactionId}?noWaybill=1`;
 			}
+		}),
+		updateTransaction: build.mutation<
+			ResponseBody<{ updatedTransaction: TransactionDetails }>,
+			UpdateTransactionReqBody
+		>({
+			query: ({ transactionId, ...updatedTransactionData }) => ({
+				url: `transactions/${transactionId}`,
+				method: "PATCH",
+				body: updatedTransactionData
+			}),
+			invalidatesTags: res => [
+				{ type: "Transaction", id: res?.data.updatedTransaction.id },
+				"Transactions"
+			]
 		})
 	}),
 	overrideExisting: false
 });
 
-export const { useGetUserTransactionsQuery } = transactionApi;
+export const {
+	useGetUserTransactionsQuery,
+	useGetTransactionsQuery,
+	useGetTransactionDetailsQuery,
+	useGetTransactionDetailsToEditQuery,
+	useUpdateTransactionMutation
+} = transactionApi;
 
 export default transactionApi;
