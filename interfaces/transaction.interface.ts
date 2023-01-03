@@ -134,7 +134,8 @@ export interface UpdateTransactionFormValues {
 	timeline: TransactionTimelineItem[];
 }
 
-export interface UpdateTransactionReqBody extends Omit<UpdateTransactionFormValues, "timeline"> {
+export interface UpdateTransactionReqBody
+	extends Partial<Omit<UpdateTransactionFormValues, "timeline">> {
 	transactionId: string;
-	timelineObj: string;
+	timelineObj?: string;
 }

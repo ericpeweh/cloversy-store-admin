@@ -30,7 +30,8 @@ export const API = createApi({
 		"Products",
 		"Product",
 		"Transactions",
-		"Transaction"
+		"Transaction",
+		"Transaction Edit"
 	],
 	endpoints: () => ({})
 });

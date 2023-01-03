@@ -9,7 +9,8 @@ import {
 	TransactionStatus,
 	GetTransactionsQuery,
 	TransactionDetails,
-	UpdateTransactionReqBody
+	UpdateTransactionReqBody,
+	TransactionTimelineItem
 } from "../interfaces";
 
 const transactionApi = API.injectEndpoints({
@@ -59,12 +60,17 @@ const transactionApi = API.injectEndpoints({
 			providesTags: res => [{ type: "Transaction", id: res?.data.transaction.id }]
 		}),
 		getTransactionDetailsToEdit: build.query<
-			ResponseBody<{ transaction: TransactionDetails }>,
+			ResponseBody<{
+				transaction: TransactionDetails & {
+					waybillTimeline: (TransactionTimelineItem & { waybill: boolean })[];
+				};
+			}>,
 			string | string[] | undefined
 		>({
 			query: transactionId => {
-				return `transactions/${transactionId}?noWaybill=1`;
-			}
+				return `transactions/${transactionId}?edit=1`;
+			},
+			providesTags: res => [{ type: "Transaction Edit", id: res?.data.transaction.id }]
 		}),
 		updateTransaction: build.mutation<
 			ResponseBody<{ updatedTransaction: TransactionDetails }>,
@@ -77,6 +83,7 @@ const transactionApi = API.injectEndpoints({
 			}),
 			invalidatesTags: res => [
 				{ type: "Transaction", id: res?.data.updatedTransaction.id },
+				{ type: "Transaction Edit", id: res?.data.updatedTransaction.id },
 				"Transactions"
 			]
 		})

@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { DateTime } from "luxon";
@@ -104,13 +104,14 @@ const EditOrder = () => {
 
 	const updateTransactionHandler = async ({ timeline, ...data }: UpdateTransactionFormValues) => {
 		if (orderId) {
-			const sortedTimeline = timeline.sort(_sortByDate);
-
-			const result = await updateTransaction({
+			const sortedTimeline = [...timeline].sort(_sortByDate);
+			const updatedTransactionData = {
 				transactionId: orderId.toString(),
 				timelineObj: JSON.stringify(sortedTimeline),
 				...data
-			}).unwrap();
+			};
+
+			const result = await updateTransaction(updatedTransactionData).unwrap();
 
 			if (result.status === "success") {
 				router.push(`/orders/${result.data.updatedTransaction.id}`);
@@ -291,35 +292,46 @@ const EditOrder = () => {
 													</Grid>
 												</Grid>
 											</Grid>
-											{values.timeline.map((item, i) => (
-												<Grid
-													key={item.description + item.timeline_date}
-													container
-													item
-													xs={12}
-													spacing={2}
-												>
-													<Grid item xs={12}>
-														<TimelineItem>
-															<Stack gap={1}>
-																<StatusBadge color="secondary">
-																	{formatDateTimeline(item.timeline_date)}
-																</StatusBadge>
-																<TimelineText>{item.description}</TimelineText>
-															</Stack>
-															<TimelineAction>
-																<IconButton
-																	onClick={() =>
-																		removeTimelineItemHandler(setFieldValue, values, i)
-																	}
-																>
-																	<ClearIcon fontSize="small" />
-																</IconButton>
-															</TimelineAction>
-														</TimelineItem>
+											{[...values.timeline, ...orderData.waybillTimeline]
+												.sort(_sortByDate)
+												.map((item: TransactionTimelineItem & { waybill?: boolean }, i) => (
+													<Grid
+														key={item.description + item.timeline_date}
+														container
+														item
+														xs={12}
+														spacing={2}
+													>
+														<Grid item xs={12}>
+															<TimelineItem>
+																<Stack gap={1}>
+																	<Stack direction="row" gap={1}>
+																		<StatusBadge color="secondary">
+																			{formatDateTimeline(item.timeline_date)}
+																		</StatusBadge>
+																		{item.waybill && (
+																			<StatusBadge color="info">
+																				{orderData.shipping_details.shipping_courier}
+																			</StatusBadge>
+																		)}
+																	</Stack>
+																	<TimelineText>{item.description}</TimelineText>
+																</Stack>
+																<TimelineAction>
+																	{!item.waybill && (
+																		<IconButton
+																			onClick={() =>
+																				removeTimelineItemHandler(setFieldValue, values, i)
+																			}
+																		>
+																			<ClearIcon fontSize="small" />
+																		</IconButton>
+																	)}
+																</TimelineAction>
+															</TimelineItem>
+														</Grid>
 													</Grid>
-												</Grid>
-											))}
+												))}
 										</Grid>
 									</Grid>
 								</Grid>

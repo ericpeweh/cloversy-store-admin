@@ -42,7 +42,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // Hooks
 import useSelector from "../../hooks/useSelector";
-import { useGetTransactionDetailsQuery } from "../../api/transaction.api";
+import {
+	useGetTransactionDetailsQuery,
+	useUpdateTransactionMutation
+} from "../../api/transaction.api";
 
 // Components
 import {
@@ -72,6 +75,8 @@ const OrderDetails = () => {
 	const { orderId } = router.query;
 	const [successCopyTransactionNumber, setSuccessCopyTransactionNumber] = useState(false);
 	const [successCopyTrackingCode, setSuccessCopyTrackingCode] = useState(false);
+	const [successCopyEmail, setSuccessCopyEmail] = useState(false);
+	const [successCopyContact, setSuccessCopyContact] = useState(false);
 
 	const {
 		data: resultData,
@@ -97,6 +102,24 @@ const OrderDetails = () => {
 		}
 	}, [orderData?.order_note]);
 
+	const [
+		updateOrderNote,
+		{
+			isLoading: isUpdateOrderNoteLoading,
+			error: updateOrderNoteErrorData,
+			reset: resetUpdateOrderNote
+		}
+	] = useUpdateTransactionMutation();
+	const updateOrderNoteError: any = updateOrderNoteErrorData;
+
+	const updateOrderNoteHandler = async () => {
+		if (!orderData?.id) return;
+
+		await updateOrderNote({ transactionId: orderData?.id, orderNote: orderNoteInput });
+
+		resetUpdateOrderNote();
+	};
+
 	const copyTransactionNumberHandler = async () => {
 		await navigator.clipboard.writeText(orderData?.id || "");
 		setSuccessCopyTransactionNumber(true);
@@ -107,8 +130,34 @@ const OrderDetails = () => {
 		setSuccessCopyTrackingCode(true);
 	};
 
+	const copyCustomerEmailHandler = async () => {
+		await navigator.clipboard.writeText(orderData?.email || "");
+		setSuccessCopyEmail(true);
+	};
+
+	const copyCustomerContactHandler = async () => {
+		await navigator.clipboard.writeText(orderData?.contact || "");
+		setSuccessCopyContact(true);
+	};
+
 	return (
 		<OrderDetailsContainer>
+			<Snackbar
+				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+				open={successCopyContact}
+				onClose={() => setSuccessCopyContact(false)}
+				message="Kontak telah disalin!"
+				key={"contact_copy"}
+				autoHideDuration={1500}
+			/>
+			<Snackbar
+				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+				open={successCopyEmail}
+				onClose={() => setSuccessCopyEmail(false)}
+				message="Email telah disalin!"
+				key={"email_copy"}
+				autoHideDuration={1500}
+			/>
 			<Snackbar
 				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				open={successCopyTransactionNumber}
@@ -228,7 +277,7 @@ const OrderDetails = () => {
 										<DetailTitle sx={{ mt: 0.5 }}>Email</DetailTitle>
 										<Stack direction="row" alignItems="center" gap={1}>
 											<DetailDescription>{orderData.email}</DetailDescription>
-											<IconButton size="small">
+											<IconButton size="small" onClick={copyCustomerEmailHandler}>
 												<ContentCopyIcon fontSize="small" />
 											</IconButton>
 										</Stack>
@@ -237,7 +286,7 @@ const OrderDetails = () => {
 										<DetailTitle sx={{ mt: 0.5 }}>Contact</DetailTitle>
 										<Stack direction="row" alignItems="center" gap={1}>
 											<DetailDescription>{orderData.contact}</DetailDescription>
-											<IconButton size="small">
+											<IconButton size="small" onClick={copyCustomerContactHandler}>
 												<ContentCopyIcon fontSize="small" />
 											</IconButton>
 										</Stack>
@@ -310,8 +359,19 @@ const OrderDetails = () => {
 												}
 											/>
 											<Stack direction="row" justifyContent="flex-end" sx={{ mt: 1 }}>
-												<Button size="small">Save Note</Button>
+												<Button
+													size="small"
+													loading={isUpdateOrderNoteLoading}
+													onClick={updateOrderNoteHandler}
+												>
+													Save Note
+												</Button>
 											</Stack>
+											{!isUpdateOrderNoteLoading && updateOrderNoteError && (
+												<Alert severity="error" sx={{ mt: 1 }}>
+													{updateOrderNoteError.data.message}
+												</Alert>
+											)}
 										</DetailDescription>
 									</DetailItem>
 								</DetailsContainer>
