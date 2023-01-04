@@ -1,11 +1,6 @@
 // Dependencies
 import { styled } from "@mui/system";
 
-// Components
-import { Grid } from "@mui/material";
-
-export const ReviewItemContainer = styled(Grid)({}) as typeof Grid;
-
 export const ReviewContainer = styled("div")(({ theme }) => ({
 	backgroundColor: theme.palette.grey[100],
 	borderRadius: "0.5rem",

@@ -177,170 +177,181 @@ const ProductDetails = () => {
 				)}
 
 				{isGetProductSuccess && productData && (
-					<ContentContainer>
-						<Grid container spacing={{ xs: 1, sm: 2, md: 3 }} alignItems="flex-start">
-							<Grid item xs={12} lg={5} xl={4}>
-								<CarouselWithThumb
-									images={
-										productData?.images && productData?.images?.length !== 0
-											? productData.images
-											: ["/images/no-image.png"]
-									}
-									size="small"
-									sx={{
-										"@media screen and (max-width: 1200px)": {
-											width: "50%",
-											margin: "0rem auto 1rem"
-										},
-										"@media screen and (max-width: 900px)": {
-											width: "70%"
-										},
-										"@media screen and (max-width: 600px)": {
-											width: "100%"
+					<>
+						<ContentContainer>
+							<Grid container spacing={{ xs: 1, sm: 2, md: 3 }} alignItems="flex-start">
+								<Grid item xs={12} lg={5} xl={4}>
+									<CarouselWithThumb
+										images={
+											productData?.images && productData?.images?.length !== 0
+												? productData.images
+												: ["/images/no-image.png"]
 										}
-									}}
-								/>
-								<DetailsContainer>
-									<Divider flexItem sx={{ mt: 2, mb: 1 }} />
-									<DetailItem>
-										<DetailTitle>Created</DetailTitle>
-										<DetailDescription>{formatDateFull(productData.created_at)}</DetailDescription>
+										size="small"
+										sx={{
+											"@media screen and (max-width: 1200px)": {
+												width: "50%",
+												margin: "0rem auto 1rem"
+											},
+											"@media screen and (max-width: 900px)": {
+												width: "70%"
+											},
+											"@media screen and (max-width: 600px)": {
+												width: "100%"
+											}
+										}}
+									/>
+									<DetailsContainer>
+										<Divider flexItem sx={{ mt: 2, mb: 1 }} />
+										<DetailItem>
+											<DetailTitle>Created</DetailTitle>
+											<DetailDescription>
+												{formatDateFull(productData.created_at)}
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Modified</DetailTitle>
+											<DetailDescription>
+												{formatDateFull(productData.modified_at)}
+											</DetailDescription>
+										</DetailItem>
+									</DetailsContainer>
+								</Grid>
+								<Grid item xs={12} lg={7} xl={8}>
+									<DetailsContainer>
+										<DetailItem>
+											<DetailTitle>Product Title</DetailTitle>
+											<DetailDescription>{productData.title}</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>SKU Code</DetailTitle>
+											<DetailDescription>{productData.sku}</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Price</DetailTitle>
+											<DetailDescription>{formatToRupiah(productData.price)}</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Status</DetailTitle>
+											<DetailDescription>
+												<Stack justifyContent="flex-end">
+													<StatusBadge
+														color={productData.status === "active" ? "primary" : "error"}
+													>
+														{productData.status}
+													</StatusBadge>
+												</Stack>
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Rating</DetailTitle>
+											<DetailDescription>
+												<Stack direction="row" alignItems="center" gap="1rem">
+													{productData?.rating ? (
+														<>
+															<Rating value={+productData.rating} readOnly precision={0.1} />
+															<DetailDescription>
+																{(+productData?.rating).toFixed(1)} | {productData.review_count}{" "}
+																Review{+productData?.review_count > 1 && "s"}
+															</DetailDescription>
+														</>
+													) : (
+														<DetailDescription>- No reviews yet -</DetailDescription>
+													)}
+												</Stack>
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Category</DetailTitle>
+											<DetailDescription>{productData.category}</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Brand</DetailTitle>
+											<DetailDescription>{productData.brand}</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Sizes</DetailTitle>
+											<DetailDescription>
+												<Grid container spacing={1}>
+													{productData.sizes.map(size => (
+														<Grid item key={size} xs={3} sm={2} md={1.5} lg={3} xl={1.5}>
+															<StatusBadge key={size} color="secondary" centerText>
+																{size}
+															</StatusBadge>
+														</Grid>
+													))}
+												</Grid>
+											</DetailDescription>
+										</DetailItem>
+										<DetailItem>
+											<DetailTitle>Tags</DetailTitle>
+											<DetailDescription>
+												<Stack flexWrap="wrap" direction="row" gap={1}>
+													{productData.tags.map(tag => (
+														<Chip
+															sx={{
+																borderRadius: "0.5rem",
+																fontSize: { xs: "1.4rem", sm: "1.5rem", md: "1.6rem" },
+																height: { xs: "2.5rem", sm: "3.5rem" }
+															}}
+															label={tag}
+															key={tag}
+														/>
+													))}
+												</Stack>
+											</DetailDescription>
+										</DetailItem>
+									</DetailsContainer>
+								</Grid>
+								<Grid item xs={12}>
+									<DetailItem sx={{ flexDirection: "column" }}>
+										<DetailTitle>Description :</DetailTitle>
+										<DetailDescription sx={{ mt: 2 }}>
+											{productData.description || (
+												<FallbackContainer size="small">
+													{"No description provided."}
+												</FallbackContainer>
+											)}
+										</DetailDescription>
 									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Modified</DetailTitle>
-										<DetailDescription>{formatDateFull(productData.modified_at)}</DetailDescription>
-									</DetailItem>
-								</DetailsContainer>
+								</Grid>
 							</Grid>
-							<Grid item xs={12} lg={7} xl={8}>
-								<DetailsContainer>
-									<DetailItem>
-										<DetailTitle>Product Title</DetailTitle>
-										<DetailDescription>{productData.title}</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>SKU Code</DetailTitle>
-										<DetailDescription>{productData.sku}</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Price</DetailTitle>
-										<DetailDescription>{formatToRupiah(productData.price)}</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Status</DetailTitle>
-										<DetailDescription>
-											<Stack justifyContent="flex-end">
-												<StatusBadge color={productData.status === "active" ? "primary" : "error"}>
-													{productData.status}
-												</StatusBadge>
-											</Stack>
-										</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Rating</DetailTitle>
-										<DetailDescription>
-											<Stack direction="row" alignItems="center" gap="1rem">
-												{productData?.rating ? (
-													<>
-														<Rating value={+productData.rating} readOnly precision={0.1} />
-														<DetailDescription>
-															{(+productData?.rating).toFixed(1)} | {productData.review_count}{" "}
-															Review{+productData?.review_count > 1 && "s"}
-														</DetailDescription>
-													</>
-												) : (
-													<DetailDescription>- No reviews yet -</DetailDescription>
-												)}
-											</Stack>
-										</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Category</DetailTitle>
-										<DetailDescription>{productData.category}</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Brand</DetailTitle>
-										<DetailDescription>{productData.brand}</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Sizes</DetailTitle>
-										<DetailDescription>
-											<Grid container spacing={1}>
-												{productData.sizes.map(size => (
-													<Grid item key={size} xs={3} sm={2} md={1.5} lg={3} xl={1.5}>
-														<StatusBadge key={size} color="secondary" centerText>
-															{size}
-														</StatusBadge>
+						</ContentContainer>
+
+						<ContentContainer>
+							<ReviewsTitle>Product Reviews ({productData?.review_count || "0"})</ReviewsTitle>
+							{productData?.reviews?.length === 0 && (
+								<FallbackContainer>
+									<Typography textAlign="center">- No reviews yet -</Typography>
+								</FallbackContainer>
+							)}
+							{productData && productData?.reviews?.length !== 0 && (
+								<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
+									<Grid item xs={12}>
+										<ReviewsContainer container spacing={{ xs: 1, md: 2 }}>
+											{productData.reviews
+												.slice((reviewPage - 1) * 4, (reviewPage - 1) * 4 + 4)
+												.map(review => (
+													<Grid item xs={12} md={6} key={review.id}>
+														<ReviewItem reviewData={review} />
 													</Grid>
 												))}
-											</Grid>
-										</DetailDescription>
-									</DetailItem>
-									<DetailItem>
-										<DetailTitle>Tags</DetailTitle>
-										<DetailDescription>
-											<Stack flexWrap="wrap" direction="row" gap={1}>
-												{productData.tags.map(tag => (
-													<Chip
-														sx={{
-															borderRadius: "0.5rem",
-															fontSize: { xs: "1.4rem", sm: "1.5rem", md: "1.6rem" },
-															height: { xs: "2.5rem", sm: "3.5rem" }
-														}}
-														label={tag}
-														key={tag}
-													/>
-												))}
-											</Stack>
-										</DetailDescription>
-									</DetailItem>
-								</DetailsContainer>
-							</Grid>
-							<Grid item xs={12}>
-								<DetailItem sx={{ flexDirection: "column" }}>
-									<DetailTitle>Description :</DetailTitle>
-									<DetailDescription sx={{ mt: 2 }}>
-										{productData.description || (
-											<FallbackContainer size="small">
-												{"No description provided."}
-											</FallbackContainer>
+										</ReviewsContainer>
+										{Math.ceil(productData.reviews.length / 4) > 1 && (
+											<ReviewsPagination
+												page={reviewPage}
+												onChange={reviewPaginationChangeHandler}
+												count={Math.ceil(productData.reviews.length / 4)}
+												shape="rounded"
+												color="primary"
+											/>
 										)}
-									</DetailDescription>
-								</DetailItem>
-							</Grid>
-						</Grid>
-					</ContentContainer>
+									</Grid>
+								</Grid>
+							)}
+						</ContentContainer>
+					</>
 				)}
-				<ContentContainer>
-					<ReviewsTitle>Product Reviews ({productData?.review_count || "0"})</ReviewsTitle>
-					{productData?.reviews?.length === 0 && (
-						<FallbackContainer>
-							<Typography textAlign="center">- No reviews yet -</Typography>
-						</FallbackContainer>
-					)}
-					{productData && productData?.reviews?.length !== 0 && (
-						<Grid container sx={{ mt: { xs: 1, sm: 2 } }}>
-							<Grid item xs={12}>
-								<ReviewsContainer container spacing={{ xs: 1, md: 2 }}>
-									{productData.reviews
-										.slice((reviewPage - 1) * 4, (reviewPage - 1) * 4 + 4)
-										.map(review => (
-											<ReviewItem reviewData={review} key={review.id} />
-										))}
-								</ReviewsContainer>
-								{Math.ceil(productData.reviews.length / 4) > 1 && (
-									<ReviewsPagination
-										page={reviewPage}
-										onChange={reviewPaginationChangeHandler}
-										count={Math.ceil(productData.reviews.length / 4)}
-										shape="rounded"
-										color="primary"
-									/>
-								)}
-							</Grid>
-						</Grid>
-					)}
-				</ContentContainer>
 
 				<ContentContainer>
 					<ReviewsTitle>Statistik Produk</ReviewsTitle>

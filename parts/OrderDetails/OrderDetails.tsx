@@ -549,12 +549,13 @@ const OrderDetails = () => {
 									<Grid item xs={12}>
 										<Grid container spacing={{ xs: 1, md: 2 }}>
 											{reviewsData.map(review => (
-												<ReviewItem
-													reviewData={review}
-													key={review.id}
-													openTransactionDetailsBtn={false}
-													openEditReviewBtn={true}
-												/>
+												<Grid item xs={12} md={6} key={review.id}>
+													<ReviewItem
+														reviewData={review}
+														openTransactionDetailsBtn={false}
+														openEditReviewBtn={true}
+													/>
+												</Grid>
 											))}
 										</Grid>
 									</Grid>
