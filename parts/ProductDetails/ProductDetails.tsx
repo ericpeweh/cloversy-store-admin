@@ -332,7 +332,7 @@ const ProductDetails = () => {
 											{productData.reviews
 												.slice((reviewPage - 1) * 4, (reviewPage - 1) * 4 + 4)
 												.map(review => (
-													<Grid item xs={12} md={6} key={review.id}>
+													<Grid item xs={12} xl={6} key={review.id}>
 														<ReviewItem reviewData={review} />
 													</Grid>
 												))}

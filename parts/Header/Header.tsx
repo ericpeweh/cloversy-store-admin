@@ -18,6 +18,7 @@ import { toggleShowSidebar } from "../../store/slices/globalSlice";
 import useMenu from "../../hooks/useMenu";
 import useModal from "../../hooks/useModal";
 import useDispatch from "../../hooks/useDispatch";
+import useSelector from "../../hooks/useSelector";
 
 // Components
 import { Avatar, ButtonBase, IconButton, Stack } from "@mui/material";
@@ -29,6 +30,7 @@ const Header = () => {
 	const dispatch = useDispatch();
 
 	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+	const profilePicture = useSelector(state => state.auth.profile_picture);
 
 	const {
 		isMenuOpen: isAccountMenuOpen,
@@ -91,7 +93,7 @@ const Header = () => {
 							onClick={openAccountMenuHandler}
 						>
 							<Avatar
-								src={`${user?.picture}` || "/images/1.jpg"}
+								src={`${profilePicture}` || "/images/1.jpg"}
 								alt="user profile"
 								sx={{
 									width: { xs: "3rem", sm: "4rem", md: "5rem" },

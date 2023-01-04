@@ -549,7 +549,7 @@ const OrderDetails = () => {
 									<Grid item xs={12}>
 										<Grid container spacing={{ xs: 1, md: 2 }}>
 											{reviewsData.map(review => (
-												<Grid item xs={12} md={6} key={review.id}>
+												<Grid item xs={12} xl={6} key={review.id}>
 													<ReviewItem
 														reviewData={review}
 														showProductTitle={true}

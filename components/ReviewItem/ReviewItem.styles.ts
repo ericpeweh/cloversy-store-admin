@@ -8,7 +8,10 @@ export const ReviewContainer = styled(Box)(({ theme }) => ({
 	padding: "2rem",
 	height: "100%",
 	display: "flex",
-	flexDirection: "column"
+	flexDirection: "column",
+	[theme.breakpoints.down("sm")]: {
+		padding: "1.5rem"
+	}
 })) as typeof Box;
 
 export const ReviewerName = styled("h5")(({ theme }) => ({
