@@ -1,16 +1,16 @@
 // Dependencies
 import { styled } from "@mui/system";
 
-export const ProductsContainer = styled("div")({});
+export const ReviewsContainer = styled("div")({});
 
-export const ProductsHeader = styled("div")(({ theme }) => ({
+export const ReviewsHeader = styled("div")(({ theme }) => ({
 	backgroundColor: "#fff",
 	borderRadius: "0.5rem",
 	margin: "1rem 0",
 	padding: "2rem",
 	display: "flex",
 	justifyContent: "space-between",
-	"@media screen and (max-width: 1480px)": {
+	[theme.breakpoints.down("md")]: {
 		flexDirection: "column",
 		gap: "1rem"
 	},
@@ -19,13 +19,10 @@ export const ProductsHeader = styled("div")(({ theme }) => ({
 	}
 }));
 
-export const ProductsList = styled("div")({
-	display: "flex",
-	flexDirection: "column"
-});
-
-export const ProductsCardList = styled("div")(({ theme }) => ({
+export const ReviewsList = styled("div")(({ theme }) => ({
 	padding: "2rem",
+	marginTop: "1rem",
+	mr: "-2.4rem",
 	backgroundColor: "#fff",
 	borderRadius: "0.5rem",
 	[theme.breakpoints.down("sm")]: {
