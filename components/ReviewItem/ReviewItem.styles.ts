@@ -1,14 +1,15 @@
 // Dependencies
+import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
-export const ReviewContainer = styled("div")(({ theme }) => ({
+export const ReviewContainer = styled(Box)(({ theme }) => ({
 	backgroundColor: theme.palette.grey[100],
 	borderRadius: "0.5rem",
 	padding: "2rem",
 	height: "100%",
 	display: "flex",
 	flexDirection: "column"
-}));
+})) as typeof Box;
 
 export const ReviewerName = styled("h5")(({ theme }) => ({
 	fontSize: "1.6rem",

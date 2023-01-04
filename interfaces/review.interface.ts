@@ -8,3 +8,11 @@ export interface GetReviewsQuery {
 	sortBy: string;
 	q: string;
 }
+
+export interface UpdateReviewBody {
+	id: string;
+	rating: number;
+	review: string;
+	status: Omit<ReviewsStatusValues, "default">;
+	created_at: string;
+}

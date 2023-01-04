@@ -28,6 +28,7 @@ import {
 	ListItemText,
 	Rating,
 	Stack,
+	SxProps,
 	Typography
 } from "@mui/material";
 import StatusBadge from "../StatusBadge/StatusBadge";
@@ -37,22 +38,32 @@ interface ReviewItemProps {
 	showProductTitle?: boolean;
 	openEditReviewBtn?: boolean;
 	openTransactionDetailsBtn?: boolean;
+	sx?: SxProps;
+	previewMode?: boolean;
 }
 
 const ReviewItem = ({
 	reviewData,
 	showProductTitle = false,
 	openEditReviewBtn = false,
-	openTransactionDetailsBtn = true
+	openTransactionDetailsBtn = true,
+	previewMode = false,
+	...props
 }: ReviewItemProps) => {
 	const router = useRouter();
 
-	const openTransactionDetailsHandler = () => router.push(`/orders/${reviewData.transaction_id}`);
+	const openTransactionDetailsHandler = () => {
+		if (previewMode) return;
+		router.push(`/orders/${reviewData.transaction_id}`);
+	};
 
-	const openEditReviewHandler = () => router.push(`/reviews/${reviewData.id}/edit`);
+	const openEditReviewHandler = () => {
+		if (previewMode) return;
+		router.push(`/reviews/${reviewData.id}/edit`);
+	};
 
 	return (
-		<ReviewContainer>
+		<ReviewContainer {...props}>
 			<ListItem
 				alignItems="flex-start"
 				sx={{ padding: 0 }}

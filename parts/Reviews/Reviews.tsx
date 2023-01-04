@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { ReviewsContainer, ReviewsHeader, ReviewsList } from "./Reviews.styles";
 
 // Icons
-import AddIcon from "@mui/icons-material/Add";
 import SortIcon from "@mui/icons-material/Sort";
 
 // Hooks
@@ -98,14 +97,6 @@ const Reviews = () => {
 
 			<Stack direction="row" alignItems="center" justifyContent="space-between">
 				<PageTitle>Reviews List</PageTitle>
-				<Button
-					startIcon={<AddIcon />}
-					size="small"
-					color="primary"
-					onClick={() => router.push("/Reviews/new")}
-				>
-					New Voucher
-				</Button>
 			</Stack>
 			<ReviewsHeader>
 				<Stack

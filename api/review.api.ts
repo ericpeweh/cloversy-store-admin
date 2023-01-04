@@ -6,7 +6,8 @@ import {
 	ResponseWithPagination,
 	ResponseBody,
 	ProductReviewItem,
-	GetReviewsQuery
+	GetReviewsQuery,
+	UpdateReviewBody
 } from "../interfaces";
 
 const reviewApi = API.injectEndpoints({
@@ -32,17 +33,39 @@ const reviewApi = API.injectEndpoints({
 		}),
 		getOrderReviews: build.query<ResponseBody<{ reviews: ProductReviewItem[] }>, string>({
 			query: transactionId => {
-				return `reviews/${transactionId.toUpperCase()}`;
+				return `reviews?transactionId=${transactionId.toUpperCase()}`;
 			},
 			providesTags: result =>
 				result
 					? [...result.data.reviews.map(({ id }) => ({ type: "Review" as const, id })), "Reviews"]
 					: ["Reviews"]
+		}),
+		getReview: build.query<ResponseBody<{ review: ProductReviewItem }>, string>({
+			query: reviewId => {
+				return `reviews/${reviewId}`;
+			},
+			providesTags: result => [{ type: "Review" as const, id: result?.data.review.id }]
+		}),
+		updateReview: build.mutation<
+			ResponseBody<{ updatedReview: ProductReviewItem }>,
+			UpdateReviewBody
+		>({
+			query: ({ id: reviewId, ...updatedReviewData }) => ({
+				url: `reviews/${reviewId}`,
+				method: "PUT",
+				body: updatedReviewData
+			}),
+			invalidatesTags: res => [{ type: "Review", id: res?.data.updatedReview.id }, "Reviews"]
 		})
 	}),
 	overrideExisting: false
 });
 
-export const { useGetOrderReviewsQuery, useGetAllReviewsQuery } = reviewApi;
+export const {
+	useGetOrderReviewsQuery,
+	useGetAllReviewsQuery,
+	useUpdateReviewMutation,
+	useGetReviewQuery
+} = reviewApi;
 
 export default reviewApi;

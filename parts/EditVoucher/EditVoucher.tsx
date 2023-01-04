@@ -19,6 +19,7 @@ import { Customer, UpdateVoucherBody } from "../../interfaces";
 // Hooks
 import useModal from "../../hooks/useModal";
 import useSelector from "../../hooks/useSelector";
+import useDebounce from "../../hooks/useDebounce";
 import { useRouter } from "next/router";
 import { useGetCustomersQuery } from "../../api/customer.api";
 import { useGetVoucherDetailQuery, useUpdateVoucherMutation } from "../../api/voucher.api";
@@ -37,7 +38,6 @@ import TextInput from "../../components/TextInput/TextInput";
 import SelectInput from "../../components/SelectInput/SelectInput";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import DatePicker from "../../components/DatePicker/DatePicker";
-import useDebounce from "../../hooks/useDebounce";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
