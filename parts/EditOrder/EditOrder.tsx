@@ -48,8 +48,11 @@ import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import PerformantTextInput from "../../components/PerformantTextInput/PerformantTextInput";
 
-const _sortByDate = (a: TransactionTimelineItem, b: TransactionTimelineItem) =>
+const _sortByDateDesc = (a: TransactionTimelineItem, b: TransactionTimelineItem) =>
 	a.timeline_date > b.timeline_date ? -1 : a.timeline_date < b.timeline_date ? 1 : 0;
+
+const _sortByDateAsc = (a: TransactionTimelineItem, b: TransactionTimelineItem) =>
+	a.timeline_date < b.timeline_date ? -1 : a.timeline_date > b.timeline_date ? 1 : 0;
 
 const UpdateTransactionSchema = Yup.object().shape({
 	orderNote: Yup.string(),
@@ -104,7 +107,7 @@ const EditOrder = () => {
 
 	const updateTransactionHandler = async ({ timeline, ...data }: UpdateTransactionFormValues) => {
 		if (orderId) {
-			const sortedTimeline = [...timeline].sort(_sortByDate);
+			const sortedTimeline = [...timeline].sort(_sortByDateAsc);
 			const updatedTransactionData = {
 				transactionId: orderId.toString(),
 				timelineObj: JSON.stringify(sortedTimeline),
@@ -132,7 +135,7 @@ const EditOrder = () => {
 				timeline_date: timelineDateInput.toISO()
 			}
 		] // Sort by date (DESCENDING)
-			.sort(_sortByDate);
+			.sort(_sortByDateDesc);
 
 		setFieldValue("timeline", updatedTimeline);
 		setTimelineDescInput("");
@@ -293,7 +296,7 @@ const EditOrder = () => {
 												</Grid>
 											</Grid>
 											{[...values.timeline, ...orderData.waybillTimeline]
-												.sort(_sortByDate)
+												.sort(_sortByDateDesc)
 												.map((item: TransactionTimelineItem & { waybill?: boolean }, i) => (
 													<Grid
 														key={item.description + item.timeline_date}

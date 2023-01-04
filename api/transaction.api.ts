@@ -86,6 +86,21 @@ const transactionApi = API.injectEndpoints({
 				{ type: "Transaction Edit", id: res?.data.updatedTransaction.id },
 				"Transactions"
 			]
+		}),
+		updateTransactionStatus: build.mutation<
+			ResponseBody<{ updatedTransaction: TransactionDetails }>,
+			{ orderStatus: TransactionStatus; transactionId: string }
+		>({
+			query: ({ orderStatus, transactionId }) => ({
+				url: `transactions/${transactionId}/status`,
+				method: "PATCH",
+				body: { orderStatus }
+			}),
+			invalidatesTags: res => [
+				{ type: "Transaction", id: res?.data.updatedTransaction.id },
+				{ type: "Transaction Edit", id: res?.data.updatedTransaction.id },
+				"Transactions"
+			]
 		})
 	}),
 	overrideExisting: false
@@ -96,7 +111,8 @@ export const {
 	useGetTransactionsQuery,
 	useGetTransactionDetailsQuery,
 	useGetTransactionDetailsToEditQuery,
-	useUpdateTransactionMutation
+	useUpdateTransactionMutation,
+	useUpdateTransactionStatusMutation
 } = transactionApi;
 
 export default transactionApi;

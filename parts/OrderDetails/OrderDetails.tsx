@@ -44,7 +44,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useSelector from "../../hooks/useSelector";
 import {
 	useGetTransactionDetailsQuery,
-	useUpdateTransactionMutation
+	useUpdateTransactionMutation,
+	useUpdateTransactionStatusMutation
 } from "../../api/transaction.api";
 import { useGetOrderReviewsQuery } from "../../api/review.api";
 
@@ -70,6 +71,7 @@ import TextInput from "../../components/TextInput/TextInput";
 import Timeline from "../../components/Timeline/Timeline";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import ReviewItem from "../../components/ReviewItem/ReviewItem";
+import { TransactionStatus } from "../../interfaces";
 
 const OrderDetails = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
@@ -97,14 +99,23 @@ const OrderDetails = () => {
 	const payment = orderData?.payment_details;
 	const items = orderData?.item_details;
 
+	// Order status
+	const [orderStatusInput, setOrderStatusInput] = useState<TransactionStatus>(
+		orderData?.order_status || "pending"
+	);
+
+	useEffect(() => {
+		if (orderData?.order_status) {
+			setOrderStatusInput(orderData.order_status);
+		}
+	}, [orderData?.order_status]);
+
 	// Reviews data
 	const {
 		data: getOrderReviews,
 		isLoading: isGetReviewsLoading,
-		isSuccess: isGetReviewsSuccess,
 		error: getReviewsErrorData,
-		refetch: refetchReviews,
-		isUninitialized: isGetReviewsUninitialized
+		refetch: refetchReviews
 	} = useGetOrderReviewsQuery(orderId as string, { skip: !isAuth });
 	const getReviewsError: any = getReviewsErrorData;
 	const reviewsData = getOrderReviews?.data.reviews;
@@ -133,6 +144,25 @@ const OrderDetails = () => {
 		await updateOrderNote({ transactionId: orderData?.id, orderNote: orderNoteInput });
 
 		resetUpdateOrderNote();
+	};
+
+	const [
+		updateTransactionStatus,
+		{
+			isLoading: isUpdateTransactionStatusLoading,
+			error: updateTransactionStatusErrorData,
+			reset: resetUpdateTransactionStatus
+		}
+	] = useUpdateTransactionStatusMutation();
+	const updateTransactionStatusError: any = updateTransactionStatusErrorData;
+
+	const updateTransactionStatusHandler = async () => {
+		if (!orderData?.id) return;
+		if (orderData?.order_status === orderStatusInput) return;
+
+		await updateTransactionStatus({ transactionId: orderData?.id, orderStatus: orderStatusInput });
+
+		resetUpdateTransactionStatus();
 	};
 
 	const copyTransactionNumberHandler = async () => {
@@ -253,25 +283,41 @@ const OrderDetails = () => {
 								}
 							}}
 						>
-							<SelectInput
-								options={[
-									{ label: "Pending", value: "pending" },
-									{ label: "Process", value: "process" },
-									{ label: "Sent", value: "sent" },
-									{ label: "Success", value: "success" },
-									{ label: "Cancel", value: "cancel" }
-								]}
-								value={orderData.order_status}
-								label="Order status"
-								size="small"
-								sx={{ width: { xs: "100%", sm: "25rem" } }}
-							/>
-							<BoxButton sx={{ mr: { xs: 0, sm: 1 } }}>Save</BoxButton>
+							{orderData.order_status !== "success" && orderData.order_status !== "cancel" && (
+								<>
+									<SelectInput
+										options={[
+											{ label: "Pending", value: "pending" },
+											{ label: "Process", value: "process" },
+											{ label: "Sent", value: "sent" },
+											{ label: "Success", value: "success" },
+											{ label: "Cancel", value: "cancel" }
+										]}
+										value={orderStatusInput}
+										onChange={e => setOrderStatusInput(e.target.value as TransactionStatus)}
+										label=""
+										size="small"
+										sx={{ width: { xs: "100%", sm: "25rem" } }}
+									/>
+									<BoxButton
+										sx={{ mr: { xs: 0, sm: 1 } }}
+										onClick={updateTransactionStatusHandler}
+										loading={isUpdateTransactionStatusLoading}
+									>
+										Save
+									</BoxButton>
+								</>
+							)}
 							<BoxButton sx={{ backgroundColor: "#555", color: "#fff" }}>
 								<PrintIcon />
 							</BoxButton>
 						</Stack>
 					</ContentHeader>
+					{updateTransactionStatusError && (
+						<Alert severity="error" sx={{ mt: 2 }}>
+							{updateTransactionStatusError?.data?.message}
+						</Alert>
+					)}
 					<Divider />
 					<ContentContainer>
 						<Grid container spacing={3}>
@@ -484,6 +530,17 @@ const OrderDetails = () => {
 							</Grid>
 						</Grid>
 					</ContentContainer>
+					{!isGetReviewsLoading && getReviewsError && (
+						<FallbackContainer>
+							<Alert severity="error">{getReviewsError.data.message}</Alert>
+							<BoxButton onClick={refetchReviews}>Try again</BoxButton>
+						</FallbackContainer>
+					)}
+					{isGetReviewsLoading && (
+						<FallbackContainer>
+							<CircularProgress />
+						</FallbackContainer>
+					)}
 					{reviewsData && reviewsData?.length !== 0 && (
 						<ContentContainer>
 							<Section>

@@ -45,7 +45,9 @@ const ReviewItem = ({
 }: ReviewItemProps) => {
 	const router = useRouter();
 
-	const openTransactionDetails = () => router.push(`/orders/${reviewData.transaction_id}`);
+	const openTransactionDetailsHandler = () => router.push(`/orders/${reviewData.transaction_id}`);
+
+	const openEditReviewHandler = () => router.push(`/reviews/${reviewData.id}`);
 
 	return (
 		<ReviewItemContainer item xs={12} md={6}>
@@ -56,12 +58,12 @@ const ReviewItem = ({
 					secondaryAction={
 						<Stack gap={{ xs: 0.5, sm: 1 }} width={"100%"} direction={{ xs: "column", sm: "row" }}>
 							{openTransactionDetailsBtn && (
-								<ButtonBase component="span" onClick={openTransactionDetails}>
+								<ButtonBase component="span" onClick={openTransactionDetailsHandler}>
 									<StatusBadge color="secondary">{reviewData.transaction_id}</StatusBadge>
 								</ButtonBase>
 							)}
 							{openEditReviewBtn && (
-								<ButtonBase component="span" onClick={openTransactionDetails}>
+								<ButtonBase component="span" onClick={openEditReviewHandler}>
 									<StatusBadge color="secondary">Edit Review</StatusBadge>
 								</ButtonBase>
 							)}
