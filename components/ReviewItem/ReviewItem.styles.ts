@@ -41,3 +41,18 @@ export const ReviewDescription = styled("p")(({ theme }) => ({
 		fontSize: "1.4rem"
 	}
 }));
+
+export const ProductTitle = styled("h3")(({ theme }) => ({
+	fontSize: "1.7rem",
+	cursor: "pointer",
+	fontWeight: 500,
+	marginBottom: "0.7rem",
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.6rem",
+		marginBottom: "0.5rem"
+	},
+	[theme.breakpoints.down("sm")]: {
+		fontSize: "1.5rem",
+		marginBottom: "0.4rem"
+	}
+}));

@@ -552,6 +552,7 @@ const OrderDetails = () => {
 												<Grid item xs={12} md={6} key={review.id}>
 													<ReviewItem
 														reviewData={review}
+														showProductTitle={true}
 														openTransactionDetailsBtn={false}
 														openEditReviewBtn={true}
 													/>

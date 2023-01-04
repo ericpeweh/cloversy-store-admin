@@ -33,6 +33,7 @@ export interface ProductReviewItem {
 	full_name: string;
 	profile_picture: string;
 	created_at: string;
+	product_title: string;
 }
 
 export type ProductStatusValues = "default" | "active" | "disabled";
