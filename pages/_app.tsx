@@ -35,7 +35,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 							domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN!}
 							clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENTID!}
 							audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE!}
-							redirectUri="http://localhost:3000/"
+							redirectUri="http://localhost:3001/"
 							scope="openid profile email"
 						>
 							<AppWrapper>

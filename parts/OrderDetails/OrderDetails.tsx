@@ -460,7 +460,7 @@ const OrderDetails = () => {
 												sizeDesc={`EU ${item.product_size}`}
 												qtyDesc={item.quantity.toString()}
 												price={formatToRupiah(+item.price * +item.quantity)}
-												imageUrl={(item?.images || [])[0] || "/images/no-image.png"}
+												imageUrl={(item?.images || ["/images/no-image.png"])[0]}
 											/>
 										))}
 									</OrderCardContainer>

@@ -114,7 +114,7 @@ const Header = () => {
 						{ label: "Profil saya", action: () => {}, id: "profil" },
 						{
 							label: "Logout",
-							action: () => logout({ returnTo: "http://localhost:3000/" }),
+							action: () => logout({ returnTo: "http://localhost:3001/" }),
 							id: "logout"
 						}
 					]}
