@@ -19,6 +19,7 @@ import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import AuthActions from "../../components/AuthActions/AuthActions";
+import NotificiationLayer from "../NotificationLayer/NotificiationLayer";
 
 interface AppWrapperProps {
 	children: React.ReactNode;
@@ -80,6 +81,7 @@ const AppWrapper = ({ children }: AppWrapperProps) => {
 				<>
 					<Header />
 					<Sidebar />
+					<NotificiationLayer />
 					{children}
 				</>
 			)}
