@@ -171,6 +171,7 @@ const AddVoucher = () => {
 							onSelect={setFieldValue}
 							selectedData={values.selectedUsers}
 							isLoading={isGetCustomersLoading}
+							isFetching={isGetCustomersFetching}
 							error={customersError}
 						/>
 						<Stack

@@ -269,6 +269,7 @@ const EditVoucher = () => {
 								manualOnSelect={true}
 								selectedData={values.selectedUsers}
 								isLoading={isGetCustomersLoading}
+								isFetching={isGetCustomersFetching}
 								error={customersError}
 							/>
 							<Stack direction="row" alignItems="center" justifyContent="space-between">
