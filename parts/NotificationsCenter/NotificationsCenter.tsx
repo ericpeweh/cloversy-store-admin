@@ -19,6 +19,7 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 // Hooks
 import usePagination from "../../hooks/usePagination";
 import useMenu from "../../hooks/useMenu";
+import { useRouter } from "next/router";
 
 // Components
 import { Grid, Stack } from "@mui/material";
@@ -115,6 +116,7 @@ const colors: colorsType = {
 };
 
 const NotificationsCenter = () => {
+	const router = useRouter();
 	const { page: notificationsPage, onChange: notificationsPageChangeHandler } = usePagination();
 	const { page: emailsPage, onChange: emailsPageChangeHandler } = usePagination();
 
@@ -147,10 +149,20 @@ const NotificationsCenter = () => {
 			>
 				<PageTitle sx={{ mb: { xs: 1, sm: 0 } }}>Notifications Center</PageTitle>
 				<Stack direction={"row"} gap={2}>
-					<Button startIcon={<AddIcon />} size="small" color="primary">
+					<Button
+						startIcon={<AddIcon />}
+						size="small"
+						color="primary"
+						onClick={() => router.push("/notifications/new-email")}
+					>
 						Email Marketing
 					</Button>
-					<Button startIcon={<AddIcon />} size="small" color="primary" onClick={() => {}}>
+					<Button
+						startIcon={<AddIcon />}
+						size="small"
+						color="primary"
+						onClick={() => router.push("/notifications/new-notif")}
+					>
 						New Notification
 					</Button>
 				</Stack>

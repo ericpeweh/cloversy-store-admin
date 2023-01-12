@@ -16,7 +16,7 @@ import {
 } from "./UserPickerModal.styles";
 
 // Types
-import { Customer } from "../../interfaces";
+import { Customer, PushSubscriptionItem } from "../../interfaces";
 
 // Components
 import { Divider, Avatar, CircularProgress, Typography, Box, Alert } from "@mui/material";
@@ -34,11 +34,12 @@ interface UserPickerModalProps {
 	onLoadMore: () => void;
 	page: number;
 	totalPages: number;
-	data: Customer[];
+	data: Customer[] | PushSubscriptionItem[];
 	manualOnSelect?: boolean;
 	onSelect: Function;
 	selectedData: { id: number; email: string }[];
 	isLoading: boolean;
+	isFetching: boolean;
 	error: any;
 }
 
@@ -55,6 +56,7 @@ const UserPickerModal = ({
 	manualOnSelect = false,
 	selectedData,
 	isLoading,
+	isFetching,
 	error
 }: UserPickerModalProps) => {
 	const selectChangeHandler = (
@@ -108,7 +110,7 @@ const UserPickerModal = ({
 						{<Alert severity="error">{error.data.message}</Alert>}
 					</FallbackContainer>
 				)}
-				{!isLoading && !error && data.length === 0 && (
+				{!isLoading && !isFetching && !error && data.length === 0 && (
 					<FallbackContainer>{<Typography>No customer found!</Typography>}</FallbackContainer>
 				)}
 				<InfiniteScroller

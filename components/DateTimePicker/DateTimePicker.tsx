@@ -17,9 +17,10 @@ interface DateTimePickerProps {
 	label: string;
 	onChange: (newValue: DateTimeType) => void;
 	value: DateTimeType;
+	minDateTime?: DateTimeType;
 }
 
-const DateTimePicker = ({ label, onChange, value }: DateTimePickerProps) => {
+const DateTimePicker = ({ label, onChange, value, minDateTime }: DateTimePickerProps) => {
 	const handleChange = (newValue: DateTimeType | null) => {
 		if (newValue) {
 			onChange(newValue);
@@ -30,6 +31,7 @@ const DateTimePicker = ({ label, onChange, value }: DateTimePickerProps) => {
 		<DateTimePickerContainer>
 			<LocalizationProvider dateAdapter={AdapterLuxon}>
 				<MuiDateTimePicker
+					minDateTime={minDateTime}
 					label={label}
 					inputFormat="dd/MM/yyyy hh:mm a"
 					value={value}
