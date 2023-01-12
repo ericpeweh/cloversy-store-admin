@@ -49,7 +49,7 @@ const AuthActions = () => {
 						/>
 					</LogoContainer>
 					<InformationText color="error">Access denied!</InformationText>
-					<Button onClick={() => logout()}>Logout</Button>
+					<Button onClick={() => logout({ returnTo: "http://localhost:3001" })}>Logout</Button>
 				</AuthActionsContainer>
 			)}
 		</>
