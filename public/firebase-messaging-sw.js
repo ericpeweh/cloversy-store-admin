@@ -3,9 +3,10 @@ self.addEventListener("notificationclick", event => {
 	// Close notification
 	event.notification.close();
 
+	// If user clicked on "Ignore" action button
 	if (event.action === "ignore") return;
 
-	// If event action exist
+	// Handle notification clicked on action buttons
 	if (event.action) {
 		event.waitUntil(
 			clients
@@ -39,8 +40,6 @@ self.addEventListener("notificationclick", event => {
 				})
 				.then(clientList => {
 					// Focus to event.action page
-					console.log(clientList);
-
 					for (const client of clientList) {
 						if (client.url === event.notification.data && "focus" in client) {
 							return client.focus();
@@ -77,9 +76,11 @@ const isSupported = firebase.messaging.isSupported();
 if (isSupported) {
 	const messaging = firebase.messaging();
 
+	// Handle incoming background message
 	messaging.onBackgroundMessage(payload => {
 		const { data } = payload;
 
+		// Build message
 		let notificationOptions;
 		if (data?.body) {
 			notificationOptions = {
@@ -111,8 +112,7 @@ if (isSupported) {
 
 		const notificationTitle = data?.title || "Pemberitahuan";
 
+		// Show notification
 		self.registration.showNotification(notificationTitle, notificationOptions);
 	});
-} else {
-	console.log("Firebase not supported.");
 }
