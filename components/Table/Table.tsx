@@ -19,7 +19,7 @@ interface TableProps {
 const Table = ({ children, headData }: TableProps) => {
 	return (
 		<TableContainer>
-			<TableInnerContainer aria-label="simple table">
+			<TableInnerContainer>
 				<TableHead>
 					<TableRow>
 						{headData.map((title, i) => (

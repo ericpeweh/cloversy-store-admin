@@ -24,6 +24,7 @@ export const TableRow = styled(MuiTableRow)({}) as typeof MuiTableRow;
 export const TableCell = styled(MuiTableCell)(({ theme }) => ({
 	fontSize: "1.6rem",
 	minWidth: "12rem",
+	whiteSpace: "nowrap",
 	[theme.breakpoints.down("md")]: {
 		fontSize: "1.5rem"
 	},

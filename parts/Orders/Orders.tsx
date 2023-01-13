@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // Styles
 import { OrdersContainer, OrdersHeader, OrdersList } from "./Orders.styles";

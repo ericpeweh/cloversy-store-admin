@@ -14,6 +14,7 @@ import { TableCell, TableRow } from "../../../components/Table/Table.styles";
 
 // Utils
 import { formatDateStandardWithTime } from "../../../utils/formatDate";
+import isDateBeforeCurrentTime from "../../../utils/isDateBeforeCurrentTime";
 
 // Components
 import { Alert, CircularProgress, Grid, Stack } from "@mui/material";
@@ -25,7 +26,14 @@ import TextInput from "../../../components/TextInput/TextInput";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import FallbackContainer from "../../../components/FallbackContainer/FallbackContainer";
 
-const NotificationsHeadData = ["Sent at", "Code", "Campaign title", "Target", "Action"];
+const NotificationsHeadData = [
+	"Created at",
+	"Code",
+	"Status",
+	"Campaign title",
+	"Target",
+	"Action"
+];
 
 const NotifMarketingsList = () => {
 	const router = useRouter();
@@ -109,8 +117,26 @@ const NotifMarketingsList = () => {
 												}
 											}}
 										>
-											<StatusBadge color="primary" sx={{ width: "max-content" }}>
+											<StatusBadge color="secondary" sx={{ width: "max-content" }}>
 												{data.notification_code}
+											</StatusBadge>
+										</TableCell>
+										<TableCell>
+											<StatusBadge
+												color={
+													data.sent_at
+														? "primary"
+														: isDateBeforeCurrentTime(data?.scheduled || "")
+														? "warning"
+														: "secondary"
+												}
+												sx={{ width: "max-content" }}
+											>
+												{data.sent_at
+													? "Sent"
+													: isDateBeforeCurrentTime(data?.scheduled || "")
+													? "Expired"
+													: "Scheduled"}
 											</StatusBadge>
 										</TableCell>
 										<TableCell>{data.title}</TableCell>
@@ -144,9 +170,9 @@ const NotifMarketingsList = () => {
 								}}
 							>
 								<Pagination
-									page={page}
+									page={notifMarketingsData?.page}
 									onChange={paginationChangeHandler}
-									count={notifMarketingsData?.totalPages || 1}
+									count={notifMarketingsData?.totalPages}
 									shape="rounded"
 									color="primary"
 								/>

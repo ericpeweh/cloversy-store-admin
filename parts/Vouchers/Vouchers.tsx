@@ -53,6 +53,7 @@ const Vouchers = () => {
 			skip: !isAuth
 		}
 	);
+
 	const vouchersError: any = getVouchersError;
 	const noDataFound = vouchersData?.data.vouchers.length === 0;
 
