@@ -1,3 +1,6 @@
+// Types
+import { Customer } from "./customer.interface";
+
 export interface CreateNotifMarketingData {
 	title: string;
 	description: string | undefined;
@@ -15,7 +18,6 @@ export interface NotifMarketingItem {
 	id: number;
 	notification_code: string;
 	title: string;
-	sent: boolean;
 	sent_at: string | null;
 	scheduled: string | null;
 	description: string | null;
@@ -27,6 +29,12 @@ export interface NotifMarketingItem {
 	success_count: number;
 	failure_count: number;
 	created_at: string;
+	send_to: "all" | "selected";
+	target_count: number;
+}
+
+export interface NotifMarketingItemDetail extends NotifMarketingItem {
+	selectedUsers: Partial<Customer>[];
 }
 
 export interface GetNotifMarketingsQuery {

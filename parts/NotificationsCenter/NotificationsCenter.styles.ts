@@ -42,7 +42,7 @@ export const ListItem = styled("div")(({ theme }) => ({
 export const ListItemTitle = styled("h2")(({ theme }) => ({
 	fontSize: "1.8rem",
 	fontWeight: 500,
-	marginBottom: "0.5rem",
+	marginBottom: "0.8rem",
 	[theme.breakpoints.down("md")]: {
 		fontSize: "1.7rem"
 	},
@@ -58,7 +58,7 @@ export const ListItemText = styled("p")(({ theme }) => ({
 	display: "flex",
 	gap: "0.5rem",
 	alignItems: "center",
-	marginBottom: "0.5rem",
+	marginBottom: "0.8rem",
 	[theme.breakpoints.down("sm")]: {
 		fontSize: "1.5rem"
 	}

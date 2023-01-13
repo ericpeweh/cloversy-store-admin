@@ -32,7 +32,7 @@ const EditNotification = () => {
 
 	return (
 		<EditNotificationContainer>
-			<UserPickerModal open={isSelectCustomerModalOpen} onClose={selectCustomerModalCloseHandler} />
+			{/* <UserPickerModal open={isSelectCustomerModalOpen} onClose={selectCustomerModalCloseHandler} /> */}
 			<Stack
 				direction={{ xs: "column", sm: "row" }}
 				alignItems={{ xs: "flex-start", sm: "center" }}

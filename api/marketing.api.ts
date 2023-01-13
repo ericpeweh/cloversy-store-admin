@@ -7,7 +7,8 @@ import {
 	ResponseWithPagination,
 	GetNotifMarketingsQuery,
 	ResponseBody,
-	CreateNotifMarketingData
+	CreateNotifMarketingData,
+	NotifMarketingItemDetail
 } from "../interfaces";
 
 const marketingApi = API.injectEndpoints({
@@ -26,8 +27,22 @@ const marketingApi = API.injectEndpoints({
 			},
 			providesTags: ["Notif Marketings"]
 		}),
+		getScheduledNotifMarketings: build.query<
+			ResponseWithPagination<{ notifMarketings: NotifMarketingItem[] }>,
+			null
+		>({
+			query: () => {
+				const params = new URLSearchParams({
+					page: "",
+					scheduled: "true"
+				});
+
+				return `marketing/notifications?${params.toString()}`;
+			},
+			providesTags: ["Scheduled Notif Marketings"]
+		}),
 		getNotifMarketingDetail: build.query<
-			ResponseBody<{ notifMarketing: NotifMarketingItem }>,
+			ResponseBody<{ notifMarketing: NotifMarketingItemDetail }>,
 			string | string[] | undefined
 		>({
 			query: notifMarketingId => {
@@ -44,7 +59,7 @@ const marketingApi = API.injectEndpoints({
 				method: "POST",
 				body: newNotifMarketingData
 			}),
-			invalidatesTags: ["Notif Marketings"]
+			invalidatesTags: ["Notif Marketings", "Scheduled Notif Marketings"]
 		})
 		// updateNotifMarketing: build.mutation<ResponseBody<{ updatedNotifMarketing: Voucher }>, Partial<Voucher>>({
 		// 	query: ({ code: voucherCode, ...updatedVoucherData }) => ({
@@ -60,6 +75,7 @@ const marketingApi = API.injectEndpoints({
 
 export const {
 	useGetNotifMarketingsQuery,
+	useGetScheduledNotifMarketingsQuery,
 	useGetNotifMarketingDetailQuery,
 	useCreateNotifMarketingMutation
 } = marketingApi;

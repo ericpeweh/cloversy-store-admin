@@ -3,23 +3,22 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 // Components
-import MainWrapper from "../../components/MainWrapper/MainWrapper";
-import AddNotification from "../../parts/AddNotification/AddNotification";
+import MainWrapper from "../../../../components/MainWrapper/MainWrapper";
+import EditNotification from "../../../../parts/EditNotification/EditNotification";
 
-const AddNotificationPage: NextPage = () => {
+const EditNotificationPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Add Notification | Cloversy Web Admin</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<MainWrapper>
-				<AddNotification />
+				<EditNotification />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default AddNotificationPage;
+export default EditNotificationPage;

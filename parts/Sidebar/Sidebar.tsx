@@ -169,7 +169,7 @@ const Sidebar = () => {
 						</ListItemIcon>
 						<ItemText primary="Chatting" />
 					</ListItemButton>
-					<ListItemButton onClick={() => router.push("/notifications")}>
+					<ListItemButton onClick={() => router.push("/marketing")}>
 						<ListItemIcon>
 							<CircleNotificationsIcon {...listItemIconProps} />
 						</ListItemIcon>

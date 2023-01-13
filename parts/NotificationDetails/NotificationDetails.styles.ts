@@ -50,6 +50,7 @@ export const DetailDescription = styled("p")(({ theme }) => ({
 	fontSize: "1.6rem",
 	fontWeight: 400,
 	flex: 1,
+	flexGrow: 1,
 	[theme.breakpoints.down("sm")]: {
 		fontSize: "1.5rem"
 	}

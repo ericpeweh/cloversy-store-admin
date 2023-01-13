@@ -130,7 +130,7 @@ const AddNotification = () => {
 	useEffect(() => {
 		if (isCreateNotifMarketingSuccess) {
 			resetCreateNotifMarketing();
-			router.push(`/notifications/${newNotifMarketingId}`);
+			router.push(`/marketing/notification/${newNotifMarketingId}`);
 		}
 	}, [isCreateNotifMarketingSuccess, resetCreateNotifMarketing, router, newNotifMarketingId]);
 
@@ -234,7 +234,7 @@ const AddNotification = () => {
 									size="small"
 									color="secondary"
 									variant="outlined"
-									onClick={() => router.replace("/notifications")}
+									onClick={() => router.replace("/marketing")}
 								>
 									Cancel
 								</Button>
@@ -388,6 +388,16 @@ const AddNotification = () => {
 												onChange={handleChange}
 												onBlur={handleBlur}
 												error={Boolean(errors.action_link && touched.action_link)}
+											/>
+										</Grid>
+										<Grid item xs={12}>
+											<PerformantTextInput
+												name="image_url"
+												label="Image link / URL"
+												value={values.image_url}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={Boolean(errors.image_url && touched.image_url)}
 											/>
 										</Grid>
 										<Grid item xs={12}>

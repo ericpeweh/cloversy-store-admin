@@ -36,6 +36,7 @@ export const API = createApi({
 		"Review",
 		"Push Subscriptions",
 		"Notif Marketings",
+		"Scheduled Notif Marketings",
 		"Notif Marketing"
 	],
 	endpoints: () => ({})

@@ -19,8 +19,9 @@ import {
 import { Customer } from "../../interfaces";
 
 // Components
-import { Divider, Avatar } from "@mui/material";
+import { Divider, Avatar, Alert } from "@mui/material";
 import CloseButton from "../CloseButton/CloseButton";
+import FallbackContainer from "../FallbackContainer/FallbackContainer";
 
 interface UserListModalProps {
 	open: boolean;
@@ -41,10 +42,15 @@ const UserListModal = ({ open, onClose, data }: UserListModalProps) => {
 				}}
 			/>
 			<UserPickerHeader>
-				<ModalTitle>Daftar customer</ModalTitle>
+				<ModalTitle>Customer list</ModalTitle>
 			</UserPickerHeader>
 			<Divider />
 			<UserOptions>
+				{data.length === 0 && (
+					<FallbackContainer>
+						<Alert severity="info">No customer found.</Alert>
+					</FallbackContainer>
+				)}
 				{data?.length > 0 &&
 					data.map(user => (
 						<UserContainer key={user.id}>

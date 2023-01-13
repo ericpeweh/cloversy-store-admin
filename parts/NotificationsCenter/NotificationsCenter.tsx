@@ -29,51 +29,13 @@ import Pagination from "../../components/Pagination/Pagination";
 import Menu from "../../components/Menu/Menu";
 import Table from "../../components/Table/Table";
 import { TableCell, TableRow } from "../../components/Table/Table.styles";
-import StatusBadge from "../../components/StatusBadge/StatusBadge";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import TextInput from "../../components/TextInput/TextInput";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 
-const NotificationsHeadData = [
-	"Tanggal Dikirim",
-	"Judul Notifikasi",
-	"Tipe / Platform",
-	"Target",
-	"Tindakan"
-];
-
-const NotificationsData = [
-	{
-		date: "28/07/2022 11:45 WIB",
-		title: "Promosi Akhir Bulan",
-		type: "Web",
-		target: "All Customers"
-	},
-	{
-		date: "28/07/2022 11:45 WIB",
-		title: "Bulan Lebaran Free Ongkir",
-		type: "Web",
-		target: "250 Customers"
-	},
-	{
-		date: "25/07/2022 11:45 WIB",
-		title: "Belanja Diskon Gebyar",
-		type: "Push",
-		target: "All Customers"
-	},
-	{
-		date: "17/08/2022 10:00 WIB",
-		title: "Diskon 17 Agustus",
-		type: "Web",
-		target: "100 Customers"
-	},
-	{
-		date: "15/08/2022 11:45 WIB",
-		title: "Bersatu Dalam Indonesia | 17 Agustus Sale",
-		type: "Push",
-		target: "All Customers"
-	}
-];
+// Parts
+import NotifMarketingsList from "./NotifMarketingsList/NotifMarketingsList";
+import ScheduledNotifMarketingList from "./ScheduledNotifMarketingsList/ScheduledNotifMarketingsList";
 
 const EmailsHeadData = ["Tanggal Dikirim", "Subject Email", "Target", "Tindakan"];
 
@@ -105,19 +67,8 @@ const EmailsData = [
 	}
 ];
 
-interface colorsType {
-	web: string;
-	push: string;
-}
-
-const colors: colorsType = {
-	web: "primary",
-	push: "secondary"
-};
-
 const NotificationsCenter = () => {
 	const router = useRouter();
-	const { page: notificationsPage, onChange: notificationsPageChangeHandler } = usePagination();
 	const { page: emailsPage, onChange: emailsPageChangeHandler } = usePagination();
 
 	const {
@@ -153,7 +104,7 @@ const NotificationsCenter = () => {
 						startIcon={<AddIcon />}
 						size="small"
 						color="primary"
-						onClick={() => router.push("/notifications/new-email")}
+						onClick={() => router.push("/marketing/email/new")}
 					>
 						Email Marketing
 					</Button>
@@ -161,7 +112,7 @@ const NotificationsCenter = () => {
 						startIcon={<AddIcon />}
 						size="small"
 						color="primary"
-						onClick={() => router.push("/notifications/new-notif")}
+						onClick={() => router.push("/marketing/notification/new")}
 					>
 						New Notification
 					</Button>
@@ -169,43 +120,8 @@ const NotificationsCenter = () => {
 			</Stack>
 
 			<Grid container spacing={3}>
-				<Grid item xs={12} md={6}>
-					<Section>
-						<SectionTitle>Scheduled Notifications</SectionTitle>
-						<ListContainer>
-							<ListItem>
-								<Stack>
-									<ListItemTitle>Promosi Lebaran 2022</ListItemTitle>
-									<ListItemText>
-										<StatusBadge color="primary">WEB</StatusBadge> | Targets: 250 Customers
-									</ListItemText>
-									<ListItemText>
-										<TimerOutlinedIcon />
-										Senin, 8 Agustus 2022 15:35 WIB
-									</ListItemText>
-								</Stack>
-								<BoxButton onClick={itemMenuOpenHandler}>
-									<MoreHorizIcon />
-								</BoxButton>
-							</ListItem>
-							<ListItem>
-								<Stack>
-									<ListItemTitle>Shopping Special Sale</ListItemTitle>
-									<ListItemText>
-										<StatusBadge color="secondary">PUSH</StatusBadge> | Targets: All Customers
-									</ListItemText>
-									<ListItemText>
-										<TimerOutlinedIcon />
-										Senin, 8 Agustus 2022 15:35 WIB
-									</ListItemText>
-								</Stack>
-								<BoxButton onClick={itemMenuOpenHandler}>
-									<MoreHorizIcon />
-								</BoxButton>
-							</ListItem>
-						</ListContainer>
-					</Section>
-				</Grid>
+				{/* Scheduled notif marketing */}
+				<ScheduledNotifMarketingList />
 				<Grid item xs={12} md={6}>
 					<Section>
 						<SectionTitle>Scheduled Email</SectionTitle>
@@ -226,74 +142,7 @@ const NotificationsCenter = () => {
 						</ListContainer>
 					</Section>
 				</Grid>
-				<Grid item xs={12}>
-					<Section>
-						<Stack
-							direction={{ xs: "column", sm: "row" }}
-							justifyContent="space-between"
-							alignItems={{ xs: "flex-start", sm: "center" }}
-							sx={{ mb: 2 }}
-							gap={{ xs: 1, sm: 0 }}
-						>
-							<SectionTitle>Notifications History</SectionTitle>
-							<Stack direction="row" gap={2} sx={{ width: { xs: "100%", sm: "30rem" } }}>
-								<TextInput
-									label=""
-									placeholder="Search notification..."
-									id="search-notification"
-									size="small"
-								/>
-							</Stack>
-						</Stack>
-						<Table headData={NotificationsHeadData}>
-							{NotificationsData.map(data => (
-								<TableRow key={Math.random()}>
-									<TableCell>{data.date}</TableCell>
-									<TableCell>{data.title}</TableCell>
-									<TableCell
-										align="center"
-										sx={{
-											"& > p": {
-												width: "max-content"
-											}
-										}}
-									>
-										<StatusBadge
-											color={colors[data.type.toLowerCase() as keyof colorsType]}
-											sx={{ width: "max-content" }}
-										>
-											{data.type}
-										</StatusBadge>
-									</TableCell>
-									<TableCell>{data.target}</TableCell>
-									<TableCell>
-										<Stack direction="row" gap={1}>
-											<BoxButton>Detail</BoxButton>
-										</Stack>
-									</TableCell>
-								</TableRow>
-							))}
-						</Table>
-						<Stack
-							justifyContent="flex-end"
-							direction="row"
-							mt={{ xs: 3, md: 4 }}
-							sx={{
-								"@media screen and (max-width: 800px)": {
-									justifyContent: "center"
-								}
-							}}
-						>
-							<Pagination
-								page={notificationsPage}
-								onChange={notificationsPageChangeHandler}
-								count={10}
-								shape="rounded"
-								color="primary"
-							/>
-						</Stack>
-					</Section>
-				</Grid>
+				<NotifMarketingsList />
 				<Grid item xs={12}>
 					<Section>
 						<Stack

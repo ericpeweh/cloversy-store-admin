@@ -4,22 +4,22 @@ import Head from "next/head";
 
 // Components
 import MainWrapper from "../../../components/MainWrapper/MainWrapper";
-import EditNotification from "../../../parts/EditNotification/EditNotification";
+import AddNotification from "../../../parts/AddNotification/AddNotification";
 
-const EditNotificationPage: NextPage = () => {
+const AddNotificationPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Edit Notification | Cloversy Web Admin</title>
+				<title>Add Notification | Cloversy Web Admin</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<MainWrapper>
-				<EditNotification />
+				<AddNotification />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default EditNotificationPage;
+export default AddNotificationPage;
