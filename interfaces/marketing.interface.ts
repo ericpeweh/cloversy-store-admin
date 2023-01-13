@@ -14,6 +14,12 @@ export interface CreateNotifMarketingData {
 	sendTo: "all" | "selected";
 }
 
+export interface UpdateNotifMarketingData extends CreateNotifMarketingData {
+	notifMarketingId: number;
+	selectedUserIds: number[];
+	removedUserIds: number[];
+}
+
 export interface NotifMarketingItem {
 	id: number;
 	notification_code: string;

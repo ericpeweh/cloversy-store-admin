@@ -8,7 +8,8 @@ import {
 	GetNotifMarketingsQuery,
 	ResponseBody,
 	CreateNotifMarketingData,
-	NotifMarketingItemDetail
+	NotifMarketingItemDetail,
+	UpdateNotifMarketingData
 } from "../interfaces";
 
 const marketingApi = API.injectEndpoints({
@@ -60,15 +61,21 @@ const marketingApi = API.injectEndpoints({
 				body: newNotifMarketingData
 			}),
 			invalidatesTags: ["Notif Marketings", "Scheduled Notif Marketings"]
+		}),
+		updateNotifMarketing: build.mutation<
+			ResponseBody<{ updatedNotifMarketing: NotifMarketingItemDetail }>,
+			UpdateNotifMarketingData
+		>({
+			query: ({ notifMarketingId, ...updatedNotifMMarketingData }) => ({
+				url: `marketing/notifications/${notifMarketingId}`,
+				method: "PUT",
+				body: updatedNotifMMarketingData
+			}),
+			invalidatesTags: res => [
+				{ type: "Notif Marketing", id: res?.data.updatedNotifMarketing.id },
+				"Notif Marketings"
+			]
 		})
-		// updateNotifMarketing: build.mutation<ResponseBody<{ updatedNotifMarketing: Voucher }>, Partial<Voucher>>({
-		// 	query: ({ code: voucherCode, ...updatedVoucherData }) => ({
-		// 		url: `vouchers/${voucherCode}`,
-		// 		method: "PUT",
-		// 		body: updatedVoucherData
-		// 	}),
-		// 	invalidatesTags: res => [{ type: "Voucher", id: res?.data.updatedVoucher.code }, "Vouchers"]
-		// })
 	}),
 	overrideExisting: false
 });
@@ -77,7 +84,8 @@ export const {
 	useGetNotifMarketingsQuery,
 	useGetScheduledNotifMarketingsQuery,
 	useGetNotifMarketingDetailQuery,
-	useCreateNotifMarketingMutation
+	useCreateNotifMarketingMutation,
+	useUpdateNotifMarketingMutation
 } = marketingApi;
 
 export default marketingApi;
