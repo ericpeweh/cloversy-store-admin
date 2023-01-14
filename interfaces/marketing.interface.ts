@@ -37,6 +37,7 @@ export interface NotifMarketingItem {
 	created_at: string;
 	send_to: "all" | "selected";
 	target_count: number;
+	canceled: boolean;
 }
 
 export interface NotifMarketingItemDetail extends NotifMarketingItem {

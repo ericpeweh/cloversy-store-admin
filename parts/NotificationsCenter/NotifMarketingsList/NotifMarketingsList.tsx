@@ -124,15 +124,19 @@ const NotifMarketingsList = () => {
 										<TableCell>
 											<StatusBadge
 												color={
-													data.sent_at
+													data.canceled
+														? "error"
+														: data.sent_at
 														? "primary"
 														: isDateBeforeCurrentTime(data?.scheduled || "")
 														? "warning"
-														: "secondary"
+														: "info"
 												}
 												sx={{ width: "max-content" }}
 											>
-												{data.sent_at
+												{data.canceled
+													? "Canceled"
+													: data.sent_at
 													? "Sent"
 													: isDateBeforeCurrentTime(data?.scheduled || "")
 													? "Expired"

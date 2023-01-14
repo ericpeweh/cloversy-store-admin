@@ -73,7 +73,22 @@ const marketingApi = API.injectEndpoints({
 			}),
 			invalidatesTags: res => [
 				{ type: "Notif Marketing", id: res?.data.updatedNotifMarketing.id },
-				"Notif Marketings"
+				"Notif Marketings",
+				"Scheduled Notif Marketings"
+			]
+		}),
+		cancelNotifMarketing: build.mutation<
+			ResponseBody<{ canceledNotifMarketingId: number }>,
+			string
+		>({
+			query: notifMarketingId => ({
+				url: `marketing/notifications/${notifMarketingId}/cancel`,
+				method: "POST"
+			}),
+			invalidatesTags: res => [
+				{ type: "Notif Marketing", id: res?.data.canceledNotifMarketingId },
+				"Notif Marketings",
+				"Scheduled Notif Marketings"
 			]
 		})
 	}),
@@ -85,7 +100,8 @@ export const {
 	useGetScheduledNotifMarketingsQuery,
 	useGetNotifMarketingDetailQuery,
 	useCreateNotifMarketingMutation,
-	useUpdateNotifMarketingMutation
+	useUpdateNotifMarketingMutation,
+	useCancelNotifMarketingMutation
 } = marketingApi;
 
 export default marketingApi;

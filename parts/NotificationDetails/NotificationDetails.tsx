@@ -111,7 +111,7 @@ const NotificationDetails = () => {
 							startIcon={<ArrowBackOutlinedIcon />}
 							size="small"
 							color="secondary"
-							onClick={() => router.back()}
+							onClick={() => router.push("/marketing")}
 						>
 							Go Back
 						</Button>
@@ -175,14 +175,18 @@ const NotificationDetails = () => {
 											<Stack justifyContent="flex-end">
 												<StatusBadge
 													color={
-														notifMarketingData.sent_at
+														notifMarketingData.canceled
+															? "error"
+															: notifMarketingData.sent_at
 															? "primary"
 															: isDateBeforeCurrentTime(notifMarketingData?.scheduled || "")
 															? "warning"
-															: "secondary"
+															: "info"
 													}
 												>
-													{notifMarketingData.sent_at
+													{notifMarketingData.canceled
+														? "Canceled"
+														: notifMarketingData.sent_at
 														? "Sent"
 														: isDateBeforeCurrentTime(notifMarketingData?.scheduled || "")
 														? "Expired"
