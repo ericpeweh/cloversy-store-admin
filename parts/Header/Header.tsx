@@ -21,14 +21,14 @@ import useDispatch from "../../hooks/useDispatch";
 import useSelector from "../../hooks/useSelector";
 
 // Components
-import { Avatar, ButtonBase, IconButton, Stack } from "@mui/material";
+import { Avatar, Badge, ButtonBase, IconButton, Stack } from "@mui/material";
 import Menu from "../../components/Menu/Menu";
 import NotificationDrawer from "../../components/NotificationDrawer/NotificationDrawer";
 import Button from "../../components/Button/Button";
 
 const Header = () => {
 	const dispatch = useDispatch();
-
+	const notReadNotificationCount = useSelector(state => state.global.notReadNotificationCount);
 	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
 	const profilePicture = useSelector(state => state.auth.profile_picture);
 
@@ -83,9 +83,11 @@ const Header = () => {
 				{isAuthenticated && (
 					<>
 						<IconButton onClick={notificationModalOpenHandler}>
-							<NotificationsActiveIcon
-								sx={{ color: grey[400], fontSize: { xs: 20, md: 25, lg: 30 } }}
-							/>
+							<Badge badgeContent={notReadNotificationCount} color="primary">
+								<NotificationsActiveIcon
+									sx={{ color: grey[400], fontSize: { xs: 20, md: 25, lg: 30 } }}
+								/>
+							</Badge>
 						</IconButton>
 						<Username>{user?.name}</Username>
 						<ButtonBase

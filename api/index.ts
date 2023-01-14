@@ -37,7 +37,9 @@ export const API = createApi({
 		"Push Subscriptions",
 		"Notif Marketings",
 		"Scheduled Notif Marketings",
-		"Notif Marketing"
+		"Notif Marketing",
+		"Notifications",
+		"Notification"
 	],
 	endpoints: () => ({})
 });

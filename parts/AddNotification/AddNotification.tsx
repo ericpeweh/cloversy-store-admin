@@ -19,6 +19,7 @@ import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import useModal from "../../hooks/useModal";
 import useDebounce from "../../hooks/useDebounce";
 import { useGetPushSubscriptionsQuery } from "../../api/subscription.api";
+import { useCreateNotifMarketingMutation } from "../../api/marketing.api";
 import { useRouter } from "next/router";
 
 // Components
@@ -30,7 +31,6 @@ import SelectInput from "../../components/SelectInput/SelectInput";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
-import { useCreateNotifMarketingMutation } from "../../api/marketing.api";
 
 interface AddNotifMarketingFormValues {
 	title: string;

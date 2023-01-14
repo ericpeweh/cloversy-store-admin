@@ -9,3 +9,4 @@ export * from "./transaction.interface";
 export * from "./review.interface";
 export * from "./subscription.interface";
 export * from "./marketing.interface";
+export * from "./notification.interface";

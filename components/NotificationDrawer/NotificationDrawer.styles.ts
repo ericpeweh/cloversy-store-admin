@@ -8,10 +8,9 @@ export const NotificationDrawerContainer = styled(Drawer)(({ theme }) => ({
 		width: "50rem",
 		display: "flex",
 		flexDirection: "column",
-		padding: "2rem 2rem 3rem",
+		padding: "2rem",
 		[theme.breakpoints.down("sm")]: {
-			width: "100%",
-			paddingBottom: "2rem"
+			width: "100%"
 		}
 	}
 })) as typeof Drawer;
@@ -56,7 +55,6 @@ export const NotificationItemImage = styled(Avatar)(({ theme }) => ({
 export const NotificationItemContent = styled(ListItemText)(({ theme }) => ({
 	marginTop: "0",
 	"& .MuiListItemText-primary": {
-		fontWeight: 600,
 		textTransform: "uppercase",
 		fontSize: "1.6rem",
 		cursor: "pointer",

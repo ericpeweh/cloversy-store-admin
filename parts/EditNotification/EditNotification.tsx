@@ -25,6 +25,7 @@ import {
 	useGetNotifMarketingDetailQuery
 } from "../../api/marketing.api";
 import { useRouter } from "next/router";
+import useSelector from "../../hooks/useSelector";
 
 // Components
 import { Alert, Grid, Stack } from "@mui/material";
@@ -35,7 +36,6 @@ import SelectInput from "../../components/SelectInput/SelectInput";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
-import useSelector from "../../hooks/useSelector";
 
 interface UpdateNotifMarketingFormValues {
 	title: string;

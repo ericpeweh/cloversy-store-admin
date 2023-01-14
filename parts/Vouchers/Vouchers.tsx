@@ -200,7 +200,7 @@ const Vouchers = () => {
 						<Pagination
 							page={vouchersData?.page}
 							onChange={paginationChangeHandler}
-							count={vouchersData?.totalPages}
+							count={vouchersData.totalPages}
 							shape="rounded"
 							color="primary"
 						/>
