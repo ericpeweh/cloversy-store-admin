@@ -3,8 +3,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 // Components
-import MainWrapper from "../../components/MainWrapper/MainWrapper";
-import AddEmailMarketing from "../../parts/AddEmailMarketing/AddEmailMarketing";
+import MainWrapper from "../../../components/MainWrapper/MainWrapper";
+import AddEmailMarketing from "../../../parts/AddEmailMarketing/AddEmailMarketing";
 
 const AddEmailMarketingPage: NextPage = () => {
 	return (

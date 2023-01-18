@@ -39,7 +39,11 @@ export const API = createApi({
 		"Scheduled Notif Marketings",
 		"Notif Marketing",
 		"Notifications",
-		"Notification"
+		"Notification",
+		"Email Templates",
+		"Email Marketings",
+		"Scheduled Email Marketings",
+		"Email Marketing"
 	],
 	endpoints: () => ({})
 });

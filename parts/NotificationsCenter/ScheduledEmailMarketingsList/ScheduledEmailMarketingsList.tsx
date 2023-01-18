@@ -3,8 +3,8 @@ import React from "react";
 
 // Hooks
 import {
-	useCancelNotifMarketingMutation,
-	useGetScheduledNotifMarketingsQuery
+	useCancelEmailMarketingMutation,
+	useGetScheduledEmailMarketingsQuery
 } from "../../../api/marketing.api";
 
 import useSelector from "../../../hooks/useSelector";
@@ -35,21 +35,21 @@ import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import FallbackContainer from "../../../components/FallbackContainer/FallbackContainer";
 import Menu from "../../../components/Menu/Menu";
 
-const ScheduledNotifMarketingsList = () => {
+const ScheduledEmailMarketingsList = () => {
 	const router = useRouter();
 	const isAuth = useSelector(state => state.auth.isAuth);
 
 	const {
-		data: scheduledNotifMarketingsData,
-		isFetching: isGetScheduledNotifMarketingsLoading,
-		isSuccess: isGetScheduledNotifMarketingsSuccess,
-		error: getScheduledNotifMarketingsError,
-		refetch: refetchScheduledNotifMarketings
-	} = useGetScheduledNotifMarketingsQuery(null, {
+		data: scheduledEmailMarketingsData,
+		isFetching: isGetScheduledEmailMarketingsLoading,
+		isSuccess: isGetScheduledEmailMarketingsSuccess,
+		error: getScheduledEmailMarketingsError,
+		refetch: refetchScheduledEmailMarketings
+	} = useGetScheduledEmailMarketingsQuery(null, {
 		skip: !isAuth
 	});
-	const scheduledNotifMarketingsError: any = getScheduledNotifMarketingsError;
-	const noDataFound = scheduledNotifMarketingsData?.data.notifMarketings.length === 0;
+	const scheduledEmailMarketingsError: any = getScheduledEmailMarketingsError;
+	const noDataFound = scheduledEmailMarketingsData?.data.emailMarketings.length === 0;
 
 	const {
 		anchorEl: itemMenuAnchorEl,
@@ -59,22 +59,22 @@ const ScheduledNotifMarketingsList = () => {
 		anchorElData: menuElData
 	} = useMenu();
 
-	// Cancel notif marketing API
+	// Cancel email marketing API
 	const [
-		cancelNotifMarketing,
+		cancelEmailMarketing,
 		{
-			isLoading: isCancelNotifMarketingLoading,
-			error: cancelNotifMarketingErrorData,
-			reset: resetCancelNotifMarketing
+			isLoading: isCancelEmailMarketingLoading,
+			error: cancelEmailMarketingErrorData,
+			reset: resetCancelEmailMarketing
 		}
-	] = useCancelNotifMarketingMutation();
-	const cancelNotifMarketingError: any = cancelNotifMarketingErrorData;
+	] = useCancelEmailMarketingMutation();
+	const cancelEmailMarketingError: any = cancelEmailMarketingErrorData;
 
-	const cancelNotifMarketingHandler = async (notifMarketingId: string) => {
-		const res = await cancelNotifMarketing(notifMarketingId).unwrap();
+	const cancelEmailMarketingHandler = async (emailMarketingId: string) => {
+		const res = await cancelEmailMarketing(emailMarketingId).unwrap();
 
 		if (res.status === "success") {
-			resetCancelNotifMarketing();
+			resetCancelEmailMarketing();
 			itemMenuCloseHandler();
 		}
 	};
@@ -83,53 +83,53 @@ const ScheduledNotifMarketingsList = () => {
 		<Grid item xs={12} md={6}>
 			<Menu
 				anchorEl={itemMenuAnchorEl}
-				id="notif-marketing-menu"
+				id="email-marketing-menu"
 				isOpen={isItemMenuOpen}
 				onClose={itemMenuCloseHandler}
 				items={[
 					{
 						label: "Lihat detail",
-						action: () => router.push(`/marketing/notification/${menuElData?.id}`),
+						action: () => router.push(`/marketing/email/${menuElData?.id}`),
 						id: "detail"
 					},
 					{
 						label: "Edit item",
-						action: () => router.push(`/marketing/notification/${menuElData?.id}/edit`),
+						action: () => router.push(`/marketing/email/${menuElData?.id}/edit`),
 						id: "edit"
 					},
 					{
 						label: "Batalkan",
-						action: () => cancelNotifMarketingHandler(menuElData?.id),
+						action: () => cancelEmailMarketingHandler(menuElData?.id),
 						id: "hapus"
 					}
 				]}
 			/>
 			<Section>
-				<SectionTitle>Scheduled Notifications</SectionTitle>
-				{!isGetScheduledNotifMarketingsLoading && scheduledNotifMarketingsError && (
+				<SectionTitle>Scheduled Email Marketings</SectionTitle>
+				{!isGetScheduledEmailMarketingsLoading && scheduledEmailMarketingsError && (
 					<FallbackContainer size="small">
-						<Alert severity="error">{scheduledNotifMarketingsError.data.message}</Alert>
-						<BoxButton onClick={refetchScheduledNotifMarketings}>Try again</BoxButton>
+						<Alert severity="error">{scheduledEmailMarketingsError.data.message}</Alert>
+						<BoxButton onClick={refetchScheduledEmailMarketings}>Try again</BoxButton>
 					</FallbackContainer>
 				)}
-				{isGetScheduledNotifMarketingsLoading && (
+				{isGetScheduledEmailMarketingsLoading && (
 					<FallbackContainer size="small">
 						<CircularProgress />
 					</FallbackContainer>
 				)}
-				{!isGetScheduledNotifMarketingsLoading &&
-					isGetScheduledNotifMarketingsSuccess &&
+				{!isGetScheduledEmailMarketingsLoading &&
+					isGetScheduledEmailMarketingsSuccess &&
 					noDataFound && (
 						<FallbackContainer size="small">
-							<Alert severity="info">No scheduled notification marketing found!</Alert>
+							<Alert severity="info">No scheduled email marketing found!</Alert>
 						</FallbackContainer>
 					)}
-				{!isGetScheduledNotifMarketingsLoading &&
-					isGetScheduledNotifMarketingsSuccess &&
-					scheduledNotifMarketingsData &&
+				{!isGetScheduledEmailMarketingsLoading &&
+					isGetScheduledEmailMarketingsSuccess &&
+					scheduledEmailMarketingsData &&
 					!noDataFound && (
 						<ListContainer>
-							{scheduledNotifMarketingsData.data.notifMarketings.map(data => (
+							{scheduledEmailMarketingsData.data.emailMarketings.map(data => (
 								<Stack direction="column" key={data.id}>
 									<ListItem>
 										<Stack>
@@ -138,11 +138,7 @@ const ScheduledNotifMarketingsList = () => {
 												<StatusBadge color="primary">{data.notification_code}</StatusBadge> |
 												Targets:
 												{"  "}
-												{data.send_to === "all"
-													? "All Subscriptions"
-													: `${data.target_count} ${
-															data.target_count > 1 ? "Subscriptions" : "Subscription"
-													  }`}
+												{`${data.target_count} ${data.target_count > 1 ? "Customers" : "Customer"}`}
 											</ListItemText>
 											<ListItemText>
 												<TimerOutlinedIcon />
@@ -153,11 +149,11 @@ const ScheduledNotifMarketingsList = () => {
 											<MoreHorizIcon />
 										</BoxButton>
 									</ListItem>
-									{isCancelNotifMarketingLoading && menuElData?.id === data.id && (
+									{isCancelEmailMarketingLoading && menuElData?.id === data.id && (
 										<LinearProgress />
 									)}
-									{cancelNotifMarketingError && (
-										<Alert severity="error">{cancelNotifMarketingError?.data?.message}</Alert>
+									{cancelEmailMarketingError && (
+										<Alert severity="error">{cancelEmailMarketingError?.data?.message}</Alert>
 									)}
 								</Stack>
 							))}
@@ -168,4 +164,4 @@ const ScheduledNotifMarketingsList = () => {
 	);
 };
 
-export default ScheduledNotifMarketingsList;
+export default ScheduledEmailMarketingsList;

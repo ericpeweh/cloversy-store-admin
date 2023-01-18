@@ -4,22 +4,21 @@ import Head from "next/head";
 
 // Components
 import MainWrapper from "../../../../components/MainWrapper/MainWrapper";
-import EditEmailMarketing from "../../../../parts/EditEmailMarketing/EditEmailMarketing";
+import EmailMarketingDetails from "../../../../parts/EmailMarketingDetails/EmailMarketingDetails";
 
-const EditEmailMarketingPage: NextPage = () => {
+const EmailMarketingDetailsPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Edit Email Marketing | Cloversy Web Admin</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<MainWrapper>
-				<EditEmailMarketing />
+				<EmailMarketingDetails />
 			</MainWrapper>
 		</>
 	);
 };
 
-export default EditEmailMarketingPage;
+export default EmailMarketingDetailsPage;
