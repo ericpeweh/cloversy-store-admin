@@ -183,6 +183,7 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 									primaryTypographyProps={{
 										fontWeight: item.is_read ? `400 !important` : `600 !important`
 									}}
+									secondaryTypographyProps={{ component: "div" }}
 									primary={item.title}
 									secondary={
 										<>

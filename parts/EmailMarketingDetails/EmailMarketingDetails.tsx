@@ -13,7 +13,10 @@ import {
 } from "./EmailMarketingDetails.styles";
 
 // Hooks
-import { useGetEmailMarketingDetailQuery } from "../../api/marketing.api";
+import {
+	useGetEmailMarketingDetailQuery,
+	useGetEmailTemplatesQuery
+} from "../../api/marketing.api";
 import useSelector from "../../hooks/useSelector";
 import { useRouter } from "next/router";
 import useModal from "../../hooks/useModal";
@@ -28,16 +31,7 @@ import isDateBeforeCurrentTime from "../../utils/isDateBeforeCurrentTime";
 import { formatDateFullWithDay } from "../../utils/formatDate";
 
 // Components
-import {
-	Alert,
-	Box,
-	CircularProgress,
-	Grid,
-	IconButton,
-	Link,
-	Snackbar,
-	Stack
-} from "@mui/material";
+import { Alert, CircularProgress, Grid, IconButton, Link, Snackbar, Stack } from "@mui/material";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Button from "../../components/Button/Button";
 import StatusBadge from "../../components/StatusBadge/StatusBadge";
@@ -45,6 +39,7 @@ import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import BoxButton from "../../components/BoxButton/BoxButton";
 import UserListModal from "../../components/UserListModal/UserListModal";
+import ResultPreview from "../../components/ResultPreview/ResultPreview";
 
 const EmailMarketingDetails = () => {
 	const [successCopy, setSuccessCopy] = useState(false);
@@ -80,6 +75,12 @@ const EmailMarketingDetails = () => {
 	const targetText = `${emailMarketingData?.selectedUsers?.length} ${
 		(emailMarketingData?.selectedUsers.length || 0) > 1 ? "Customers" : "Customer"
 	}`;
+
+	// Fetch email templates
+	const { data: emailTemplatesData, isSuccess: isGetEmailTemplatesSuccess } =
+		useGetEmailTemplatesQuery(isAuth, {
+			skip: !isAuth
+		});
 
 	return (
 		<>
@@ -252,6 +253,21 @@ const EmailMarketingDetails = () => {
 									))}
 								</DetailsContainer>
 							</Grid>
+							{isGetEmailTemplatesSuccess &&
+								emailTemplatesData &&
+								emailMarketingData &&
+								isGetEmailMarketingSuccess && (
+									<Grid item xs={12}>
+										<DetailsContainer>
+											<ResultPreview
+												emailsTemplate={emailTemplatesData.data.emailsTemplate}
+												templateId={emailMarketingData.template_id}
+												values={emailMarketingData}
+												options={{ type: "detail", showDivider: false }}
+											/>
+										</DetailsContainer>
+									</Grid>
+								)}
 						</Grid>
 					</ContentContainer>
 				)}

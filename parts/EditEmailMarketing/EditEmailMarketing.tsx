@@ -29,11 +29,12 @@ import {
 	useGetEmailMarketingDetailQuery,
 	useGetEmailTemplatesQuery
 } from "../../api/marketing.api";
+import { useGetCustomersQuery } from "../../api/customer.api";
 import { useRouter } from "next/router";
 import useSelector from "../../hooks/useSelector";
 
 // Components
-import { Alert, Grid, Stack } from "@mui/material";
+import { Alert, CircularProgress, Grid, Stack } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import PerformantTextInput from "../../components/PerformantTextInput/PerformantTextInput";
@@ -41,8 +42,9 @@ import SelectInput from "../../components/SelectInput/SelectInput";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
-import { useGetCustomersQuery } from "../../api/customer.api";
 import BoxButton from "../../components/BoxButton/BoxButton";
+import ResultPreview from "../../components/ResultPreview/ResultPreview";
+import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 
 interface UpdateEmailMarketingFormValues {
 	title: string;
@@ -404,6 +406,17 @@ const EditEmailMarketing = () => {
 									</Button>
 								</Stack>
 							</Stack>
+							{!isGetEmailMarketingLoading && getEmailMarketingError && (
+								<FallbackContainer>
+									<Alert severity="error">{emailMarketingError?.data.message}</Alert>
+									<BoxButton onClick={refetchEmailMarketing}>Try again</BoxButton>
+								</FallbackContainer>
+							)}
+							{isGetEmailMarketingLoading && (
+								<FallbackContainer>
+									<CircularProgress />
+								</FallbackContainer>
+							)}
 							{updateEmailMarketingError && (
 								<Alert severity="error" sx={{ mb: 1 }}>
 									{updateEmailMarketingError?.data?.message}
@@ -524,7 +537,7 @@ const EditEmailMarketing = () => {
 											)}
 										</Grid>
 									</Grid>
-									<Grid item xs={12} md={6} spacing={3}>
+									<Grid item xs={12} md={6}>
 										{!isNotificiationSent && (
 											<Grid container spacing={{ xs: 2, md: 3 }}>
 												<Grid item xs={12}>
@@ -595,6 +608,13 @@ const EditEmailMarketing = () => {
 										)}
 									</Grid>
 								</Grid>
+								{isGetEmailTemplatesSuccess && emailTemplatesData && values.templateId !== -1 && (
+									<ResultPreview
+										emailsTemplate={emailTemplatesData.data.emailsTemplate}
+										templateId={values.templateId}
+										values={values}
+									/>
+								)}
 							</FormContainer>
 						</>
 					)}

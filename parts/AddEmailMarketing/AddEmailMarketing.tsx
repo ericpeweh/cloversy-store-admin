@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 import useSelector from "../../hooks/useSelector";
 
 // Components
-import { Alert, Grid, Stack } from "@mui/material";
+import { Alert, Divider, Grid, Stack } from "@mui/material";
 import Button from "../../components/Button/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import PerformantTextInput from "../../components/PerformantTextInput/PerformantTextInput";
@@ -37,8 +37,9 @@ import Checkbox from "../../components/Checkbox/Checkbox";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
 import BoxButton from "../../components/BoxButton/BoxButton";
+import ResultPreview from "../../components/ResultPreview/ResultPreview";
 
-interface AddEmailMarketingFormValues {
+export interface AddEmailMarketingFormValues {
 	title: string;
 	scheduled: DateTimeType;
 	description: string;
@@ -460,6 +461,13 @@ const AddEmailMarketing = () => {
 									</Grid>
 								</Grid>
 							</Grid>
+							{isGetEmailTemplatesSuccess && emailTemplatesData && values.templateId !== -1 && (
+								<ResultPreview
+									emailsTemplate={emailTemplatesData.data.emailsTemplate}
+									templateId={values.templateId}
+									values={values}
+								/>
+							)}
 						</FormContainer>
 					</>
 				)}
