@@ -1,6 +1,6 @@
 // Dependencies
 import React, { useState } from "react";
-import { purple } from "@mui/material/colors";
+import { cyan, purple } from "@mui/material/colors";
 import Head from "next/head";
 
 // Styles
@@ -102,6 +102,7 @@ const VoucherDetails = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const router = useRouter();
 	const { voucherCode } = router.query;
+	const [yearFilter, setYearFilter] = useState(() => new Date().getFullYear().toString());
 
 	const {
 		data: getVoucherData,
@@ -109,9 +110,12 @@ const VoucherDetails = () => {
 		isSuccess: isGetVoucherSuccess,
 		error: getVoucherError,
 		refetch: refetchVoucher
-	} = useGetVoucherDetailQuery(voucherCode, {
-		skip: !isAuth || !voucherCode
-	});
+	} = useGetVoucherDetailQuery(
+		{ voucherCode, analyticYearFilter: yearFilter },
+		{
+			skip: !isAuth || !voucherCode
+		}
+	);
 	const voucherError: any = getVoucherError;
 	const voucherData = getVoucherData?.data.voucher;
 
@@ -138,7 +142,7 @@ const VoucherDetails = () => {
 					<UserListModal
 						open={isShowCustomerModalOpen}
 						onClose={showCustomerModalCloseHandler}
-						data={voucherData?.selectedUsers}
+						data={voucherData?.selectedUsers || []}
 					/>
 				)}
 				<Snackbar
@@ -259,15 +263,23 @@ const VoucherDetails = () => {
 									</DetailItem>
 								</DetailsContainer>
 							</Grid>
-							<Grid item xs={12} xl={6}>
-								<AreaChart
-									title="Statistik Penggunaan"
-									data={data}
-									dataKey="usage"
-									fillColor={purple[100]}
-									strokeColor={purple[200]}
-								/>
-							</Grid>
+							{voucherData.analytics && (
+								<Grid item xs={12} xl={6}>
+									<AreaChart
+										title="Statistik Penggunaan"
+										data={voucherData.analytics.map(record => ({
+											name: record.month,
+											usage: record.voucher_usage
+										}))}
+										dataKey="usage"
+										fillColor={purple[100]}
+										strokeColor={purple[200]}
+										allowDecimal={false}
+										yearFilter={yearFilter}
+										onYearFilterChange={e => setYearFilter(e.target.value as string)}
+									/>
+								</Grid>
+							)}
 						</Grid>
 					</ContentContainer>
 				)}

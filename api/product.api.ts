@@ -28,10 +28,19 @@ const productApi = API.injectEndpoints({
 		}),
 		getProductDetail: build.query<
 			ResponseBody<{ product: Product }>,
-			string | string[] | undefined
+			{
+				productId: string | string[] | undefined;
+				salesAnalyticYear: string;
+				visitorAnalyticYear: string;
+			}
 		>({
-			query: productId => {
-				return `products/${productId}`;
+			query: ({ productId, salesAnalyticYear, visitorAnalyticYear }) => {
+				const params = new URLSearchParams({
+					sales_analytic_year: salesAnalyticYear,
+					visitor_analytic_year: visitorAnalyticYear
+				});
+
+				return `products/${productId}?${params.toString()}`;
 			},
 			providesTags: res => [{ type: "Product", id: res?.data.product.id }]
 		}),

@@ -46,7 +46,7 @@ const UserListModal = ({ open, onClose, data }: UserListModalProps) => {
 			</UserPickerHeader>
 			<Divider />
 			<UserOptions>
-				{data.length === 0 && (
+				{data?.length === 0 && (
 					<FallbackContainer>
 						<Alert severity="info">No customer found.</Alert>
 					</FallbackContainer>

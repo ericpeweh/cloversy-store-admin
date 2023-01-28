@@ -14,6 +14,7 @@ export interface Voucher {
 	voucher_scope: string;
 	description: string;
 	selectedUsers: Partial<Customer>[];
+	analytics: { month: string; voucher_usage: string; discount_total: string }[];
 }
 
 export type VouchersStatusValues = "default" | "active" | "disabled";

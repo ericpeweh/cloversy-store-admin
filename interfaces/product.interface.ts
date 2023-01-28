@@ -21,6 +21,7 @@ export interface Product {
 	rating: string;
 	review_count: string;
 	reviews: ProductReviewItem[];
+	analytics: { month: string; product_sales: string; page_views: string }[];
 }
 
 export interface ProductReviewItem {

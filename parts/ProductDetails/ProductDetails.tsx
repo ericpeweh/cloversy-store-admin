@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { green, orange } from "@mui/material/colors";
 
@@ -50,76 +50,16 @@ import Head from "next/head";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import BoxButton from "../../components/BoxButton/BoxButton";
 
-// Chart data
-
-// Chart data
-const data = [
-	{
-		name: "Jan",
-		sales: 15,
-		visitors: 200
-	},
-	{
-		name: "Feb",
-		sales: 30,
-		visitors: 180
-	},
-	{
-		name: "Mar",
-		sales: 4,
-		visitors: 100
-	},
-	{
-		name: "Apr",
-		sales: 4,
-		visitors: 50
-	},
-	{
-		name: "May",
-		sales: 40,
-		visitors: 198
-	},
-	{
-		name: "Jun",
-		sales: 8,
-		visitors: 309
-	},
-	{
-		name: "Jul",
-		sales: 15,
-		visitors: 254
-	},
-	{
-		name: "Aug",
-		sales: 15,
-		visitors: 85
-	},
-	{
-		name: "Sep",
-		sales: 15,
-		visitors: 93
-	},
-	{
-		name: "Okt",
-		sales: 4,
-		visitors: 152
-	},
-	{
-		name: "Nov",
-		sales: 15,
-		visitors: 303
-	},
-	{
-		name: "Dec",
-		sales: 32,
-		visitors: 142
-	}
-];
-
 const ProductDetails = () => {
 	const router = useRouter();
 	const { productId } = router.query;
 	const isAuth = useSelector(state => state.auth.isAuth);
+	const [salesAnalyticYear, setSalesAnalyticYear] = useState(() =>
+		new Date().getFullYear().toString()
+	);
+	const [visitorAnalyticYear, setVisitorAnalyticYear] = useState(() =>
+		new Date().getFullYear().toString()
+	);
 
 	const {
 		data: getProductData,
@@ -127,9 +67,12 @@ const ProductDetails = () => {
 		isSuccess: isGetProductSuccess,
 		error: getProductError,
 		refetch: refetchProduct
-	} = useGetProductDetailQuery(productId, {
-		skip: !isAuth || !productId
-	});
+	} = useGetProductDetailQuery(
+		{ productId, salesAnalyticYear, visitorAnalyticYear },
+		{
+			skip: !isAuth || !productId
+		}
+	);
 	const productError: any = getProductError;
 	const productData = getProductData?.data.product;
 
@@ -352,30 +295,47 @@ const ProductDetails = () => {
 						</ContentContainer>
 					</>
 				)}
-
-				<ContentContainer>
-					<ReviewsTitle>Statistik Produk</ReviewsTitle>
-					<Grid container>
-						<Grid item xs={12} xl={6}>
-							<AreaChart
-								title="Produk Terjual"
-								data={data}
-								dataKey="sales"
-								fillColor={green[100]}
-								strokeColor={green[200]}
-							/>
+				{productData && productData.analytics && (
+					<ContentContainer>
+						<ReviewsTitle>Statistik Produk</ReviewsTitle>
+						<Grid container>
+							<Grid item xs={12} xl={6}>
+								<AreaChart
+									title="Produk Terjual"
+									data={productData.analytics.map(record => ({
+										name: record.month,
+										sales: record.product_sales
+									}))}
+									dataKey="sales"
+									fillColor={green[100]}
+									strokeColor={green[200]}
+									yearFilter={salesAnalyticYear}
+									onYearFilterChange={e => {
+										setSalesAnalyticYear(e.target.value as string);
+									}}
+									allowDecimal={false}
+								/>
+							</Grid>
+							<Grid item xs={12} xl={6}>
+								<AreaChart
+									title="Pengunjung (Halaman Produk)"
+									data={productData.analytics.map(record => ({
+										name: record.month,
+										visitors: record.page_views
+									}))}
+									dataKey="visitors"
+									fillColor={orange[100]}
+									strokeColor={orange[200]}
+									yearFilter={visitorAnalyticYear}
+									onYearFilterChange={e => {
+										setVisitorAnalyticYear(e.target.value as string);
+									}}
+									allowDecimal={false}
+								/>
+							</Grid>
 						</Grid>
-						<Grid item xs={12} xl={6}>
-							<AreaChart
-								title="Pengunjung (Halaman Produk)"
-								data={data}
-								dataKey="visitors"
-								fillColor={orange[100]}
-								strokeColor={orange[200]}
-							/>
-						</Grid>
-					</Grid>
-				</ContentContainer>
+					</ContentContainer>
+				)}
 			</ProductDetailsContainer>
 		</>
 	);

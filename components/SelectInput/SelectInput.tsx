@@ -1,5 +1,5 @@
 // Dependencies
-import { InputLabel, Select, SelectChangeEvent, SelectProps, SxProps } from "@mui/material";
+import { InputLabel, Select, SelectProps, SxProps } from "@mui/material";
 import React from "react";
 
 // Styles
@@ -22,7 +22,9 @@ const SelectInput = ({ options, label, value, sx, onChange, ...props }: SelectIn
 				value={value}
 				label={label}
 				onChange={onChange}
-				MenuProps={{ sx: { maxHeight: { xs: "40rem", sm: "20rem" } } }}
+				MenuProps={{
+					sx: { maxHeight: { xs: "40rem", sm: "20rem" } }
+				}}
 				sx={{
 					...{
 						fontSize: {

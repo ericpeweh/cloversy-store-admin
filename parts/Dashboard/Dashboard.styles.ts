@@ -42,6 +42,7 @@ export const InfoBox = styled("div")(({ theme }) => ({
 	borderRadius: "0.5rem",
 	padding: "2rem",
 	alignItems: "center",
+	cursor: "pointer",
 	[theme.breakpoints.down("md")]: {
 		padding: "1.5rem"
 	},

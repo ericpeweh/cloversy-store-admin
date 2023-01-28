@@ -43,7 +43,8 @@ export const API = createApi({
 		"Email Templates",
 		"Email Marketings",
 		"Scheduled Email Marketings",
-		"Email Marketing"
+		"Email Marketing",
+		"Dashboard"
 	],
 	endpoints: () => ({})
 });
