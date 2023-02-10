@@ -248,7 +248,7 @@ const EmailMarketingDetails = () => {
 									{Object.entries(emailMarketingData.params).map(([key, value]) => (
 										<DetailItem key={key}>
 											<DetailTitle>{key}</DetailTitle>
-											<DetailDescription>{value}</DetailDescription>
+											<DetailDescription sx={{ wordBreak: "break-all" }}>{value}</DetailDescription>
 										</DetailItem>
 									))}
 								</DetailsContainer>

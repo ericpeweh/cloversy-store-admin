@@ -29,6 +29,7 @@
 		"react-infinite-scroll-component": "^6.1.0",
 		"react-redux": "^8.0.2",
 		"recharts": "^2.1.12",
+		"socket.io-client": "^4.5.4",
 		"srcdoc-polyfill": "^1.0.0",
 		"swiper": "^8.3.2",
 		"uuid": "^8.3.2",

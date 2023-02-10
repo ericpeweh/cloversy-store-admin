@@ -5,6 +5,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 // Slices
 import globalReducer from "./slices/globalSlice";
 import authReducer from "./slices/authSlice";
+import chatReducer from "./slices/chatSlice";
 
 // API
 import API from "../api";
@@ -13,6 +14,7 @@ const store = configureStore({
 	reducer: {
 		global: globalReducer,
 		auth: authReducer,
+		chat: chatReducer,
 		[API.reducerPath]: API.reducer
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(API.middleware)

@@ -262,11 +262,9 @@ const NotificationDetails = () => {
 									</DetailItem>
 									<DetailItem>
 										<DetailTitle>Image URL</DetailTitle>
-										{/* <Box sx={{ display: "flex", width: "100%" }}> */}
 										<DetailDescription sx={{ wordBreak: "break-all" }}>
 											{notifMarketingData.image_url || "-"}
 										</DetailDescription>
-										{/* </Box> */}
 									</DetailItem>
 								</DetailsContainer>
 							</Grid>

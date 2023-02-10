@@ -110,9 +110,12 @@ const EditProduct = () => {
 		isSuccess: isGetProductSuccess,
 		error: getProductErrorData,
 		refetch: refetchProduct
-	} = useGetProductDetailQuery(productId, {
-		skip: !isAuth || !productId
-	});
+	} = useGetProductDetailQuery(
+		{ productId, salesAnalyticYear: "", visitorAnalyticYear: "" },
+		{
+			skip: !isAuth || !productId
+		}
+	);
 	const getProductError: any = getProductErrorData;
 	const productData = getProductData?.data.product;
 

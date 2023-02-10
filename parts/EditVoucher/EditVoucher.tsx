@@ -114,9 +114,12 @@ const EditVoucher = () => {
 		isSuccess: isGetVoucherSuccess,
 		error: getVoucherErrorData,
 		refetch: refetchVoucher
-	} = useGetVoucherDetailQuery(voucherCode, {
-		skip: !isAuth || !voucherCode
-	});
+	} = useGetVoucherDetailQuery(
+		{ voucherCode, analyticYearFilter: "" },
+		{
+			skip: !isAuth || !voucherCode
+		}
+	);
 	const getVoucherError: any = getVoucherErrorData;
 	const voucherData = getVoucherData?.data.voucher;
 

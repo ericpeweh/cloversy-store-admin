@@ -5,6 +5,13 @@ export interface PaginationData {
 	totalPages: number;
 }
 
+export interface CursorPaginationData {
+	nextCursor: number;
+	currentCursor: number;
+	maxCursor: number;
+	minCursor: number;
+}
+
 export interface ResponseBody<T> {
 	status: "success" | "error";
 	error?: string;
@@ -12,6 +19,8 @@ export interface ResponseBody<T> {
 }
 
 export type ResponseWithPagination<T> = ResponseBody<T> & PaginationData;
+
+export type ResponseWithCursorPagination<T> = ResponseBody<T> & CursorPaginationData;
 
 export type SetFieldValue = (
 	field: string,
