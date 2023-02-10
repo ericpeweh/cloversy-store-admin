@@ -26,3 +26,7 @@ export const formatDateStandardWithTime = (str: StringDate) => {
 export const formatDateFullWithDay = (str: StringDate) => {
 	return DateTime.fromISO(str).setLocale("id").toFormat("cccc, dd LLLL yyyy, HH:mm 'WIB'");
 };
+
+export const formatDateTimeOnly = (str: StringDate) => {
+	return DateTime.fromISO(str).setLocale("id").toFormat("HH:mm");
+};
