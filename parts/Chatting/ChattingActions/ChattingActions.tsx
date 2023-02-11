@@ -62,6 +62,8 @@ const ChattingActions = ({
 			message: messageInput,
 			conversationId
 		});
+		// Emit stop typing event (userTyping)
+		stopTypingHandler();
 
 		setMessageInput("");
 		messageInputRef.current?.focus();

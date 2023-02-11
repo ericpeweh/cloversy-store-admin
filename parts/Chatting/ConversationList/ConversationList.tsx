@@ -71,6 +71,28 @@ const _sortConversation = (a: ConversationStateItem, b: ConversationStateItem) =
 	}
 };
 
+const _getConversationContent = (item: ConversationStateItem, authEmail: string) => {
+	let content: string;
+
+	if (item.userTyping) {
+		content = item.userTyping;
+	} else {
+		if (item.latestMessage) {
+			const writerPart = item.latestMessage.email === authEmail ? "Anda: " : "";
+			const messagePart =
+				item.latestMessage?.body.length > 30
+					? item.latestMessage.body.slice(0, 25) + "..."
+					: item.latestMessage.body;
+
+			content = `${writerPart}${messagePart}`;
+		} else {
+			content = "Belum ada pesan";
+		}
+	}
+
+	return content;
+};
+
 const ConversationList = ({
 	onHideSidebar,
 	showSidebar,
@@ -189,13 +211,7 @@ const ConversationList = ({
 											unread={item.unreadMessage > 0}
 											isAvailable={Boolean(item.latestMessage)}
 										>
-											{item.latestMessage
-												? `${item.latestMessage.email === authEmail ? "Anda: " : ""}${
-														item.latestMessage?.body.length > 30
-															? item.latestMessage.body.slice(0, 25) + "..."
-															: item.latestMessage.body
-												  }`
-												: "Belum ada pesan"}
+											{_getConversationContent(item, authEmail)}
 										</ConversationLatest>
 										{item.unreadMessage > 0 && <StatusBadge>{item.unreadMessage + ""}</StatusBadge>}
 									</Stack>
