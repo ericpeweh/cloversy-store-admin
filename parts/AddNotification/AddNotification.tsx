@@ -39,6 +39,7 @@ interface AddNotifMarketingFormValues {
 	message_title: string;
 	message_body: string;
 	image_url: string;
+	deeplink_url: string;
 	action_link: string;
 	action_title: string;
 	sendTo: "all" | "selected";
@@ -51,6 +52,7 @@ const CreateNotifMarketingSchema = Yup.object().shape({
 	message_title: Yup.string().required("Required"),
 	message_body: Yup.string().required("Required"),
 	image_url: Yup.string(),
+	deeplink_url: Yup.string(),
 	action_link: Yup.string(),
 	action_title: Yup.string(),
 	sendTo: Yup.string().oneOf(["all", "selected"], "Invalid value"),
@@ -65,6 +67,7 @@ const formInitialValues: AddNotifMarketingFormValues = {
 	message_title: "",
 	message_body: "",
 	image_url: "",
+	deeplink_url: "",
 	action_link: "",
 	action_title: "",
 	sendTo: "all"
@@ -398,6 +401,17 @@ const AddNotification = () => {
 												onChange={handleChange}
 												onBlur={handleBlur}
 												error={Boolean(errors.image_url && touched.image_url)}
+											/>
+										</Grid>
+										<Grid item xs={12}>
+											<PerformantTextInput
+												name="deeplink_url"
+												placeholder="id.cloversyid.cloversystoremobile://example/abc"
+												label="Deeplink URL (mobile)"
+												value={values.deeplink_url}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={Boolean(errors.deeplink_url && touched.deeplink_url)}
 											/>
 										</Grid>
 										<Grid item xs={12}>

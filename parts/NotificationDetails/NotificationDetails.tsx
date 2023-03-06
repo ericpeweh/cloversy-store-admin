@@ -266,6 +266,12 @@ const NotificationDetails = () => {
 											{notifMarketingData.image_url || "-"}
 										</DetailDescription>
 									</DetailItem>
+									<DetailItem>
+										<DetailTitle>Deeplink URL</DetailTitle>
+										<DetailDescription sx={{ wordBreak: "break-all" }}>
+											{notifMarketingData.deeplink_url || "-"}
+										</DetailDescription>
+									</DetailItem>
 								</DetailsContainer>
 							</Grid>
 						</Grid>

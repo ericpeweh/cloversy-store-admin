@@ -9,6 +9,7 @@ export interface CreateNotifMarketingData {
 	message_title: string;
 	message_body: string;
 	image_url: string | undefined;
+	deeplink_url: string | undefined;
 	action_link: string | undefined;
 	action_title: string | undefined;
 	sendTo: "all" | "selected";
@@ -30,6 +31,7 @@ export interface NotifMarketingItem {
 	message_title: string;
 	message_body: string;
 	image_url: string | null;
+	deeplink_url: string | null;
 	action_link: string | null;
 	action_title: string | null;
 	success_count: number;
