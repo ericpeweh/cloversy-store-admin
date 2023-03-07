@@ -79,7 +79,10 @@ const EmailMarketingsList = () => {
 
 				{!isGetEmailMarketingsLoading && emailMarketingsError && (
 					<FallbackContainer>
-						<Alert severity="error">{emailMarketingsError.data.message}</Alert>
+						<Alert severity="error">
+							{emailMarketingsError?.data?.message ||
+								"Error occured while fetching email marketings."}
+						</Alert>
 						<BoxButton onClick={refetchEmailMarketings}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

@@ -103,7 +103,11 @@ const InputdBrandModal = ({
 								)}
 							</InputContainer>
 							<Grid item xs={12}>
-								{error && <Alert severity="error">{error.data.message}</Alert>}
+								{error && (
+									<Alert severity="error" sx={{ mt: 2 }}>
+										{error?.data?.message || "Error while processing brand data."}
+									</Alert>
+								)}
 								<InputContainer item xs={3} alignSelf="flex-end" ml="auto">
 									<Button
 										color="primary"

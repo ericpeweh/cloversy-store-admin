@@ -60,7 +60,7 @@ const ConfirmationModal = ({
 				<DialogContentText>{modalDescription}</DialogContentText>
 			</DialogContent>
 			<DialogContent sx={{ py: 0 }}>
-				{error && <Alert severity="error">{error.data.message}</Alert>}
+				{error && <Alert severity="error">{error?.data?.message || "An error occured!"}</Alert>}
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={onClose} variant="outlined" color={cancelColor} size="small">

@@ -87,7 +87,10 @@ const TransactionsHistory = ({ customerData }: TransactionsHistoryProps) => {
 					<TableRow>
 						<TableCell colSpan={5}>
 							<FallbackContainer>
-								<Alert severity="error">{getUserTransactionsError.data.message}</Alert>
+								<Alert severity="error">
+									{getUserTransactionsError?.data?.message ||
+										"Error occured while fetching user transactions data."}
+								</Alert>
 								<BoxButton onClick={refetchUserTransactions}>Try again</BoxButton>
 							</FallbackContainer>
 						</TableCell>

@@ -109,7 +109,9 @@ const ProductDetails = () => {
 				</Stack>
 				{!isGetProductLoading && getProductError && (
 					<FallbackContainer>
-						<Alert severity="error">{productError.data.message}</Alert>
+						<Alert severity="error">
+							{productError?.data?.message || "Error occured while fetching product."}
+						</Alert>
 						<BoxButton onClick={refetchProduct}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

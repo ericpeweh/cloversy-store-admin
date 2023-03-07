@@ -124,7 +124,9 @@ const Customers = () => {
 
 			{!isGetCustomersLoading && getCustomersError && (
 				<FallbackContainer>
-					<Alert severity="error">{customersError.data.message}</Alert>
+					<Alert severity="error">
+						{customersError?.data?.message || "Error occured while fetching customers data."}
+					</Alert>
 					<BoxButton onClick={refetchCustomers}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

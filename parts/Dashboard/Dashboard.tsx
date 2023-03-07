@@ -63,7 +63,9 @@ const Dashboard = () => {
 			<PageTitle>Dashboard</PageTitle>
 			{!isGetDashboardLoading && getDashboardError && (
 				<FallbackContainer>
-					<Alert severity="error">{getDashboardError.data.message}</Alert>
+					<Alert severity="error">
+						{getDashboardError?.data?.message || "Error occured while fetching dashboard data."}
+					</Alert>
 					<BoxButton onClick={refetchDashboard}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

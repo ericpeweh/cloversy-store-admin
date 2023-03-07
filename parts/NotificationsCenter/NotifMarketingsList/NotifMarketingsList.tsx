@@ -86,7 +86,10 @@ const NotifMarketingsList = () => {
 
 				{!isGetNotifMarketingsLoading && notifMarketingsError && (
 					<FallbackContainer>
-						<Alert severity="error">{notifMarketingsError.data.message}</Alert>
+						<Alert severity="error">
+							{notifMarketingsError?.data?.message ||
+								"Error occured while fetching notification marketing."}
+						</Alert>
 						<BoxButton onClick={refetchNotifMarketings}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

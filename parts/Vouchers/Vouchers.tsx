@@ -150,7 +150,9 @@ const Vouchers = () => {
 			/>
 			{!isGetVouchersLoading && getVouchersError && (
 				<FallbackContainer>
-					<Alert severity="error">{vouchersError.data.message}</Alert>
+					<Alert severity="error">
+						{vouchersError?.data?.message || "Error occured while fetching vouchers data."}
+					</Alert>
 					<BoxButton onClick={refetchVouchers}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

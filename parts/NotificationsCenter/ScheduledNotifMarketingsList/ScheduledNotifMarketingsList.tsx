@@ -108,7 +108,10 @@ const ScheduledNotifMarketingsList = () => {
 				<SectionTitle>Scheduled Notifications</SectionTitle>
 				{!isGetScheduledNotifMarketingsLoading && scheduledNotifMarketingsError && (
 					<FallbackContainer size="small">
-						<Alert severity="error">{scheduledNotifMarketingsError.data.message}</Alert>
+						<Alert severity="error">
+							{scheduledNotifMarketingsError?.data?.message ||
+								"Error occured while fetching scheduled notification marketings."}
+						</Alert>
 						<BoxButton onClick={refetchScheduledNotifMarketings}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

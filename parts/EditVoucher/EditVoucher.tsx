@@ -303,7 +303,9 @@ const EditVoucher = () => {
 							</Stack>
 							{!isGetVoucherLoading && getVoucherError && (
 								<FallbackContainer>
-									<Alert severity="error">{getVoucherError.data.message}</Alert>
+									<Alert severity="error">
+										{getVoucherError?.data?.message || "Error occured while fetching voucher data."}
+									</Alert>
 									<BoxButton onClick={refetchVoucher}>Try again</BoxButton>
 								</FallbackContainer>
 							)}
@@ -313,7 +315,10 @@ const EditVoucher = () => {
 								</FallbackContainer>
 							)}
 							{updateVoucherError && (
-								<Alert severity="error">{updateVoucherError.data.message}</Alert>
+								<Alert severity="error" sx={{ mt: 2 }}>
+									{updateVoucherError?.data?.message ||
+										"Error occured while updating voucher data!"}
+								</Alert>
 							)}
 							{isGetVoucherSuccess && getVoucherData && (
 								<FormContainer>

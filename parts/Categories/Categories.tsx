@@ -246,7 +246,9 @@ const Categories = () => {
 
 			{!isGetCategoriesLoading && getCategoriesError && (
 				<FallbackContainer>
-					<Alert severity="error">{categoriesError.data.message}</Alert>
+					<Alert severity="error">
+						{categoriesError?.data?.message || "Error occured while fetching categories data."}
+					</Alert>
 					<BoxButton onClick={refetchCategories}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

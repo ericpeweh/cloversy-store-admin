@@ -25,7 +25,7 @@ export const ReviewerName = styled("h5")(({ theme }) => ({
 	}
 }));
 
-export const ReviewDate = styled("p")(({ theme }) => ({
+export const ReviewDate = styled("span")(({ theme }) => ({
 	fontSize: "1.4rem",
 	color: theme.palette.grey[500],
 	[theme.breakpoints.down("sm")]: {

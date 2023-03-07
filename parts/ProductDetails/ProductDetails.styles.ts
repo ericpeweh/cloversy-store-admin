@@ -55,7 +55,7 @@ export const DetailTitle = styled("h2")(({ theme }) => ({
 	}
 }));
 
-export const DetailDescription = styled("p")(({ theme }) => ({
+export const DetailDescription = styled("div")(({ theme }) => ({
 	fontSize: "1.6rem",
 	fontWeight: 400,
 	flex: 1,

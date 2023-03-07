@@ -345,11 +345,16 @@ const EditProduct = () => {
 								</Stack>
 							</Stack>
 							{updateProductError && (
-								<Alert severity="error">{updateProductError.data.message}</Alert>
+								<Alert severity="error" sx={{ mt: 2 }}>
+									{updateProductError?.data?.message ||
+										"Error occured while updating product data."}
+								</Alert>
 							)}
 							{!isGetProductLoading && getProductError && (
 								<FallbackContainer>
-									<Alert severity="error">{getProductError.data.message}</Alert>
+									<Alert severity="error">
+										{getProductError?.data?.message || "Error occured while fetching product data."}
+									</Alert>
 									<BoxButton onClick={refetchProduct}>Try again</BoxButton>
 								</FallbackContainer>
 							)}

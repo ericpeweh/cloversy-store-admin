@@ -108,7 +108,10 @@ const ScheduledEmailMarketingsList = () => {
 				<SectionTitle>Scheduled Email Marketings</SectionTitle>
 				{!isGetScheduledEmailMarketingsLoading && scheduledEmailMarketingsError && (
 					<FallbackContainer size="small">
-						<Alert severity="error">{scheduledEmailMarketingsError.data.message}</Alert>
+						<Alert severity="error">
+							{scheduledEmailMarketingsError?.data?.message ||
+								"Error occured while fetching scheduled email marketings."}
+						</Alert>
 						<BoxButton onClick={refetchScheduledEmailMarketings}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

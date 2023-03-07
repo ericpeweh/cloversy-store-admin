@@ -147,7 +147,10 @@ const EditReview = () => {
 							</Stack>
 							{!isGetReviewLoading && getReviewError && (
 								<FallbackContainer>
-									<Alert severity="error">{getReviewError.data.message}</Alert>
+									<Alert severity="error">
+										{getReviewError?.data?.message ||
+											"Error occured while fetching review details."}
+									</Alert>
 									<BoxButton onClick={refetchReview}>Try again</BoxButton>
 								</FallbackContainer>
 							)}
@@ -158,7 +161,7 @@ const EditReview = () => {
 							)}
 							{updateReviewError && (
 								<Alert severity="error" sx={{ mt: 1 }}>
-									{updateReviewError.data.message}
+									{updateReviewError?.data?.message || "Error occured while updating review."}
 								</Alert>
 							)}
 							{isGetReviewSuccess && reviewData && (

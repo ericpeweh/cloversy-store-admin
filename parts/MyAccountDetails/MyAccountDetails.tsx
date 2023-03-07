@@ -347,7 +347,10 @@ const MyAccountDetails = () => {
 									</InputContainer>
 								</Grid>
 								{updateAccountDetailsError && (
-									<ErrorMessage>{updateAccountDetailsError.data.message}</ErrorMessage>
+									<Alert severity="error" sx={{ mt: 2 }}>
+										{updateAccountDetailsError?.data?.message ||
+											"Error occured while updating account details."}
+									</Alert>
 								)}
 								<Grid item xs={12}>
 									<Grid item mt={1} xs={6} sm={3}>
@@ -391,7 +394,11 @@ const MyAccountDetails = () => {
 								{"Kami baru saja mengirimkan email untuk mengatur ulang kata sandi Anda."}
 							</Alert>
 						)}
-						{resetPasswordError && <ErrorMessage>{resetPasswordError.data.message}</ErrorMessage>}
+						{resetPasswordError && (
+							<Alert severity="error" sx={{ mt: 2 }}>
+								{resetPasswordError?.data?.message || "Error occured while sending password reset."}
+							</Alert>
+						)}
 					</Grid>
 				</Grid>
 			</FormContainer>

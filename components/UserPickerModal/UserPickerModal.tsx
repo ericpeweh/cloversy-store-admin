@@ -107,7 +107,11 @@ const UserPickerModal = ({
 				)}
 				{!isLoading && error && (
 					<FallbackContainer>
-						{<Alert severity="error">{error.data.message}</Alert>}
+						{
+							<Alert severity="error">
+								{error?.data?.message || "Error occured while fetching customers data."}
+							</Alert>
+						}
 					</FallbackContainer>
 				)}
 				{!isLoading && !isFetching && !error && data.length === 0 && (

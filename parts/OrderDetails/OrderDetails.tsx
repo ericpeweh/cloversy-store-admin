@@ -249,7 +249,7 @@ const OrderDetails = () => {
 			{!isGetOrderLoading && getOrderError && (
 				<FallbackContainer>
 					<Alert severity="error" sx={{ mb: 2 }}>
-						{getOrderError?.data.message}
+						{getOrderError?.data?.message || "Error occured while fetching order details."}
 					</Alert>
 					<BoxButton onClick={refetchOrder}>Try again</BoxButton>
 				</FallbackContainer>
@@ -440,7 +440,8 @@ const OrderDetails = () => {
 											</Stack>
 											{!isUpdateOrderNoteLoading && updateOrderNoteError && (
 												<Alert severity="error" sx={{ mt: 1 }}>
-													{updateOrderNoteError.data.message}
+													{updateOrderNoteError?.data?.message ||
+														"Error occured while updating order note."}
 												</Alert>
 											)}
 										</DetailDescription>
@@ -532,7 +533,9 @@ const OrderDetails = () => {
 					</ContentContainer>
 					{!isGetReviewsLoading && getReviewsError && (
 						<FallbackContainer>
-							<Alert severity="error">{getReviewsError.data.message}</Alert>
+							<Alert severity="error">
+								{getReviewsError?.data?.message || "Error occured while fetching reviews."}
+							</Alert>
 							<BoxButton onClick={refetchReviews}>Try again</BoxButton>
 						</FallbackContainer>
 					)}

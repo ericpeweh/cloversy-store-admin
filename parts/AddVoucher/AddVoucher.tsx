@@ -205,7 +205,9 @@ const AddVoucher = () => {
 							</Stack>
 						</Stack>
 						{createVoucherError && (
-							<Alert severity="error">{createVoucherError.data.message}</Alert>
+							<Alert severity="error" sx={{ mt: 2 }}>
+								{createVoucherError?.data?.message || "Error occured while creating new voucher."}
+							</Alert>
 						)}
 						<FormContainer onSubmit={handleSubmit}>
 							<Grid container spacing={{ xs: 2, md: 3 }} alignItems="flex-start">

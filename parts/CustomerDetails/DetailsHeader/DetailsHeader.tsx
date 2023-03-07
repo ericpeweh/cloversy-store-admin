@@ -94,7 +94,7 @@ const DetailsHeader = ({ customerData }: DetailsHeaderProps) => {
 				</Stack>
 				{updateUserStatusError && (
 					<Alert severity="error" sx={{ alignSelf: "flex-end" }}>
-						{userStatusError?.data.message}
+						{userStatusError?.data?.message || "Error occured while updating user status."}
 					</Alert>
 				)}
 			</Stack>

@@ -187,7 +187,10 @@ const EditOrder = () => {
 						</Stack>
 						{!isGetOrderLoading && getOrderError && (
 							<FallbackContainer>
-								<Alert severity="error">{getOrderError.data.message}</Alert>
+								<Alert severity="error">
+									{getOrderError?.data?.message ||
+										"Error occured while fetching order details data."}
+								</Alert>
 								<BoxButton onClick={refetchOrder}>Try again</BoxButton>
 							</FallbackContainer>
 						)}
@@ -197,7 +200,9 @@ const EditOrder = () => {
 							</FallbackContainer>
 						)}
 						{updateTransactionError && (
-							<Alert severity="error">{updateTransactionError.data.message}</Alert>
+							<Alert severity="error" sx={{ mt: 2 }}>
+								{updateTransactionError?.data?.message || "Error whille updating transaction."}
+							</Alert>
 						)}
 						{isGetOrderSuccess && orderData && (
 							<FormContainer>

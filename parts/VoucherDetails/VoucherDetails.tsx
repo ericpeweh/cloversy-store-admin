@@ -178,7 +178,9 @@ const VoucherDetails = () => {
 				</Stack>
 				{!isGetVoucherLoading && getVoucherError && (
 					<FallbackContainer>
-						<Alert severity="error">{voucherError.data.message}</Alert>
+						<Alert severity="error">
+							{voucherError?.data?.message || "Error occured while fetching voucher details."}
+						</Alert>
 						<BoxButton onClick={refetchVoucher}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

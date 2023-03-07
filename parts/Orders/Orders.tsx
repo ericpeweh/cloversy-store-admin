@@ -182,7 +182,10 @@ const Orders = () => {
 						<TableRow>
 							<TableCell colSpan={7}>
 								<FallbackContainer>
-									<Alert severity="error">{getUserTransactionsError.data.message}</Alert>
+									<Alert severity="error">
+										{getUserTransactionsError?.data?.message ||
+											"Error occured while fetching user transactions data."}
+									</Alert>
 									<BoxButton onClick={refetchTransactions}>Try again</BoxButton>
 								</FallbackContainer>
 							</TableCell>

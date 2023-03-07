@@ -128,7 +128,10 @@ const NotificationDetails = () => {
 				</Stack>
 				{!isGetNotifMarketingLoading && getNotifMarketingError && (
 					<FallbackContainer>
-						<Alert severity="error">{notifMarketingError.data.message}</Alert>
+						<Alert severity="error">
+							{notifMarketingError?.data?.message ||
+								"Error occured while fetching notification marketing data."}
+						</Alert>
 						<BoxButton onClick={refetchNotifMarketing}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

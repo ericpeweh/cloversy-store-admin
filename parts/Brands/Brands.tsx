@@ -244,7 +244,9 @@ const Brands = () => {
 
 			{!isGetBrandsLoading && getBrandsError && (
 				<FallbackContainer>
-					<Alert severity="error">{brandsError.data.message}</Alert>
+					<Alert severity="error">
+						{brandsError?.data?.message || "Error occured while fetching brands data."}
+					</Alert>
 					<BoxButton onClick={refetchBrands}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

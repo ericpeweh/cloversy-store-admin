@@ -174,7 +174,9 @@ const Reviews = () => {
 			/>
 			{!isGetReviewsLoading && getReviewsError && (
 				<FallbackContainer>
-					<Alert severity="error">{reviewsError.data.message}</Alert>
+					<Alert severity="error">
+						{reviewsError?.data?.message || "Error occured while fetching reviews data."}
+					</Alert>
 					<BoxButton onClick={refetchReviews}>Try again</BoxButton>
 				</FallbackContainer>
 			)}

@@ -235,7 +235,9 @@ const AddProduct = () => {
 							</Stack>
 						</Stack>
 						{createProductError && (
-							<Alert severity="error">{createProductError.data.message}</Alert>
+							<Alert severity="error" sx={{ mt: 2 }}>
+								{createProductError?.data?.message || "Error occured while creating new product."}
+							</Alert>
 						)}
 						<FormContainer>
 							<Grid container spacing={{ xs: 1, sm: 3, lg: 4, xl: 5 }} alignItems="flex-start">

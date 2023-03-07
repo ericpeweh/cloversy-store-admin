@@ -253,8 +253,9 @@ const AddNotification = () => {
 							</Stack>
 						</Stack>
 						{createNotifMarketingError && (
-							<Alert severity="error" sx={{ mb: 1 }}>
-								{createNotifMarketingError.data.message}
+							<Alert severity="error" sx={{ mb: 1, mt: 2 }}>
+								{createNotifMarketingError?.data?.message ||
+									"Error occured while creating notif marketing."}
 							</Alert>
 						)}
 						<FormContainer>
