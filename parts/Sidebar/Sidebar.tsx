@@ -175,12 +175,13 @@ const Sidebar = () => {
 						</ListItemIcon>
 						<ItemText primary="Notifications Center" />
 					</ListItemButton>
-					<ListItemButton>
+					{/* -- Commented, upcoming feature -- */}
+					{/* <ListItemButton>
 						<ListItemIcon>
 							<TuneIcon {...listItemIconProps} />
 						</ListItemIcon>
 						<ItemText primary="Control Panel" />
-					</ListItemButton>
+					</ListItemButton> */}
 				</NavList>
 			</SidebarContainer>
 			<SidebarBackdrop onClick={toggleSidebarHandler} showSidebar={showSidebar} />

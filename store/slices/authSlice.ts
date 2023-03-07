@@ -1,6 +1,7 @@
 // Dependencies
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { UpdateAccountDetailsBody } from "../../interfaces";
 
 interface AuthState {
 	isAuth: boolean;
@@ -63,6 +64,14 @@ const authSlice = createSlice({
 		setAuthStatus: (state, { payload }: PayloadAction<string>) => {
 			state.status = payload;
 		},
+		setUserDetails: (
+			state,
+			{ payload: { full_name, contact, birth_date } }: PayloadAction<UpdateAccountDetailsBody>
+		) => {
+			state.full_name = full_name;
+			state.contact = contact;
+			state.birth_date = birth_date;
+		},
 		setUserProfilePicture: (
 			state,
 			{ payload: { profile_picture } }: PayloadAction<{ profile_picture: string }>
@@ -72,6 +81,7 @@ const authSlice = createSlice({
 	}
 });
 
-export const { setCredentials, setAuthStatus, setUserProfilePicture } = authSlice.actions;
+export const { setCredentials, setAuthStatus, setUserProfilePicture, setUserDetails } =
+	authSlice.actions;
 
 export default authSlice.reducer;

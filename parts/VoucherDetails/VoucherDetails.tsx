@@ -248,12 +248,20 @@ const VoucherDetails = () => {
 																}
 															}}
 														>
-															{voucherData.selectedUsers.length} User
+															{voucherData?.selectedUsers?.length || 0} User
 														</Typography>
 													</Link>
 												)}
 											</Stack>
 										</DetailDescription>
+									</DetailItem>
+									<DetailItem>
+										<DetailTitle>Usage Limit</DetailTitle>
+										<DetailDescription>{voucherData.usage_limit}</DetailDescription>
+									</DetailItem>
+									<DetailItem>
+										<DetailTitle>Current Usage</DetailTitle>
+										<DetailDescription>{voucherData.current_usage}</DetailDescription>
 									</DetailItem>
 									<DetailItem>
 										<DetailTitle>Description</DetailTitle>

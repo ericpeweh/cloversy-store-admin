@@ -8,11 +8,12 @@ import { CustomButton } from "./Button.styles";
 
 interface ButtonProps extends MuiLoadingButtonProps {
 	children: React.ReactNode;
+	component?: any;
 }
 
-const Button = ({ children, ...props }: ButtonProps) => {
+const Button = ({ children, component, ...props }: ButtonProps) => {
 	return (
-		<CustomButton color="secondary" variant="contained" {...{ size: "large", ...props }}>
+		<CustomButton color="secondary" variant="contained" {...{ size: "large", component, ...props }}>
 			{children}
 		</CustomButton>
 	);

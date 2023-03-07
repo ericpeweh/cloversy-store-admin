@@ -45,6 +45,7 @@ import UserPickerModal from "../../components/UserPickerModal/UserPickerModal";
 interface UpdateVoucherFormValues {
 	title: string;
 	status: "active" | "disabled";
+	usage_limit: number;
 	description: string;
 	expiry_date: DateTimeType;
 	voucher_scope: string;
@@ -57,6 +58,7 @@ interface UpdateVoucherFormValues {
 const UpdateVoucherSchema = Yup.object().shape({
 	title: Yup.string().required("Required"),
 	status: Yup.string().required("Required"),
+	usage_limit: Yup.number(),
 	discount: Yup.number().required("Required"),
 	discount_type: Yup.string().required("Required"),
 	voucher_scope: Yup.string().required("Required")
@@ -74,6 +76,7 @@ const EditVoucher = () => {
 	const [formInitialValues, setFormInitialValues] = useState<UpdateVoucherFormValues>({
 		title: "",
 		status: "active",
+		usage_limit: 10,
 		description: "",
 		expiry_date: DateTime.now(),
 		voucher_scope: "global",
@@ -130,6 +133,7 @@ const EditVoucher = () => {
 			setFormInitialValues({
 				title: voucherData.title ?? "",
 				status: voucherData.status ?? "",
+				usage_limit: voucherData.usage_limit ?? 0,
 				description: voucherData.description ?? "",
 				expiry_date: voucherData?.expiry_date
 					? DateTime.fromISO(voucherData.expiry_date)
@@ -361,6 +365,20 @@ const EditVoucher = () => {
 										</Grid>
 										<Grid item xs={12} md={6}>
 											<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
+												<Grid item xs={12}>
+													<TextInput
+														name="usage_limit"
+														label="Usage limit"
+														value={values.usage_limit}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={Boolean(errors.usage_limit && touched.usage_limit)}
+														type="number"
+													/>
+													{errors.usage_limit && touched.usage_limit && (
+														<ErrorMessage>{errors.usage_limit}</ErrorMessage>
+													)}
+												</Grid>
 												<Grid item xs={12}>
 													<DatePicker
 														label="Expiry Date"

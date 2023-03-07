@@ -40,6 +40,7 @@ import FallbackContainer from "../../components/FallbackContainer/FallbackContai
 interface AddVoucherFormValues {
 	title: string;
 	status: "active" | "disabled";
+	usage_limit: number;
 	code: string;
 	description: string;
 	expiry_date: DateTimeType;
@@ -52,6 +53,7 @@ interface AddVoucherFormValues {
 const CreateVoucherSchema = Yup.object().shape({
 	title: Yup.string().required("Required"),
 	status: Yup.string().required("Required"),
+	usage_limit: Yup.number(),
 	code: Yup.string().length(10).required("Required"),
 	discount: Yup.number().required("Required"),
 	discount_type: Yup.string().required("Required"),
@@ -61,6 +63,7 @@ const CreateVoucherSchema = Yup.object().shape({
 const formInitialValues: AddVoucherFormValues = {
 	title: "",
 	status: "active",
+	usage_limit: 10,
 	code: "",
 	description: "",
 	expiry_date: DateTime.now(),
@@ -270,6 +273,20 @@ const AddVoucher = () => {
 								</Grid>
 								<Grid item xs={12} md={6}>
 									<Grid container spacing={{ xs: 2, md: 3 }} sx={{ ml: { xs: -2 } }}>
+										<Grid item xs={12}>
+											<TextInput
+												name="usage_limit"
+												label="Usage limit"
+												value={values.usage_limit}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={Boolean(errors.usage_limit && touched.usage_limit)}
+												type="number"
+											/>
+											{errors.usage_limit && touched.usage_limit && (
+												<ErrorMessage>{errors.usage_limit}</ErrorMessage>
+											)}
+										</Grid>
 										<Grid item xs={12}>
 											<DatePicker
 												label="Expiry Date"

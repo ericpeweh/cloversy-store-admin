@@ -19,6 +19,7 @@ import useMenu from "../../hooks/useMenu";
 import useModal from "../../hooks/useModal";
 import useDispatch from "../../hooks/useDispatch";
 import useSelector from "../../hooks/useSelector";
+import { useRouter } from "next/router";
 
 // Components
 import { Avatar, Badge, ButtonBase, IconButton, Stack } from "@mui/material";
@@ -27,6 +28,7 @@ import NotificationDrawer from "../../components/NotificationDrawer/Notification
 import Button from "../../components/Button/Button";
 
 const Header = () => {
+	const router = useRouter();
 	const dispatch = useDispatch();
 	const notReadNotificationCount = useSelector(state => state.global.notReadNotificationCount);
 	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
@@ -95,7 +97,7 @@ const Header = () => {
 							onClick={openAccountMenuHandler}
 						>
 							<Avatar
-								src={`${profilePicture}` || "/images/1.jpg"}
+								src={profilePicture}
 								alt="user profile"
 								sx={{
 									width: { xs: "3rem", sm: "4rem", md: "5rem" },
@@ -113,7 +115,7 @@ const Header = () => {
 					id="account-menu"
 					isOpen={isAccountMenuOpen}
 					items={[
-						{ label: "Profil saya", action: () => {}, id: "profil" },
+						{ label: "Profil saya", action: () => router.push("account"), id: "profil" },
 						{
 							label: "Logout",
 							action: () => logout({ returnTo: "http://localhost:3001/" }),
