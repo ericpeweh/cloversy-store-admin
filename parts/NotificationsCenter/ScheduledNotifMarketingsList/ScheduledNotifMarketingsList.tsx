@@ -160,7 +160,10 @@ const ScheduledNotifMarketingsList = () => {
 										<LinearProgress />
 									)}
 									{cancelNotifMarketingError && (
-										<Alert severity="error">{cancelNotifMarketingError?.data?.message}</Alert>
+										<Alert severity="error">
+											{cancelNotifMarketingError?.data?.message ||
+												"Error occured while cancelling notification marketing."}
+										</Alert>
 									)}
 								</Stack>
 							))}

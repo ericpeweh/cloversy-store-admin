@@ -380,7 +380,8 @@ const EditNotification = () => {
 							</Stack>
 							{updateNotifMarketingError && (
 								<Alert severity="error" sx={{ mb: 1 }}>
-									{updateNotifMarketingError?.data?.message}
+									{updateNotifMarketingError?.data?.message ||
+										"Error occured while updating notification marketing."}
 								</Alert>
 							)}
 							<FormContainer>

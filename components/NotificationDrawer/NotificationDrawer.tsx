@@ -144,7 +144,9 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 			<NotificationLists>
 				{!isGetNotificationsLoading && getNotificationsError && (
 					<FallbackContainer>
-						<Alert severity="error">{notificationsError?.data?.message}</Alert>
+						<Alert severity="error">
+							{notificationsError?.data?.message || "Error occured while fetching notifications."}
+						</Alert>
 						<BoxButton onClick={refetchNotifications}>Try again</BoxButton>
 					</FallbackContainer>
 				)}

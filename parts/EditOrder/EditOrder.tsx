@@ -201,7 +201,8 @@ const EditOrder = () => {
 						)}
 						{updateTransactionError && (
 							<Alert severity="error" sx={{ mt: 2 }}>
-								{updateTransactionError?.data?.message || "Error whille updating transaction."}
+								{updateTransactionError?.data?.message ||
+									"Error occured while updating transaction."}
 							</Alert>
 						)}
 						{isGetOrderSuccess && orderData && (

@@ -262,10 +262,16 @@ const MyAccountDetails = () => {
 								</Button>
 							</ProfilePictureInputContainer>
 							{updateProfilePictureError && (
-								<ErrorMessage>{updateProfilePictureError?.data?.message}</ErrorMessage>
+								<ErrorMessage>
+									{updateProfilePictureError?.data?.message ||
+										"Error occured while updating profile picture."}
+								</ErrorMessage>
 							)}
 							{deleteProfilePictureError && (
-								<ErrorMessage>{deleteProfilePictureError?.data?.message}</ErrorMessage>
+								<ErrorMessage>
+									{deleteProfilePictureError?.data?.message ||
+										"Error occured while deleting profile picture."}
+								</ErrorMessage>
 							)}
 						</InputContainer>
 					</Grid>

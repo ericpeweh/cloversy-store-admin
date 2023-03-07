@@ -284,7 +284,8 @@ const AddEmailMarketing = () => {
 						</Stack>
 						{createEmailMarketingError && (
 							<Alert severity="error" sx={{ my: 1 }}>
-								{createEmailMarketingError?.data?.message || "An error occured!"}
+								{createEmailMarketingError?.data?.message ||
+									"Error occured while creating new email marketing."}
 							</Alert>
 						)}
 						<FormContainer>
@@ -425,7 +426,8 @@ const AddEmailMarketing = () => {
 											</Stack>
 											{getEmailTemplatesError && (
 												<Alert severity="error" sx={{ mt: 2 }}>
-													{getEmailTemplatesError?.data?.message}
+													{getEmailTemplatesError?.data?.message ||
+														"Error occured while fetching email templates."}
 												</Alert>
 											)}
 											{errors.templateId && touched.templateId && (

@@ -315,7 +315,8 @@ const OrderDetails = () => {
 					</ContentHeader>
 					{updateTransactionStatusError && (
 						<Alert severity="error" sx={{ mt: 2 }}>
-							{updateTransactionStatusError?.data?.message}
+							{updateTransactionStatusError?.data?.message ||
+								"Error occured while updating transaction status."}
 						</Alert>
 					)}
 					<Divider />
