@@ -49,6 +49,7 @@ import AreaChart from "../../components/AreaChart/AreaChart";
 import Head from "next/head";
 import FallbackContainer from "../../components/FallbackContainer/FallbackContainer";
 import BoxButton from "../../components/BoxButton/BoxButton";
+import ImageViewer from "../../components/ImageViewer/ImageViewer";
 
 const ProductDetails = () => {
 	const router = useRouter();
@@ -60,6 +61,10 @@ const ProductDetails = () => {
 	const [visitorAnalyticYear, setVisitorAnalyticYear] = useState(() =>
 		new Date().getFullYear().toString()
 	);
+
+	// Image lightbox
+	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+	const [lightboxIndex, setLightboxIndex] = useState(0);
 
 	const {
 		data: getProductData,
@@ -85,6 +90,16 @@ const ProductDetails = () => {
 				<title>Product Details | {productData?.title || "Loading..."}</title>
 			</Head>
 			<ProductDetailsContainer>
+				<ImageViewer
+					isOpen={isLightboxOpen}
+					onClose={() => setIsLightboxOpen(false)}
+					imageIndex={lightboxIndex}
+					slides={
+						productData?.images?.length !== 0
+							? productData?.images.map(url => ({ src: url }))
+							: [{ src: "/images/no-image.png" }]
+					}
+				/>
 				<Stack direction="row" alignItems="center" justifyContent="space-between">
 					<PageTitle sx={{ mb: 0 }}>Product Details</PageTitle>
 					<Stack direction="row" alignItems="center" gap={1}>
@@ -144,6 +159,10 @@ const ProductDetails = () => {
 											"@media screen and (max-width: 600px)": {
 												width: "100%"
 											}
+										}}
+										onImageClick={(imageIndex: number) => {
+											setLightboxIndex(imageIndex);
+											setIsLightboxOpen(true);
 										}}
 									/>
 									<DetailsContainer>

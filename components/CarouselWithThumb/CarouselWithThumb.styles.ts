@@ -7,7 +7,7 @@ export const CarouselContainer = styled("div")({
 	width: "100%"
 });
 
-type ImageType = { imageurl: string; size: string };
+type ImageType = { imageurl: string; size: string; pressable?: boolean };
 
 export const MainCarousel = styled(Swiper)(({ theme }) => ({
 	marginBottom: "2rem",
@@ -31,15 +31,16 @@ const ImageBase = styled("div")({
 });
 
 const imagePropsForward = {
-	shouldForwardProp: (prop: any) => prop !== "imageurl" && prop !== "size"
+	shouldForwardProp: (prop: any) => prop !== "imageurl" && prop !== "size" && prop !== "pressable"
 };
 
 export const CarouselImage = styled(
 	ImageBase,
 	imagePropsForward
-)<ImageType>(({ imageurl, size, theme }) => ({
+)<ImageType>(({ imageurl, size, theme, pressable }) => ({
 	height: size === "small" ? "35rem" : size === "medium" ? "40rem" : "44rem",
 	backgroundImage: `url(${imageurl})`,
+	cursor: pressable ? "pointer" : "default",
 	[theme.breakpoints.down("xl")]: {
 		height: size === "small" ? "26rem" : size === "medium" ? "30rem" : "34rem"
 	},
