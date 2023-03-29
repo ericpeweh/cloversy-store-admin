@@ -49,7 +49,18 @@ const AuthActions = () => {
 						/>
 					</LogoContainer>
 					<InformationText color="error">Access denied!</InformationText>
-					<Button onClick={() => logout({ returnTo: "http://localhost:3001" })}>Logout</Button>
+					<Button
+						onClick={() =>
+							logout({
+								returnTo:
+									process.env.NODE_ENV === "development"
+										? "http://localhost:3001"
+										: "https://admin.cloversy.id"
+							})
+						}
+					>
+						Logout
+					</Button>
 				</AuthActionsContainer>
 			)}
 		</>

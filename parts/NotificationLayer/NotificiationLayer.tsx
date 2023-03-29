@@ -13,7 +13,8 @@ import NotificationSnackbar from "../../components/NotificationSnackbar/Notifica
 import { shallowEqual } from "react-redux";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL =
+	process.env.NODE_ENV === "development" ? "http://localhost:5000" : "https://api.cloversy.id";
 
 export interface NotificationDataType {
 	title: string;

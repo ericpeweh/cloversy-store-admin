@@ -4,7 +4,8 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
 
 // API
-const BASE_URL = "http://localhost:5000";
+const BASE_URL =
+	process.env.NODE_ENV === "development" ? "http://localhost:5000" : "https://api.cloversy.id";
 
 // Firebase web app config
 const firebaseConfig = {

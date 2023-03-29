@@ -7,7 +7,7 @@ import { RootState } from "../store";
 export const BASE_URL =
 	process.env.NODE_ENV === "development"
 		? "http://localhost:5000/admin"
-		: "<production backend url goes here>";
+		: "https://api.cloversy.id/admin";
 
 export const API = createApi({
 	baseQuery: fetchBaseQuery({

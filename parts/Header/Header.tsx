@@ -118,7 +118,13 @@ const Header = () => {
 						{ label: "Profil saya", action: () => router.push("account"), id: "profil" },
 						{
 							label: "Logout",
-							action: () => logout({ returnTo: "http://localhost:3001/" }),
+							action: () =>
+								logout({
+									returnTo:
+										process.env.NODE_ENV === "development"
+											? "http://localhost:3001/"
+											: "https://admin.cloversy.id/"
+								}),
 							id: "logout"
 						}
 					]}

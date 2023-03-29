@@ -43,12 +43,17 @@ const AppWrapper = ({ children }: AppWrapperProps) => {
 				const res = await axios.get<
 					void,
 					{ data: { data: { user: User } }; status: "success" | "error" }
-				>(`http://localhost:5000/auth`, {
-					headers: {
-						Authorization: `Bearer ${token}`
-					},
-					withCredentials: true
-				});
+				>(
+					process.env.NODE_ENV === "development"
+						? "http://localhost:5000/auth"
+						: "https://api.cloversy.id/auth",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`
+						},
+						withCredentials: true
+					}
+				);
 
 				const userData = res.data.data.user;
 
