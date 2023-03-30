@@ -578,7 +578,9 @@ const OrderDetails = () => {
 										<Stack direction="row" gap={2} alignItems="center">
 											<ImageContainer>
 												<Image
-													src={`/images/${shipping.shipping_courier}.png`}
+													src={`/images/${
+														shipping.shipping_courier === "j&t" ? "jnt" : shipping.shipping_courier
+													}.png`}
 													alt={"shipping courier logo"}
 													height={200}
 													width={400}
