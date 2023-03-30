@@ -1,144 +1,253 @@
 // Dependencies
-import { Avatar, Badge, Divider, IconButton, Stack } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual } from "react-redux";
 
 // Styles
-import {
-	BubbleGroup,
-	ChatBubble,
-	ChattingContainer,
-	ChattingHeader,
-	ConversationContainer,
-	GroupTimestamp,
-	Name,
-	NameContainer,
-	Position,
-	BubbleTimestamp,
-	ChattingActions,
-	ChatInput,
-	ChatPanelContainer,
-	ConversationPanelContainer,
-	Conversation,
-	ConversationImage,
-	ConversationLatest,
-	ConversationTitle,
-	ConversationContent,
-	ConversationTime
-} from "./Chatting.styles";
+import { ChattingContainer, ChatPanelContainer } from "./Chatting.styles";
 
-// Icons
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import SendIcon from "@mui/icons-material/Send";
-import CloseIcon from "@mui/icons-material/Close";
+// Hooks
+import useSelector from "../../hooks/useSelector";
+
+// Utils
+import initSocketIO from "../../utils/initSocketIO";
+
+// Types
+import { Message, User } from "../../interfaces";
 
 // Components
-import EmojiPicker from "../../components/EmojiPicker/EmojiPicker";
-import StatusBadge from "../../components/StatusBadge/StatusBadge";
+import { Alert } from "@mui/material";
+
+// Parts
+import ChattingActions from "./ChattingActions/ChattingActions";
+import ChattingHeader from "./ChattingHeader/ChattingHeader";
+import Conversation from "./Conversation/Conversation";
+import ConversationList from "./ConversationList/ConversationList";
+import { useGetConversationQuery } from "../../api/chat.api";
+import useDispatch from "../../hooks/useDispatch";
+import {
+	addNewMessage,
+	setActiveUsers,
+	setChatCursor,
+	setConversationData,
+	setCurrentCursor,
+	setLatestMessage,
+	setMessages,
+	setUnreadMessageCount,
+	setUserTyping
+} from "../../store/slices/chatSlice";
+
+// Init web socket connection
+const socketClient = initSocketIO();
 
 const Chatting = () => {
-	const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+	const dispatch = useDispatch();
+	const { isAuth, token, email: authEmail } = useSelector(state => state.auth, shallowEqual);
+	const { selectedConversationId, conversations } = useSelector(state => state.chat, shallowEqual);
+	const [connectError, setConnectError] = useState(false);
+	const [showConversationSidebar, setShowConversationSidebar] = useState<boolean>(false);
+	const [scrollToMessageId, setScrollToMessageId] = useState("");
 
-	const showEmojiPickerHandler = () => setShowEmojiPicker(true);
+	// Scroll to bottom feature
+	const scrollToBottomRef = useRef<HTMLSpanElement>(null);
+	const [messageAtBottom, setMessageAtBottom] = useState(0);
 
-	const hideEmojiPickerHandler = () => setShowEmojiPicker(false);
+	const {
+		conversationId,
+		chatCursor = -1,
+		currentCursor = -1,
+		minCursor = 0,
+		nextCursor = 0,
+		unreadMessage = 0
+	} = conversations.find(item => item.conversationId === selectedConversationId) || {};
+
+	const {
+		data: conversationData,
+		isFetching: isGetConversationFetching,
+		isLoading: isGetConversationLoading,
+		isSuccess: isGetConversationSuccess
+	} = useGetConversationQuery(
+		{ currentCursor: chatCursor || -1, conversationId: selectedConversationId },
+		{
+			skip: !isAuth || !conversationId
+		}
+	);
+
+	useEffect(() => {
+		if (
+			conversationData &&
+			currentCursor &&
+			isGetConversationSuccess &&
+			!isGetConversationFetching
+		) {
+			if (currentCursor === -1 || currentCursor > conversationData.currentCursor) {
+				const { currentCursor, data, minCursor, maxCursor, nextCursor } = conversationData;
+
+				// Store first mesage id to allow scroll to view
+				setScrollToMessageId(data.conversation.messages[0]?.id + "");
+
+				dispatch(
+					setMessages({
+						conversationId: selectedConversationId,
+						messages: data.conversation.messages
+					})
+				);
+				dispatch(
+					setCurrentCursor({ conversationId: selectedConversationId, value: currentCursor })
+				);
+				dispatch(
+					setConversationData({
+						conversationId: selectedConversationId,
+						min: minCursor,
+						max: maxCursor,
+						next: nextCursor
+					})
+				);
+			}
+		}
+	}, [
+		conversationData,
+		currentCursor,
+		dispatch,
+		isGetConversationFetching,
+		isGetConversationSuccess,
+		selectedConversationId
+	]);
+
+	const loadMoreMessageHandler = () => {
+		if (conversationId) {
+			dispatch(
+				setChatCursor({
+					conversationId: selectedConversationId,
+					value: nextCursor
+				})
+			);
+		}
+	};
+
+	const showConversationHandler = () => setShowConversationSidebar(true);
+	const hideConversationHandler = () => setShowConversationSidebar(false);
+
+	useEffect(() => {
+		if (isAuth && token) {
+			if (!socketClient.socket.connected) {
+				socketClient.connect(token);
+			}
+
+			// Connection success
+			socketClient.socket.on("connect", () => {
+				setConnectError(false);
+			});
+
+			// Failed connect to websocket server
+			socketClient.socket.on("connect_error", () => {
+				setConnectError(true);
+			});
+
+			// Handle incoming message
+			socketClient.socket.on("newMessageResponse", (newMessage: Message) => {
+				// Store message to related conversation
+				dispatch(addNewMessage({ conversationId: newMessage.conversation_id, newMessage }));
+
+				// Track latest message of conversation
+				dispatch(
+					setLatestMessage({ conversationId: newMessage.conversation_id, message: newMessage })
+				);
+
+				// Increase message at bottom count if user at the current conversation tab
+				if (
+					newMessage.conversation_id === selectedConversationId &&
+					newMessage.email !== authEmail
+				) {
+					setMessageAtBottom(prev => prev + 1);
+				}
+
+				// Track unread messages count
+				if (
+					newMessage.conversation_id !== selectedConversationId &&
+					newMessage.email !== authEmail
+				) {
+					dispatch(
+						setUnreadMessageCount({ conversationId: newMessage.conversation_id, value: -1 })
+					);
+				}
+			});
+
+			// Active users feature
+			socketClient.socket.on("activeUsers", (users: Partial<User>[]) => {
+				dispatch(setActiveUsers(users));
+			});
+
+			// User typing feature
+			socketClient.socket.on(
+				"userTypingResponse",
+				(data: {
+					is_typing: boolean;
+					full_name: string;
+					conversation_id: string;
+					email: string;
+				}) => {
+					// If user typing is chat opponent
+					if (data.email !== authEmail) {
+						const { is_typing, conversation_id, full_name } = data;
+
+						dispatch(
+							setUserTyping({
+								conversationId: +conversation_id,
+								userTyping: is_typing ? `${full_name} sedang mengetik...` : ""
+							})
+						);
+					}
+				}
+			);
+		}
+
+		return () => {
+			// socketClient.socket.disconnect();
+			socketClient.socket.off("connect");
+			socketClient.socket.off("connect_error");
+			socketClient.socket.off("newMessageResponse");
+			socketClient.socket.off("activeUsers");
+			socketClient.socket.off("userTypingResponse");
+		};
+	}, [authEmail, conversationId, dispatch, isAuth, selectedConversationId, token]);
+
+	const resetMessageAtBottomHandler = () => {
+		setMessageAtBottom(0);
+	};
 
 	return (
 		<ChattingContainer>
-			<ConversationPanelContainer>
-				{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, i) => (
-					<>
-						<Conversation key={item}>
-							<ConversationImage>
-								<Avatar sx={{ width: 50, height: 50 }} src="/images/1.jpg" />
-							</ConversationImage>
-							<ConversationContent>
-								<Stack direction="row" justifyContent="space-between" alignItems="center">
-									<ConversationTitle unread={i === 0}>Mikici Cimol</ConversationTitle>
-									<ConversationTime unread={i === 0}>13:04</ConversationTime>
-								</Stack>
-								<Stack direction="row" justifyContent="space-between" alignItems="center">
-									<ConversationLatest unread={i === 0}>Hallo, selamat siang min</ConversationLatest>
-									{i === 0 && <StatusBadge>3</StatusBadge>}
-								</Stack>
-							</ConversationContent>
-						</Conversation>
-						<Divider />
-					</>
-				))}
-			</ConversationPanelContainer>
+			<ConversationList
+				showSidebar={showConversationSidebar}
+				onHideSidebar={hideConversationHandler}
+				messageAtBottom={messageAtBottom}
+				onResetBottomMessage={resetMessageAtBottomHandler}
+			/>
 			<ChatPanelContainer>
-				<ChattingHeader>
-					<Badge color="primary" overlap="circular" badgeContent=" " variant="dot">
-						<Avatar sx={{ width: 60, height: 60 }} src="/images/2.jpg" />
-					</Badge>
-					<NameContainer>
-						<Name>Mikici Cimol</Name>
-						<Position>mikicicimol@gmail.com | +62 812 1234 1234</Position>
-					</NameContainer>
-				</ChattingHeader>
-				<ConversationContainer>
-					<BubbleGroup>
-						<ChatBubble align="right">
-							Halo selamat pagi admin cloversy?<BubbleTimestamp>12:42</BubbleTimestamp>
-						</ChatBubble>
-						<ChatBubble align="right">
-							Mau tanya untuk pengiriman PROD/2022123131/00001 apakah sudah dikirim?
-							<BubbleTimestamp>12:43</BubbleTimestamp>
-						</ChatBubble>
-					</BubbleGroup>
-					<GroupTimestamp>25 Jul 2022</GroupTimestamp>
-					<BubbleGroup>
-						<ChatBubble>
-							Halo selamat pagi juga kak <BubbleTimestamp>13:01</BubbleTimestamp>
-						</ChatBubble>
-						<ChatBubble>
-							Untuk saat ini pesanan dengna invoice PROD/2022123131/00001 sudah kita kirim ya,
-							resinya akan kita kirim kembali disini saat sudah dicetak dan juga bisa dilihat
-							melalui tab pesanan kakak. :) <BubbleTimestamp>13:02</BubbleTimestamp>
-						</ChatBubble>
-						<ChatBubble>
-							Terima kasih<BubbleTimestamp>13:02</BubbleTimestamp>
-						</ChatBubble>
-					</BubbleGroup>
-					<GroupTimestamp>26 Jul 2022</GroupTimestamp>
-					<BubbleGroup>
-						<ChatBubble align="right">
-							Oke min terima kasih<BubbleTimestamp>20:00</BubbleTimestamp>
-						</ChatBubble>
-						<ChatBubble align="right">
-							Nanti saya cek lagi untuk tracking pengirimannya
-							<BubbleTimestamp>20:00</BubbleTimestamp>
-						</ChatBubble>
-					</BubbleGroup>
-					<BubbleGroup>
-						<ChatBubble>
-							Siap kak sama-sama<BubbleTimestamp>20:30</BubbleTimestamp>
-						</ChatBubble>
-						<ChatBubble>
-							Ada lagi yang bisa kita bantu jawab kak ?<BubbleTimestamp>20:31</BubbleTimestamp>
-						</ChatBubble>
-					</BubbleGroup>
-					<BubbleGroup>
-						<ChatBubble align="right">
-							Untuk sekarang itu aja min<BubbleTimestamp>20:33</BubbleTimestamp>
-						</ChatBubble>
-					</BubbleGroup>
-				</ConversationContainer>
-				<ChattingActions>
-					{showEmojiPicker && <EmojiPicker />}
-					{showEmojiPicker && (
-						<IconButton onClick={hideEmojiPickerHandler}>
-							<CloseIcon />
-						</IconButton>
-					)}
-					<IconButton onClick={showEmojiPickerHandler}>
-						<EmojiEmotionsOutlinedIcon />
-					</IconButton>
-					<ChatInput placeholder="Ketik pesan" />
-					<IconButton>
-						<SendIcon />
-					</IconButton>
-				</ChattingActions>
+				{connectError && (
+					<Alert severity="error">Gagal terhubung ke sistem chat, menghubungkan kembali...</Alert>
+				)}
+				<ChattingHeader
+					showSidebar={showConversationSidebar}
+					onShowSidebar={showConversationHandler}
+					onHideSidebar={hideConversationHandler}
+				/>
+				<Conversation
+					onLoadMore={loadMoreMessageHandler}
+					hasMore={nextCursor > minCursor && !isGetConversationFetching}
+					scrollToMessageId={scrollToMessageId}
+					setScrollToMessageId={setScrollToMessageId}
+					isLoading={isGetConversationLoading}
+					ref={scrollToBottomRef}
+					onResetMessageAtBottom={resetMessageAtBottomHandler}
+				/>
+				<ChattingActions
+					conversationId={selectedConversationId}
+					socket={socketClient.socket}
+					scrollToBottomRef={scrollToBottomRef}
+					messageAtBottom={messageAtBottom}
+					onResetMessageAtBottom={resetMessageAtBottomHandler}
+				/>
 			</ChatPanelContainer>
 		</ChattingContainer>
 	);

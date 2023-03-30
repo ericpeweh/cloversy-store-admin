@@ -10,16 +10,31 @@ const Picker = dynamic(() => import("emoji-picker-react"), {
 // Styles
 import { EmojiPickerContainer } from "./EmojiPicker.styles";
 
-const EmojiPicker = () => {
-	const [chosenEmoji, setChosenEmoji] = useState<any>(null);
+interface EmojiPickerProps {
+	onSelectEmoji: React.Dispatch<React.SetStateAction<string>>;
+}
 
+const EmojiPicker = ({ onSelectEmoji }: EmojiPickerProps) => {
 	const emojiClickHandler = (_: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
-		setChosenEmoji(emojiObject);
+		console.log(emojiObject);
+
+		onSelectEmoji(prevMessageInput => prevMessageInput + emojiObject.emoji);
 	};
 
 	return (
 		<EmojiPickerContainer>
-			<Picker onEmojiClick={emojiClickHandler} disableSkinTonePicker native />
+			<Picker
+				onEmojiClick={emojiClickHandler}
+				disableSkinTonePicker
+				native
+				disableSearchBar
+				groupVisibility={{
+					flags: false,
+					food_drink: false,
+					travel_places: false,
+					animals_nature: false
+				}}
+			/>
 		</EmojiPickerContainer>
 	);
 };

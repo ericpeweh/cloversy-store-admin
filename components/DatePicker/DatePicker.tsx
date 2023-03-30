@@ -3,6 +3,9 @@ import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 
+// Types
+import type { DateTime as DateTimeType } from "luxon";
+
 // Styles
 import { DatePickerContainer } from "./DatePicker.styles";
 
@@ -12,15 +15,15 @@ import { TextField } from "@mui/material";
 
 interface DatePickerProps {
 	label: string;
+	onChange: Function;
+	value: DateTimeType;
 }
 
-const DatePicker = ({ label }: DatePickerProps) => {
-	const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-		new Date("2022-08-03T21:11:54")
-	);
-
-	const handleChange = (newValue: Date | null) => {
-		setSelectedDate(newValue);
+const DatePicker = ({ label, onChange, value }: DatePickerProps) => {
+	const handleChange = (newValue: DateTimeType | null) => {
+		if (newValue) {
+			onChange(newValue);
+		}
 	};
 
 	return (
@@ -29,7 +32,7 @@ const DatePicker = ({ label }: DatePickerProps) => {
 				<MuiDatePicker
 					label={label}
 					inputFormat="dd/MM/yyyy"
-					value={selectedDate}
+					value={value}
 					onChange={handleChange}
 					renderInput={params => <TextField {...params} />}
 				/>

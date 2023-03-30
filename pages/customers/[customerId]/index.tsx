@@ -10,7 +10,6 @@ const CustomerDetailsPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Customer Details | Customer Name Goes Here</title>
 				<meta name="description" content="Customize your shoes, be special!" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>

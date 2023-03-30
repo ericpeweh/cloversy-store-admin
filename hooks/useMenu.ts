@@ -3,9 +3,11 @@ import { useState } from "react";
 
 const useMenu = () => {
 	const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+	const [menuAnchorElData, setMenuAnchorElData] = useState<any>(null);
 	const isMenuOpen = Boolean(menuAnchorEl);
 
-	const openMenuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const openMenuHandler = (event: React.MouseEvent<HTMLButtonElement>, data?: any) => {
+		if (data) setMenuAnchorElData(data);
 		setMenuAnchorEl(event.currentTarget);
 	};
 
@@ -17,7 +19,8 @@ const useMenu = () => {
 		isMenuOpen,
 		openHandler: openMenuHandler,
 		closeHandler: closeMenuHandler,
-		anchorEl: menuAnchorEl
+		anchorEl: menuAnchorEl,
+		anchorElData: menuAnchorElData
 	};
 };
 

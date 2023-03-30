@@ -13,8 +13,9 @@ import {
 } from "./CarouselWithThumb.styles";
 
 // Components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 import { CarouselNextButton, CarouselPrevButton } from "../CarouselButton/CarouselButton";
+import { SxProps } from "@mui/material";
 
 const carouselOptions: SwiperOptions = {
 	modules: [Navigation, FreeMode, Thumbs],
@@ -34,24 +35,35 @@ const thumbsOptions: SwiperOptions = {
 	}
 };
 
-const images = ["/images/product.jpg", "/images/1.jpg", "/images/2.jpg", "/images/3.jpg"];
-
 interface CarouselWithThumbProps {
 	size?: "small" | "medium" | "large";
+	sx?: SxProps;
+	images: string[];
+	onImageClick?: (index: number) => void;
 }
 
-const CarouselWithThumb = ({ size = "small" }: CarouselWithThumbProps) => {
+const CarouselWithThumb = ({
+	size = "small",
+	sx,
+	images,
+	onImageClick
+}: CarouselWithThumbProps) => {
 	const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType>();
 
 	return (
-		<CarouselContainer>
+		<CarouselContainer sx={sx}>
 			<MainCarousel
 				{...carouselOptions}
 				thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
 			>
-				{images.map(image => (
+				{images.map((image, i) => (
 					<SwiperSlide key={image}>
-						<CarouselImage imageurl={image} size={size} />
+						<CarouselImage
+							imageurl={image}
+							size={size}
+							onClick={() => onImageClick && onImageClick(i)}
+							pressable={Boolean(onImageClick)}
+						/>
 					</SwiperSlide>
 				))}
 			</MainCarousel>

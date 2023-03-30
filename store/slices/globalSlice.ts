@@ -2,16 +2,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface GlobalState {}
+interface GlobalState {
+	showSidebar: boolean;
+	notReadNotificationCount: number;
+}
 
-const initialState: GlobalState = {};
+const initialState: GlobalState = {
+	showSidebar: false,
+	notReadNotificationCount: 0
+};
 
 const globalSlice = createSlice({
 	name: "global",
 	initialState,
-	reducers: {}
+	reducers: {
+		toggleShowSidebar: (state: GlobalState) => {
+			state.showSidebar = !state.showSidebar;
+		},
+		setNotReadNotificationCount: (state, { payload }: PayloadAction<number>) => {
+			state.notReadNotificationCount = payload;
+		}
+	}
 });
 
-// export const {} = globalSlice.actions;
+export const { toggleShowSidebar, setNotReadNotificationCount } = globalSlice.actions;
 
 export default globalSlice.reducer;

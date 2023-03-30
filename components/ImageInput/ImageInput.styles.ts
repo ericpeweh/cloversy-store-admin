@@ -35,7 +35,9 @@ interface ImageContainerProps {
 	imgSrc: string;
 }
 
-export const ImageContainer = styled("div")<ImageContainerProps>(({ imgSrc, theme }) => ({
+export const ImageContainer = styled("div", {
+	shouldForwardProp: props => props !== "imgSrc"
+})<ImageContainerProps>(({ imgSrc, theme }) => ({
 	width: "100%",
 	border: `1px solid ${theme.palette.grey[300]}`,
 	aspectRatio: "1",
@@ -54,5 +56,11 @@ export const DeleteButton = styled(ButtonBase)(({ theme }) => ({
 	height: "4rem",
 	width: "4rem",
 	top: "-2rem",
-	right: "-2rem"
+	right: "-2rem",
+	[theme.breakpoints.down("sm")]: {
+		height: "3rem",
+		width: "3rem",
+		top: "-1rem",
+		right: "-1rem"
+	}
 })) as typeof ButtonBase;

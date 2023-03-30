@@ -1,6 +1,8 @@
 // Dependencies
-import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Rating } from "@mui/material";
 import React from "react";
+
+// Types
+import { ProductReviewItem } from "../../interfaces";
 
 // Styles
 import {
@@ -8,33 +10,112 @@ import {
 	ReviewDate,
 	ReviewDescription,
 	ReviewerName,
-	ReviewItemContainer
+	ProductTitle
 } from "./ReviewItem.styles";
 
-const ReviewItem = () => {
+// Utils
+import { formatDateFull } from "../../utils/formatDate";
+
+// Hooks
+import { useRouter } from "next/router";
+
+// Components
+import {
+	Avatar,
+	ButtonBase,
+	ListItem,
+	ListItemAvatar,
+	ListItemText,
+	Rating,
+	Stack,
+	SxProps,
+	Typography
+} from "@mui/material";
+import StatusBadge from "../StatusBadge/StatusBadge";
+
+interface ReviewItemProps {
+	reviewData: ProductReviewItem;
+	showProductTitle?: boolean;
+	openEditReviewBtn?: boolean;
+	openTransactionDetailsBtn?: boolean;
+	sx?: SxProps;
+	previewMode?: boolean;
+}
+
+const ReviewItem = ({
+	reviewData,
+	showProductTitle = false,
+	openEditReviewBtn = false,
+	openTransactionDetailsBtn = true,
+	previewMode = false,
+	...props
+}: ReviewItemProps) => {
+	const router = useRouter();
+
+	const openTransactionDetailsHandler = () => {
+		if (previewMode) return;
+		router.push(`/orders/${reviewData.transaction_id}`);
+	};
+
+	const openEditReviewHandler = () => {
+		if (previewMode) return;
+		router.push(`/reviews/${reviewData.id}/edit`);
+	};
+
 	return (
-		<ReviewItemContainer item xs={6}>
-			<ReviewContainer>
-				<ListItem
-					alignItems="flex-start"
-					sx={{ padding: 0 }}
-					secondaryAction={<Rating value={4.5} readOnly precision={0.5} />}
-				>
-					<ListItemAvatar>
-						<Avatar alt="review name" src="/images/1.jpg" sx={{ width: "5rem", height: "5rem" }} />
-					</ListItemAvatar>
-					<ListItemText
-						sx={{ ml: 2 }}
-						primary={<ReviewerName>Mikici Mud</ReviewerName>}
-						secondary={<ReviewDate>10 July 2022</ReviewDate>}
+		<ReviewContainer {...props}>
+			<ListItem
+				alignItems="flex-start"
+				sx={{ padding: 0 }}
+				secondaryAction={
+					<Stack gap={{ xs: 0.5, sm: 1 }} width={"100%"} direction={{ xs: "column", sm: "row" }}>
+						{openTransactionDetailsBtn && (
+							<ButtonBase component="span" onClick={openTransactionDetailsHandler}>
+								<StatusBadge color="secondary">{reviewData.transaction_id}</StatusBadge>
+							</ButtonBase>
+						)}
+						{openEditReviewBtn && (
+							<ButtonBase component="span" onClick={openEditReviewHandler}>
+								<StatusBadge color="secondary">Edit Review</StatusBadge>
+							</ButtonBase>
+						)}
+						<StatusBadge
+							color={reviewData.status === "active" ? "primary" : "error"}
+							sx={{ ml: "auto" }}
+						>
+							{reviewData.status}
+						</StatusBadge>
+					</Stack>
+				}
+			>
+				<ListItemAvatar>
+					<Avatar
+						alt={reviewData.full_name || "User"}
+						src={reviewData.profile_picture}
+						sx={{ width: "5rem", height: "5rem" }}
 					/>
-				</ListItem>
-				<ReviewDescription>
-					Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe magnam repellendus et ajsd
-					que ipsum dolor
-				</ReviewDescription>
-			</ReviewContainer>
-		</ReviewItemContainer>
+				</ListItemAvatar>
+				<ListItemText
+					sx={{ ml: { xs: 0, sm: 1, lg: 2 } }}
+					primary={<ReviewerName>{reviewData.full_name}</ReviewerName>}
+					secondary={<ReviewDate>{formatDateFull(reviewData.created_at)}</ReviewDate>}
+				/>
+			</ListItem>
+			{showProductTitle && (
+				<ProductTitle
+					onClick={() => router.push(`/products/${reviewData.product_id}`)}
+					sx={{ mt: 2.5, mb: 1 }}
+				>
+					{reviewData.product_title}
+				</ProductTitle>
+			)}
+			<Stack direction="row" alignItems="center" gap={1} sx={{ mt: showProductTitle ? 0 : 2 }}>
+				<Typography mt={0.5}>Rating: </Typography>{" "}
+				<Rating value={+reviewData.rating} readOnly precision={0.1} />
+				<Typography mt={0.5}>( {(+reviewData?.rating).toFixed(1)} )</Typography>
+			</Stack>
+			<ReviewDescription>{reviewData.description}</ReviewDescription>
+		</ReviewContainer>
 	);
 };
 

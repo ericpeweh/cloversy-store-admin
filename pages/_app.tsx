@@ -1,10 +1,10 @@
 // Dependencies
-import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import { Provider as ReduxProvider } from "react-redux";
-import reduxStore from "../store";
 import Head from "next/head";
+import { Auth0Provider } from "@auth0/auth0-react";
+import reduxStore from "../store";
 
 // Styles
 import "../styles/globals.css";
@@ -22,24 +22,6 @@ import AppWrapper from "../parts/AppWrapper/AppWrapper";
 import { CssBaseline } from "@mui/material";
 
 const App = ({ Component, pageProps }: AppProps) => {
-	// Prevent navbar shifting on open dialog
-	useEffect(() => {
-		const body = document.body;
-		const observer = new MutationObserver(mutations => {
-			mutations.forEach((mutationRecord: any) => {
-				const navbar = document.getElementById("navbar");
-				if (navbar === null) return;
-				if (mutationRecord.target.style[0] === "padding-right") {
-					navbar.style.paddingRight = "4rem";
-				} else {
-					navbar.style.paddingRight = "3rem";
-				}
-			});
-		});
-
-		observer.observe(body, { attributes: true, attributeFilter: ["style"] });
-	}, []);
-
 	return (
 		<>
 			<Head>
@@ -49,9 +31,21 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<CssBaseline />
 				<ThemeProvider theme={mainTheme}>
 					<ReduxProvider store={reduxStore}>
-						<AppWrapper>
-							<Component {...pageProps} />
-						</AppWrapper>
+						<Auth0Provider
+							domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN!}
+							clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENTID!}
+							audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE!}
+							redirectUri={
+								process.env.NODE_ENV === "development"
+									? "http://localhost:3001"
+									: "https://admin.cloversy.id"
+							}
+							scope="openid profile email"
+						>
+							<AppWrapper>
+								<Component {...pageProps} />
+							</AppWrapper>
+						</Auth0Provider>
 					</ReduxProvider>
 				</ThemeProvider>
 			</StyledEngineProvider>

@@ -12,14 +12,14 @@ import {
 } from "./Table.styles";
 
 interface TableProps {
-	children: React.ReactElement[];
+	children: React.ReactNode | React.ReactNode[];
 	headData: string[];
 }
 
 const Table = ({ children, headData }: TableProps) => {
 	return (
 		<TableContainer>
-			<TableInnerContainer aria-label="simple table">
+			<TableInnerContainer>
 				<TableHead>
 					<TableRow>
 						{headData.map((title, i) => (
