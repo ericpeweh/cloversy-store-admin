@@ -168,7 +168,12 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 									if (item.action_link) {
 										onClose();
 										readNotificationHandler(item.id.toString());
-										const redirectUrl = item.action_link.replace("http://localhost:3001", "");
+										const redirectUrl = item.action_link.replace(
+											process.env.NODE_ENV === "development"
+												? "http://localhost:3001"
+												: "https://admin.cloversy.id",
+											""
+										);
 										await router.push(redirectUrl);
 									}
 								}}
