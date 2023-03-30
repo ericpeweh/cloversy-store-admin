@@ -1,6 +1,5 @@
 // Dependencies
 import React from "react";
-import { ButtonProps as MuiButtonProps } from "@mui/material";
 import { LoadingButtonProps as MuiLoadingButtonProps } from "@mui/lab";
 
 // Styles
