@@ -579,7 +579,7 @@ const OrderDetails = () => {
 											<ImageContainer>
 												<Image
 													src={`/images/${
-														shipping.shipping_courier === "j&t" ? "jnt" : shipping.shipping_courier
+														shipping.shipping_courier === "J&T" ? "jnt" : shipping.shipping_courier
 													}.png`}
 													alt={"shipping courier logo"}
 													height={200}
