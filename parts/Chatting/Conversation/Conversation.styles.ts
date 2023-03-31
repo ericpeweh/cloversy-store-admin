@@ -62,6 +62,7 @@ export const ChatBubble = styled("div", {
 	padding: "1rem 1.5rem",
 	paddingRight: "6rem",
 	fontSize: "1.6rem",
+	wordBreak: "break-all",
 	[theme.breakpoints.down("md")]: {
 		fontSize: "1.5rem",
 		maxWidth: "75%"

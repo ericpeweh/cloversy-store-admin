@@ -33,6 +33,8 @@ interface OwnedVouchersProps {
 }
 
 const OwnedVouchers = ({ customerData }: OwnedVouchersProps) => {
+	const router = useRouter();
+
 	return (
 		<Section>
 			<SectionTitle>Owned Vouchers</SectionTitle>
@@ -60,7 +62,9 @@ const OwnedVouchers = ({ customerData }: OwnedVouchersProps) => {
 								<StatusBadge color="secondary" sx={{ alignSelf: "center", ml: { xs: 0, sm: 1 } }}>
 									{voucher.code}
 								</StatusBadge>
-								<BoxButton>Detail</BoxButton>
+								<BoxButton onClick={() => router.push(`/vouchers/${voucher.code}`)}>
+									Detail
+								</BoxButton>
 							</Stack>
 						</CardItemContainer>
 					</Grid>
