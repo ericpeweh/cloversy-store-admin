@@ -115,7 +115,7 @@ const Header = () => {
 					id="account-menu"
 					isOpen={isAccountMenuOpen}
 					items={[
-						{ label: "Profil saya", action: () => router.push("account"), id: "profil" },
+						{ label: "Profil saya", action: () => router.push("/account"), id: "profil" },
 						{
 							label: "Logout",
 							action: () =>

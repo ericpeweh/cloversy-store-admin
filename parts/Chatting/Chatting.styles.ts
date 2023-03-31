@@ -14,6 +14,7 @@ export const ChatPanelContainer = styled("div")(({ theme }) => ({
 	flexDirection: "column",
 	flex: 1,
 	maxHeight: "calc(55rem + 9rem + 6rem)",
+	minHeight: "70rem",
 	backgroundColor: "#fff",
 	borderRadius: "0 0.5rem 0.5rem 0",
 	border: `1px solid ${theme.palette.grey[400]}`
