@@ -64,7 +64,7 @@ const EmailMarketingsList = () => {
 					sx={{ mb: 2 }}
 					gap={{ xs: 1, sm: 0 }}
 				>
-					<SectionTitle>Notifications History</SectionTitle>
+					<SectionTitle>Email Marketing History</SectionTitle>
 					<Stack direction="row" gap={2} sx={{ width: { xs: "100%", sm: "30rem" } }}>
 						<TextInput
 							label=""

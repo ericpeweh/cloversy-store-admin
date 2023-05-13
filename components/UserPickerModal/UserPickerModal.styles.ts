@@ -48,11 +48,17 @@ export const UserOptions = styled("div")(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
 	gap: "1rem",
-	maxHeight: "50rem",
-	overflow: "auto",
 	padding: "2rem 3rem 4rem",
 	[theme.breakpoints.down("sm")]: {
 		padding: "2rem 2rem 2rem",
+		maxHeight: "70vh"
+	}
+}));
+
+export const UserScroller = styled("div")(({ theme }) => ({
+	maxHeight: "50rem",
+	overflow: "auto",
+	[theme.breakpoints.down("sm")]: {
 		maxHeight: "70vh"
 	}
 }));

@@ -237,7 +237,7 @@ const NotificationDrawer = ({ open, onClose }: NotificationDrawerProps) => {
 			</NotificationLists>
 			{isGetNotificationsFetching && notifications.length > 0 && (
 				<FallbackContainer size="small">
-					<CircularProgress sx={{ mt: 2, mb: 3 }} />
+					<CircularProgress sx={{ mt: 2, mb: 5 }} />
 				</FallbackContainer>
 			)}
 			{notificationsData && page < notificationsData.totalPages && (

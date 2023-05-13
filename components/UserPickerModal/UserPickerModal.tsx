@@ -12,7 +12,8 @@ import {
 	ModalTitle,
 	Email,
 	UserImage,
-	UserPickerHeader
+	UserPickerHeader,
+	UserScroller
 } from "./UserPickerModal.styles";
 
 // Types
@@ -77,6 +78,8 @@ const UserPickerModal = ({
 		}
 	};
 
+	console.log(page, totalPages);
+
 	return (
 		<UserPickerModalContainer open={open} onClose={onClose}>
 			<CloseButton
@@ -117,53 +120,55 @@ const UserPickerModal = ({
 				{!isLoading && !isFetching && !error && data.length === 0 && (
 					<FallbackContainer>{<Typography>No customer found!</Typography>}</FallbackContainer>
 				)}
-				<InfiniteScroller
-					dataLength={data.length}
-					next={onLoadMore}
-					hasMore={page < totalPages}
-					loader={
-						<FallbackContainer size="small">
-							<CircularProgress />
-						</FallbackContainer>
-					}
-					scrollableTarget="scroller"
-				>
-					<UserOptions>
-						{!error &&
-							data.length > 0 &&
-							data.map(user => {
-								const isSelected = selectedData.findIndex(item => item.id === user.id) !== -1;
+				<UserScroller id="userScrolller">
+					<InfiniteScroller
+						dataLength={data.length}
+						next={onLoadMore}
+						hasMore={page < totalPages}
+						loader={
+							<FallbackContainer size="small">
+								<CircularProgress />
+							</FallbackContainer>
+						}
+						scrollableTarget="userScrolller"
+					>
+						<UserOptions>
+							{!error &&
+								data.length > 0 &&
+								data.map(user => {
+									const isSelected = selectedData.findIndex(item => item.id === user.id) !== -1;
 
-								return (
-									<UserContainer key={user.id}>
-										<UserContent>
-											<UserImage>
-												<Avatar
-													src={user.profile_picture}
-													alt="user profile"
-													imgProps={{ referrerPolicy: "no-referrer" }}
-													sx={{ height: "100%", width: "100%" }}
-												/>
-											</UserImage>
-											<UserInfo>
-												<Username>{user.full_name}</Username>
-												<Email>{user.email}</Email>
-											</UserInfo>
-										</UserContent>
-										<Button
-											size="small"
-											color={isSelected ? "secondary" : "primary"}
-											onClick={() =>
-												selectChangeHandler(isSelected, { id: user.id, email: user.email })
-											}
-										>
-											{isSelected ? "Terpilih" : "Pilih"}
-										</Button>
-									</UserContainer>
-								);
-							})}
-					</UserOptions>
-				</InfiniteScroller>
+									return (
+										<UserContainer key={user.id}>
+											<UserContent>
+												<UserImage>
+													<Avatar
+														src={user.profile_picture}
+														alt="user profile"
+														imgProps={{ referrerPolicy: "no-referrer" }}
+														sx={{ height: "100%", width: "100%" }}
+													/>
+												</UserImage>
+												<UserInfo>
+													<Username>{user.full_name}</Username>
+													<Email>{user.email}</Email>
+												</UserInfo>
+											</UserContent>
+											<Button
+												size="small"
+												color={isSelected ? "secondary" : "primary"}
+												onClick={() =>
+													selectChangeHandler(isSelected, { id: user.id, email: user.email })
+												}
+											>
+												{isSelected ? "Terpilih" : "Pilih"}
+											</Button>
+										</UserContainer>
+									);
+								})}
+						</UserOptions>
+					</InfiniteScroller>
+				</UserScroller>
 			</Box>
 		</UserPickerModalContainer>
 	);
