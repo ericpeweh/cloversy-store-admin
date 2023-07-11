@@ -37,6 +37,11 @@ const DateTimePicker = ({ label, onChange, value, minDateTime }: DateTimePickerP
 					value={value}
 					onChange={handleChange}
 					renderInput={params => <TextField {...params} />}
+					PaperProps={{
+						sx: {
+							"& span[role='option']": { fontSize: { xs: "1.4rem", sm: "1.5rem", md: "1.6rem" } }
+						}
+					}}
 				/>
 			</LocalizationProvider>
 		</DateTimePickerContainer>
