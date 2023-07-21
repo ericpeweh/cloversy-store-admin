@@ -1,6 +1,6 @@
 // Dependencies
 import React, { useState } from "react";
-import { cyan, purple } from "@mui/material/colors";
+import { purple } from "@mui/material/colors";
 import Head from "next/head";
 
 // Styles
@@ -44,58 +44,6 @@ import { formatDateFullMonth } from "../../utils/formatDate";
 import formatToRupiah from "../../utils/formatToRupiah";
 import UserListModal from "../../components/UserListModal/UserListModal";
 import useModal from "../../hooks/useModal";
-
-// Chart data
-const data = [
-	{
-		name: "Jan",
-		usage: 15
-	},
-	{
-		name: "Feb",
-		usage: 30
-	},
-	{
-		name: "Mar",
-		usage: 4
-	},
-	{
-		name: "Apr",
-		usage: 4
-	},
-	{
-		name: "May",
-		usage: 40
-	},
-	{
-		name: "Jun",
-		usage: 8
-	},
-	{
-		name: "Jul",
-		usage: 15
-	},
-	{
-		name: "Aug",
-		usage: 15
-	},
-	{
-		name: "Sep",
-		usage: 15
-	},
-	{
-		name: "Okt",
-		usage: 4
-	},
-	{
-		name: "Nov",
-		usage: 15
-	},
-	{
-		name: "Dec",
-		usage: 32
-	}
-];
 
 const VoucherDetails = () => {
 	const [successCopy, setSuccessCopy] = useState(false);
