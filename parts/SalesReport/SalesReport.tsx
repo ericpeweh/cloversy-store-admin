@@ -29,7 +29,9 @@ const _dataGridColumns: GridColDef[] = [
 		headerName: "No.",
 		width: 70,
 		align: "center",
-		headerAlign: "center"
+		headerAlign: "center",
+		colSpan: ({ row }) => (row.id === 999999 ? 9 : undefined),
+		valueGetter: ({ value, row }) => (row.id === 999999 ? row.product_title : value)
 	},
 	{
 		field: "created_at",
@@ -81,7 +83,9 @@ const _dataGridColumns: GridColDef[] = [
 		field: "total",
 		headerName: "Total Penjualan",
 		width: 130,
-		valueGetter: (params: GridValueGetterParams) => formatToRupiah(params.row.total)
+		valueGetter: (params: GridValueGetterParams) => {
+			return formatToRupiah(params.row.total);
+		}
 	}
 ];
 
@@ -109,13 +113,23 @@ const SalesReport = () => {
 	);
 	const getSalesReportError: any = getSalesReportErrorData;
 
-	const _dataGridRows = useMemo(() => {
+	const _dataGridRows: SalesReportItemData[] = useMemo(() => {
 		if (!Boolean(getSalesReportData?.data?.reports)) return [];
 
-		return getSalesReportData?.data.reports.map((item: SalesReportItemData, index: number) => ({
-			...item,
-			id: index + 1
-		}));
+		const data =
+			getSalesReportData?.data.reports.map((item: SalesReportItemData, index: number) => ({
+				...item,
+				id: index + 1
+			})) || [];
+
+		// Add additional total row at the end of list
+		if (data.length > 0) {
+			const salesTotal = data.reduce((acc, curr) => (acc += +curr.total), 0);
+
+			data.push({ id: 999999, product_title: "Total", total: salesTotal } as any);
+		}
+
+		return data;
 	}, [getSalesReportData]);
 
 	const noDataFound = !_dataGridRows || _dataGridRows.length === 0;
