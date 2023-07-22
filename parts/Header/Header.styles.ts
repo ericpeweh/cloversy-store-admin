@@ -22,6 +22,9 @@ export const HeaderContainer = styled("nav")(({ theme }) => ({
 	},
 	[theme.breakpoints.down("sm")]: {
 		padding: "0 2rem"
+	},
+	"@media print": {
+		display: "none"
 	}
 }));
 

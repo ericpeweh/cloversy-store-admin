@@ -17,9 +17,10 @@ interface DatePickerProps {
 	label: string;
 	onChange: Function;
 	value: DateTimeType;
+	minDate?: DateTimeType;
 }
 
-const DatePicker = ({ label, onChange, value }: DatePickerProps) => {
+const DatePicker = ({ label, onChange, value, minDate }: DatePickerProps) => {
 	const handleChange = (newValue: DateTimeType | null) => {
 		if (newValue) {
 			onChange(newValue);
@@ -35,6 +36,7 @@ const DatePicker = ({ label, onChange, value }: DatePickerProps) => {
 					value={value}
 					onChange={handleChange}
 					renderInput={params => <TextField {...params} />}
+					minDate={minDate}
 				/>
 			</LocalizationProvider>
 		</DatePickerContainer>

@@ -78,8 +78,6 @@ const UserPickerModal = ({
 		}
 	};
 
-	console.log(page, totalPages);
-
 	return (
 		<UserPickerModalContainer open={open} onClose={onClose}>
 			<CloseButton

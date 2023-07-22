@@ -143,6 +143,9 @@ const Sidebar = () => {
 							<SidebarItemChild onClick={() => router.push("/orders")}>
 								<ItemText primary="Order List" />
 							</SidebarItemChild>
+							<SidebarItemChild onClick={() => router.push("/reports/sales")}>
+								<ItemText primary="Sales Report" />
+							</SidebarItemChild>
 						</List>
 					</Collapse>
 					<ListItemButton onClick={() => router.push("/customers")}>

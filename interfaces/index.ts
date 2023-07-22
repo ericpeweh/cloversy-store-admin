@@ -12,3 +12,4 @@ export * from "./marketing.interface";
 export * from "./notification.interface";
 export * from "./dashboard.interface";
 export * from "./chat.interface";
+export * from "./report.interface";
