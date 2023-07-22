@@ -185,6 +185,10 @@ const OrderDetails = () => {
 		setSuccessCopyContact(true);
 	};
 
+	const triggerPrintHandler = () => {
+		window.print();
+	};
+
 	return (
 		<OrderDetailsContainer>
 			<Snackbar
@@ -308,7 +312,10 @@ const OrderDetails = () => {
 									</BoxButton>
 								</>
 							)}
-							<BoxButton sx={{ backgroundColor: "#555", color: "#fff" }}>
+							<BoxButton
+								sx={{ backgroundColor: "#555", color: "#fff" }}
+								onClick={triggerPrintHandler}
+							>
 								<PrintIcon />
 							</BoxButton>
 						</Stack>

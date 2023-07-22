@@ -25,6 +25,9 @@ export const SidebarContainer = styled("nav", {
 	transition: "0.2s ease-out",
 	[theme.breakpoints.down("lg")]: {
 		transform: showSidebar ? "translateX(0)" : "translateX(-100%)"
+	},
+	"@media print": {
+		display: "none"
 	}
 }));
 

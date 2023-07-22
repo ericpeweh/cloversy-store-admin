@@ -18,5 +18,8 @@ export const OuterContainer = styled("main")(({ theme }) => ({
 	},
 	[theme.breakpoints.down("sm")]: {
 		padding: "2rem 2rem 3rem"
+	},
+	"@media print": {
+		marginLeft: 0
 	}
 }));
