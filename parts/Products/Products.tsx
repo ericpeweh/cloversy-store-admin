@@ -64,6 +64,13 @@ const Products = () => {
 	const searchQuery = useDebounce(searchInput, 500);
 	const { page, onChange: paginationChangeHandler } = usePagination({ autoScroll: true });
 
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
+
 	useEffect(() => {
 		if (brandIdQuery) {
 			setBrandFilter(+brandIdQuery);

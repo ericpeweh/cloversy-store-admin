@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Styles
 import { OrdersContainer, OrdersHeader, OrdersList } from "./Orders.styles";
@@ -20,6 +20,7 @@ import { TransactionSortValues, TransactionStatus } from "../../interfaces";
 import usePagination from "../../hooks/usePagination";
 import useMenu from "../../hooks/useMenu";
 import useSelector from "../../hooks/useSelector";
+import useDebounce from "../../hooks/useDebounce";
 import { useGetTransactionsQuery } from "../../api/transaction.api";
 import { useRouter } from "next/router";
 
@@ -69,8 +70,17 @@ const Orders = () => {
 	const [statusFilter, setStatusFilter] = useState<TransactionStatus | "default">("default");
 	const [searchInput, setSearchInput] = useState("");
 	const [sortBy, setSortBy] = useState<TransactionSortValues>("default");
+	const searchQuery = useDebounce(searchInput, 500);
 
 	const { page, onChange: paginationChangeHandler } = usePagination({ autoScroll: true });
+
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
+
 	const {
 		anchorEl: orderItemMenuAnchorEl,
 		anchorElData: orderItemMenuAnchorElData,
@@ -86,7 +96,7 @@ const Orders = () => {
 		error: getTransactionsErrorData,
 		refetch: refetchTransactions
 	} = useGetTransactionsQuery(
-		{ page: page.toString(), statusFilter: statusFilter, sortBy, q: searchInput },
+		{ page: page.toString(), statusFilter: statusFilter, sortBy, q: searchQuery },
 		{
 			skip: !isAuth
 		}

@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // Styles
@@ -43,6 +43,13 @@ const Reviews = () => {
 	const searchQuery = useDebounce(searchInput, 500);
 	const [statusFilter, setStatusFilter] = useState<ReviewsStatusValues>("default");
 	const [successCopy, setSuccessCopy] = useState(false);
+
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
 
 	const {
 		data: reviewsData,

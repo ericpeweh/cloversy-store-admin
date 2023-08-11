@@ -52,6 +52,13 @@ const Brands = () => {
 	const searchQuery = useDebounce(searchInput, 500);
 	const { page, onChange: paginationChangeHandler } = usePagination();
 
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
+
 	const {
 		data: brandData,
 		isFetching: isGetBrandsLoading,
