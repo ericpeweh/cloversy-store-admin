@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Styles
 import {
@@ -50,6 +50,13 @@ const Customers = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [statusFilter, setStatusFilter] = useState("default");
 	const searchQuery = useDebounce(searchInput, 500);
+
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
 
 	const {
 		data: customersData,

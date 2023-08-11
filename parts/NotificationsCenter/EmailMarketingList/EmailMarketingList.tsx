@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Hooks
 import { useGetEmailMarketingsQuery } from "../../../api/marketing.api";
@@ -34,6 +34,13 @@ const EmailMarketingsList = () => {
 	const { page, onChange: paginationChangeHandler } = usePagination();
 	const [searchInput, setSearchInput] = useState("");
 	const searchQuery = useDebounce(searchInput, 500);
+
+	// Reset pagination to page 1 if search query changed
+	useEffect(() => {
+		if (searchQuery) {
+			paginationChangeHandler(null, 1);
+		}
+	}, [paginationChangeHandler, searchQuery]);
 
 	const {
 		data: emailMarketingsData,
